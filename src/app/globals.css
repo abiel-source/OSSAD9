@@ -1,26 +1,123 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* OSSAD-9 Design */
+:root {
+  /* Backgrounds */
+  --ossad-bg-primary: #09090f;
+  --ossad-bg-surface: #0f0f1a;
+  --ossad-bg-elevated: #14141f;
+
+  /* Borders */
+  --ossad-border: #1e1e2e;
+  --ossad-border-subtle: #16162a;
+
+  /* Accent */
+  --ossad-accent: #367bf0;
+  --ossad-accent-glow: rgba(54, 123, 240, 0.1);
+  --ossad-cyan: #22d3ee;
+
+  /* Status */
+  --ossad-online: #10b981;
+  --ossad-cautious: #f59e0b;
+  --ossad-catastrophic: #ef4444;
+
+  /* Text */
+  --ossad-text-primary: #e2e8f0;
+  --ossad-text-secondary: #64748b;
+  --ossad-text-dim: #94a3b8;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--ossad-bg-primary);
+  color: var(--ossad-text-primary);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ossad-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ossad-border);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ossad-accent);
+}
+
+/* Selection */
+::selection {
+  background: var(--ossad-accent-glow);
+  color: var(--ossad-text-primary);
+}
+
+/* React Flow overrides */
+
+.react-flow__controls {
+  background-color: var(--ossad-bg-elevated);
+  border: 1px solid var(--ossad-border);
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.react-flow__controls-button {
+  background-color: var(--ossad-bg-elevated);
+  border-bottom: 1px solid var(--ossad-border);
+  color: var(--ossad-text-secondary);
+  fill: var(--ossad-text-secondary);
+}
+
+.react-flow__controls-button:hover {
+  background-color: var(--ossad-bg-surface);
+  fill: var(--ossad-text-primary);
+}
+
+.react-flow__controls-button svg {
+  fill: inherit;
+}
+
+.react-flow__edge-path {
+  stroke: var(--ossad-border);
+}
+
+.react-flow__minimap {
+  background-color: var(--ossad-bg-elevated);
+  border: 1px solid var(--ossad-border);
+  border-radius: 3px;
+}
+
+/* flashing animation */
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
 }
