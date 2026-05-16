@@ -87,7 +87,7 @@ export function ArpInspectInputs({
           value={target}
           onChange={(e) => setTarget(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && !isRunning && handleRun()}
-          placeholder="Target subnet CIDR range"
+          placeholder="Your LAN subnet (e.g. 192.168.1.0/24)"
           className="flex-1 px-3 py-2 rounded-[3px] text-[12px] font-mono outline-none"
           style={{
             border: "1px solid var(--ossad-border)",
