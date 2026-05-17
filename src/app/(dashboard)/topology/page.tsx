@@ -377,6 +377,7 @@ export default function TopologyPage() {
         onStop={handleStop}
         onResume={handleResume}
         isRunning={isScanning}
+        isRemote={true} // TODO: replace with real local/remote detection
       />
 
       <ScanLog />
