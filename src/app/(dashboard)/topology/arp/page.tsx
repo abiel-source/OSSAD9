@@ -198,6 +198,7 @@ export default function ArpMapPage() {
         onStop={handleStop}
         onResume={handleResume}
         onReset={reset}
+        isRemote={true} // TODO: replace with real local/remote detection
       />
 
       <ArpInspectDetails entries={entries} />
