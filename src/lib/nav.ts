@@ -85,7 +85,7 @@ export const PRIMARY_KITS: Toolkit[] = [
         id: "topology-map",
         label: "Host Map",
         icon: Network,
-        href: "/topology",
+        href: "/topology/host-map",
         description: "Subnet discovery and live network map with star topology layout",
       },
       {
