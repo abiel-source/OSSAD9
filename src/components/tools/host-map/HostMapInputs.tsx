@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Play, Square, RotateCcw } from "lucide-react";
 import { useTopologyStore } from "@/store/topology";
+import { useCapabilitiesStore } from "@/store/capabilities";
 
 export interface HostMapConfig {
   target: string;
@@ -10,7 +11,6 @@ export interface HostMapConfig {
 
 interface HostMapInputsProps {
   isRunning: boolean;
-  isRemote?: boolean;
   onRun: (config: HostMapConfig) => void;
   onStop: () => void;
   onReset: () => void;
@@ -19,15 +19,33 @@ interface HostMapInputsProps {
 
 export function HostMapInputs({
   isRunning,
-  isRemote = false,
   onRun,
   onStop,
   onReset,
   onResume,
 }: HostMapInputsProps) {
   const [target, setTarget] = useState("");
-  // const [isPaused, setIsPaused] = useState(false);
   const { isPaused, setIsPaused } = useTopologyStore();
+  const { isRemoteDeployment, hasNmap, environment } = useCapabilitiesStore();
+
+  // Disabled when remote OR when nmap is not installed locally
+  const isDisabled = isRemoteDeployment || !hasNmap;
+
+  // Badge shown in header
+  const badge = isRemoteDeployment
+    ? { label: "Simulation Mode", color: "var(--ossad-cautious)", bg: "rgba(245,158,11,0.1)", border: "rgba(245,158,11,0.3)" }
+    : !hasNmap
+    ? { label: "nmap not found", color: "var(--ossad-catastrophic)", bg: "rgba(239,68,68,0.1)", border: "rgba(239,68,68,0.3)" }
+    : null;
+
+  // Placeholder text
+  const placeholder = isRemoteDeployment
+    ? "Unavailable in remote mode"
+    : !hasNmap && environment === "electron"
+    ? "nmap not found — reinstall the application"
+    : !hasNmap && environment === "local"
+    ? "nmap not installed — install from nmap.org"
+    : "Your LAN subnet (e.g. 192.168.1.0/24)";
 
   const handleRun = () => {
     // TEMPORARILY ADD THIS FOR MOCK DATA TESTING
@@ -70,36 +88,36 @@ export function HostMapInputs({
         >
           Target Configuration
         </span>
-        {isRemote && (
+        {badge && (
           <span
             className="text-[9px] font-mono tracking-[0.12em] uppercase px-2 py-0.5 rounded-[3px]"
             style={{
-              backgroundColor: "rgba(245,158,11,0.1)",
-              border: "1px solid rgba(245,158,11,0.3)",
-              color: "var(--ossad-cautious)",
+              backgroundColor: badge.bg,
+              border: `1px solid ${badge.border}`,
+              color: badge.color,
             }}
           >
-            Simulation Mode
+            {badge.label}
           </span>
         )}
       </div>
 
-      {/* Main row: target + protocol + run */}
+      {/* Main row: target + run */}
       <div className="flex flex-col sm:flex-row gap-3">
         <input
           type="text"
           value={target}
           onChange={(e) => setTarget(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !isRunning && !isRemote && handleRun()}
-          placeholder={isRemote ? "Unavailable in remote mode" : "Your LAN subnet (e.g. 192.168.1.0/24)"}
-          disabled={isRemote}
+          onKeyDown={(e) => e.key === "Enter" && !isRunning && !isDisabled && handleRun()}
+          placeholder={placeholder}
+          disabled={isDisabled}
           className="flex-1 px-3 py-2 rounded-[3px] text-[12px] font-mono outline-none"
           style={{
             backgroundColor: "var(--ossad-bg-elevated)",
             border: "1px solid var(--ossad-border)",
-            color: isRemote ? "var(--ossad-text-secondary)" : "var(--ossad-text-primary)",
-            cursor: isRemote ? "not-allowed" : "text",
-            opacity: isRemote ? 0.5 : 1,
+            color: isDisabled ? "var(--ossad-text-secondary)" : "var(--ossad-text-primary)",
+            cursor: isDisabled ? "not-allowed" : "text",
+            opacity: isDisabled ? 0.5 : 1,
           }}
         />
 

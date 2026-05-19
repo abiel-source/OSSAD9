@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import ToolHeader from "@/components/tools/ToolHeader";
+import { useCapabilitiesStore } from "@/store/capabilities";
 import TraceInputs, {
   TraceConfig,
 } from "@/components/tools/route-trace/TraceInputs";
