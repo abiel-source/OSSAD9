@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Play, Square, RotateCcw } from "lucide-react";
 import { useRouteTraceStore } from "@/store/routetrace";
+import { useCapabilitiesStore } from "@/store/capabilities";
 
 export interface TraceConfig {
   target: string;
@@ -33,8 +34,27 @@ export default function TraceInputs({
   const [timeout, setTimeout] = useState(5);
   const [probes, setProbes] = useState(3);
 
-  // const [isPaused, setIsPaused] = useState(false);
   const { isPaused, setIsPaused } = useRouteTraceStore();
+  const { isRemoteDeployment, hasTraceroute, environment } = useCapabilitiesStore();
+
+  // Disabled when remote OR when traceroute is not installed locally
+  const isDisabled = isRemoteDeployment || !hasTraceroute;
+
+  // Badge shown in header
+  const badge = isRemoteDeployment
+    ? { label: "Simulation Mode", color: "var(--ossad-cautious)", bg: "rgba(245,158,11,0.1)", border: "rgba(245,158,11,0.3)" }
+    : !hasTraceroute
+    ? { label: "traceroute not found", color: "var(--ossad-catastrophic)", bg: "rgba(239,68,68,0.1)", border: "rgba(239,68,68,0.3)" }
+    : null;
+
+  // Placeholder text
+  const placeholder = isRemoteDeployment
+    ? "Unavailable in remote mode"
+    : !hasTraceroute && environment === "electron"
+    ? "traceroute not found — reinstall the application"
+    : !hasTraceroute && environment === "local"
+    ? "traceroute not installed — available by default on most systems"
+    : "Hostname or IP address";
 
   const handleRun = () => {
     setTarget("SAMPLE.SUBNET.1.0/24");
@@ -68,13 +88,25 @@ export default function TraceInputs({
       }}
     >
       {/* HEADER */}
-      <div className="flex items-center flex-shrink-0">
+      <div className="flex items-center gap-3 flex-shrink-0">
         <span
           className="text-[10px] font-mono tracking-[0.16em] uppercase"
           style={{ color: "var(--ossad-text-secondary)" }}
         >
           TRACE CONFIGURATION
         </span>
+        {badge && (
+          <span
+            className="text-[9px] font-mono tracking-[0.12em] uppercase px-2 py-0.5 rounded-[3px]"
+            style={{
+              backgroundColor: badge.bg,
+              border: `1px solid ${badge.border}`,
+              color: badge.color,
+            }}
+          >
+            {badge.label}
+          </span>
+        )}
       </div>
 
       {/* Main row: target + protocol + run */}
@@ -83,13 +115,16 @@ export default function TraceInputs({
           type="text"
           value={target}
           onChange={(e) => setTarget(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !isRunning && handleRun()}
-          placeholder="Hostname or IP address"
+          onKeyDown={(e) => e.key === "Enter" && !isRunning && !isDisabled && handleRun()}
+          placeholder={placeholder}
+          disabled={isDisabled}
           className="flex-1 px-3 py-2 rounded-[3px] text-[12px] font-mono outline-none"
           style={{
             backgroundColor: "var(--ossad-bg-elevated)",
             border: "1px solid var(--ossad-border)",
-            color: "var(--ossad-text-primary)",
+            color: isDisabled ? "var(--ossad-text-secondary)" : "var(--ossad-text-primary)",
+            cursor: isDisabled ? "not-allowed" : "text",
+            opacity: isDisabled ? 0.5 : 1,
           }}
         />
 

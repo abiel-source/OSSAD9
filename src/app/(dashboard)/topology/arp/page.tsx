@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import ToolHeader from "@/components/tools/ToolHeader";
+import { useCapabilitiesStore } from "@/store/capabilities";
 import {
   ArpInspectInputs,
   ArpInspectConfig,
@@ -198,7 +199,6 @@ export default function ArpMapPage() {
         onStop={handleStop}
         onResume={handleResume}
         onReset={reset}
-        isRemote={true} // TODO: replace with real local/remote detection
       />
 
       <ArpInspectDetails entries={entries} />

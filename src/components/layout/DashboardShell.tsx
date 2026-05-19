@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import { useUIStore } from "@/store/ui";
+import { useCapabilitiesStore } from "@/store/capabilities";
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import Footer from "@/components/layout/Footer";
@@ -11,6 +13,11 @@ export default function DashboardShell({
   children: React.ReactNode;
 }) {
   const { sidebarOpen, closeSidebar } = useUIStore();
+  const { fetchCapabilities } = useCapabilitiesStore();
+
+  useEffect(() => {
+    fetchCapabilities();
+  }, []);
 
   return (
     <div

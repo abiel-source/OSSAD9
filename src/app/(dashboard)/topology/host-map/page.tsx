@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import ToolHeader from "@/components/tools/ToolHeader";
 import { useTopologyStore } from "@/store/topology";
+import { useCapabilitiesStore } from "@/store/capabilities";
 import { type ScanEvent, type DiscoveredHost } from "@/types/network";
 import { ScanLog } from "@/components/topology/ScanLog";
 import { HostMapInputs } from "@/components/tools/host-map/HostMapInputs";
@@ -377,7 +378,6 @@ export default function TopologyPage() {
         onStop={handleStop}
         onResume={handleResume}
         isRunning={isScanning}
-        isRemote={true} // TODO: replace with real local/remote detection
       />
 
       <ScanLog />

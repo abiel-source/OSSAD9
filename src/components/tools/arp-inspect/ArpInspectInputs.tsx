@@ -12,7 +12,7 @@ export interface ArpInspectConfig {
 
 export interface ArpInspectInputsProps {
   isRunning: boolean;
-  isRemote?: boolean;
+  isRemoteDeployment?: boolean;
   onRun: (config: ArpInspectConfig) => void;
   onStop: () => void;
   onResume: () => void;
@@ -21,7 +21,7 @@ export interface ArpInspectInputsProps {
 
 export function ArpInspectInputs({
   isRunning,
-  isRemote = false,
+  isRemoteDeployment = false,
   onRun,
   onStop,
   onResume,
@@ -81,7 +81,7 @@ export function ArpInspectInputs({
         >
           ARP CONFIGURATION
         </span>
-        {isRemote && (
+        {isRemoteDeployment && (
           <span
             className="text-[9px] font-mono tracking-[0.12em] uppercase px-2 py-0.5 rounded-[3px]"
             style={{
@@ -100,16 +100,16 @@ export function ArpInspectInputs({
           type="text"
           value={target}
           onChange={(e) => setTarget(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !isRunning && !isRemote && handleRun()}
-          placeholder={isRemote ? "Unavailable in remote mode" : "Your LAN subnet (e.g. 192.168.1.0/24)"}
-          disabled={isRemote}
+          onKeyDown={(e) => e.key === "Enter" && !isRunning && !isRemoteDeployment && handleRun()}
+          placeholder={isRemoteDeployment ? "Unavailable in remote mode" : "Your LAN subnet (e.g. 192.168.1.0/24)"}
+          disabled={isRemoteDeployment}
           className="flex-1 px-3 py-2 rounded-[3px] text-[12px] font-mono outline-none"
           style={{
             border: "1px solid var(--ossad-border)",
             backgroundColor: "var(--ossad-bg-elevated)",
-            color: isRemote ? "var(--ossad-text-secondary)" : "var(--ossad-text-primary)",
-            cursor: isRemote ? "not-allowed" : "text",
-            opacity: isRemote ? 0.5 : 1,
+            color: isRemoteDeployment ? "var(--ossad-text-secondary)" : "var(--ossad-text-primary)",
+            cursor: isRemoteDeployment ? "not-allowed" : "text",
+            opacity: isRemoteDeployment ? 0.5 : 1,
           }}
         />
 
