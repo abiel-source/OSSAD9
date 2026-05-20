@@ -4,11 +4,13 @@ import { usePathname } from "next/navigation";
 import { Search, Bell, Menu, LogIn } from "lucide-react";
 import { ALL_ROUTES } from "@/lib/nav";
 import { useUIStore } from "@/store/ui";
+import { useCapabilitiesStore } from "@/store/capabilities";
 import { cn } from "@/lib/utils";
 
 export default function TopBar() {
   const pathname = usePathname();
   const { toggleSidebarCollapsed, toggleSidebarOpen } = useUIStore();
+  const { isRemoteDeployment, isLoading } = useCapabilitiesStore();
   const current = ALL_ROUTES[pathname];
 
   const handleHamburger = () => {
@@ -65,10 +67,12 @@ export default function TopBar() {
       {/* Right section */}
       <div className="flex items-center gap-2 flex-shrink-0">
         {/* Remote/Local status badge */}
-        <StatusBadge variant="success">
-          <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-emerald-500" />
-          <span className="hidden sm:block">Remote</span>
-        </StatusBadge>
+        {!isLoading && (
+          <StatusBadge variant={isRemoteDeployment ? "remote" : "local"}>
+            <div className={cn("w-1.5 h-1.5 rounded-full flex-shrink-0", isRemoteDeployment ? "bg-amber-500" : "bg-emerald-500")} />
+            <span className="hidden sm:block">{isRemoteDeployment ? "Remote" : "Local"}</span>
+          </StatusBadge>
+        )}
 
         <div className="h-4 w-px bg-border" />
 
@@ -112,13 +116,14 @@ function StatusBadge({
   asButton = false,
   children,
 }: {
-  variant: "success" | "primary";
+  variant: "local" | "remote" | "primary";
   asButton?: boolean;
   children: React.ReactNode;
 }) {
   const cls = cn(
     "flex items-center gap-1.5 px-2 py-1 text-[9px] font-mono tracking-[0.2em] uppercase flex-shrink-0",
-    variant === "success" && "text-emerald-500",
+    variant === "local" && "text-emerald-500",
+    variant === "remote" && "text-amber-500",
     variant === "primary" && "text-primary"
   );
 
