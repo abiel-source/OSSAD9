@@ -20,16 +20,11 @@ export default function DashboardShell({
   }, []);
 
   return (
-    <div
-      className="flex h-screen overflow-hidden"
-      style={{ backgroundColor: "var(--ossad-bg-primary)" }}
-    >
+    <div className="flex h-screen overflow-hidden bg-background">
       {/* Mobile backdrop */}
-      {/* closes drawer on tap */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 lg:hidden"
-          style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+          className="fixed inset-0 z-40 bg-black/55 lg:hidden"
           onClick={closeSidebar}
           aria-hidden="true"
         />
@@ -37,14 +32,10 @@ export default function DashboardShell({
 
       <Sidebar />
 
-      {/* Main content */}
-      {/* always full width on mobile, sidebar is fixed overlay */}
+      {/* Main content — always full width on mobile, sidebar is fixed overlay */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <TopBar />
-        <main
-          className="flex-1 overflow-auto"
-          style={{ backgroundColor: "var(--ossad-bg-primary)" }}
-        >
+        <main className="flex-1 overflow-auto bg-background">
           <div className="p-6">{children}</div>
           <Footer />
         </main>

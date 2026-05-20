@@ -14,35 +14,24 @@ import {
   CONSOLE_TOOL,
 } from "@/lib/nav";
 import { useUIStore } from "@/store/ui";
+import { cn } from "@/lib/utils";
 
-// Constants
 const OVERVIEW_ICON_SIZE = 18;
 
-// Divider
 function NavDivider() {
-  return (
-    <div
-      className="mx-3 my-3"
-      style={{ height: "1px", backgroundColor: "var(--ossad-border)" }}
-    />
-  );
+  return <div className="mx-3 my-3 h-px bg-border" />;
 }
 
-// Sidebar
 export default function Sidebar() {
   const { sidebarCollapsed, sidebarOpen, closeSidebar } = useUIStore();
   const pathname = usePathname();
 
-  // Mobile drawer being open always overrides the desktop collapsed state,
-  // so the drawer always renders full icons + labels.
   const effectivelyCollapsed = sidebarCollapsed && !sidebarOpen;
 
-  // All kits start expanded
   const [expandedKits, setExpandedKits] = useState<Set<string>>(
     () => new Set(ALL_KITS.map((kit) => kit.id))
   );
 
-  // Auto-expand the kit that owns the active route
   useEffect(() => {
     const activeKit = ALL_KITS.find((kit) =>
       kit.tools.some((tool) => pathname === tool.href)
@@ -52,7 +41,6 @@ export default function Sidebar() {
     }
   }, [pathname]);
 
-  // Close mobile drawer on any navigation
   useEffect(() => {
     closeSidebar();
   }, [pathname]);
@@ -67,44 +55,29 @@ export default function Sidebar() {
 
   const isOverviewActive = pathname === OVERVIEW_ITEM.href;
 
-  // Layout
   return (
     <aside
-      className={[
+      className={cn(
         "flex flex-col h-screen overflow-hidden flex-shrink-0",
-        // Mobile: fixed overlay, controlled by sidebarOpen
         "fixed top-0 left-0 z-50",
         sidebarOpen ? "translate-x-0" : "-translate-x-full",
-        // Desktop: in-flow, always visible, translate reset
         "lg:relative lg:z-auto lg:translate-x-0",
         "transition-all duration-200 ease-in-out",
         "w-[240px]",
-        effectivelyCollapsed
-          ? "lg:w-[60px] lg:min-w-[60px]"
-          : "lg:w-[240px] lg:min-w-[240px]",
-      ].join(" ")}
-      style={{
-        backgroundColor: "var(--ossad-bg-surface)",
-        borderRight: "1px solid var(--ossad-border)",
-      }}
+        effectivelyCollapsed ? "lg:w-[60px] lg:min-w-[60px]" : "lg:w-[240px] lg:min-w-[240px]",
+        "bg-sidebar border-r border-sidebar-border"
+      )}
     >
       {/* Logo */}
       <div
-        className={`flex items-center h-12 flex-shrink-0 ${
+        className={cn(
+          "flex items-center h-12 flex-shrink-0 border-b border-sidebar-border",
           effectivelyCollapsed ? "justify-center pr-[4px]" : "gap-3 px-6"
-        }`}
-        style={{ borderBottom: "1px solid var(--ossad-border)" }}
+        )}
       >
-        <Radar
-          size={18}
-          className="flex-shrink-0"
-          style={{ color: "var(--ossad-accent)" }}
-        />
+        <Radar size={18} className="flex-shrink-0 text-primary" />
         {!effectivelyCollapsed && (
-          <span
-            className="text-[11px] font-bold tracking-[0.22em] uppercase whitespace-nowrap"
-            style={{ color: "var(--ossad-accent)" }}
-          >
+          <span className="text-[11px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-primary font-heading">
             OSSAD-9
           </span>
         )}
@@ -117,34 +90,17 @@ export default function Sidebar() {
           <Link
             href={OVERVIEW_ITEM.href}
             title={effectivelyCollapsed ? OVERVIEW_ITEM.label : undefined}
-            className={`flex items-center rounded-[3px] transition-colors duration-150 ${
-              effectivelyCollapsed
-                ? "justify-center py-2.5"
-                : "gap-3 px-3 py-2.5"
-            } ${
+            className={cn(
+              "flex items-center transition-colors duration-150",
+              effectivelyCollapsed ? "justify-center py-2.5" : "gap-3 px-3 py-2.5",
               isOverviewActive
-                ? "bg-[var(--ossad-accent-glow)]"
-                : "hover:bg-white/3"
-            }`}
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            )}
           >
-            <OVERVIEW_ITEM.icon
-              size={OVERVIEW_ICON_SIZE}
-              className="flex-shrink-0"
-              style={{
-                color: isOverviewActive
-                  ? "var(--ossad-accent)"
-                  : "var(--ossad-text-dim)",
-              }}
-            />
+            <OVERVIEW_ITEM.icon size={OVERVIEW_ICON_SIZE} className="flex-shrink-0" />
             {!effectivelyCollapsed && (
-              <span
-                className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden"
-                style={{
-                  color: isOverviewActive
-                    ? "var(--ossad-accent)"
-                    : "var(--ossad-text-dim)",
-                }}
-              >
+              <span className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
                 {OVERVIEW_ITEM.label}
               </span>
             )}
@@ -171,7 +127,6 @@ export default function Sidebar() {
           indented={false}
         />
 
-        {/* Divider between primary and support groups */}
         <NavDivider />
 
         {/* Support toolkits */}

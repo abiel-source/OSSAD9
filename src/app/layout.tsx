@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Noto_Sans, Oxanium } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
+const oxaniumHeading = Oxanium({ subsets: ["latin"], variable: "--font-heading" });
+const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
@@ -26,7 +24,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
+      className={cn(
+        "dark h-full antialiased",
+        notoSans.variable,
+        oxaniumHeading.variable,
+        ibmPlexMono.variable
+      )}
     >
       <body className="h-full">{children}</body>
     </html>

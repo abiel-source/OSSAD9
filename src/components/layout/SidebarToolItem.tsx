@@ -2,15 +2,10 @@
 
 import Link from "next/link";
 import type { Tool } from "@/lib/nav";
+import { cn } from "@/lib/utils";
 
-// Constants
 const ICON_SIZE = 18;
-const ICON_COLOR_INACTIVE = "var(--ossad-text-dim)";
-const ICON_COLOR_ACTIVE = "var(--ossad-accent)";
-const TEXT_COLOR_INACTIVE = "var(--ossad-text-dim)";
-const TEXT_COLOR_ACTIVE = "var(--ossad-accent)";
 
-// Props
 interface Props {
   tool: Tool;
   collapsed: boolean;
@@ -23,7 +18,6 @@ interface Props {
   indented?: boolean;
 }
 
-// Component
 export default function SidebarToolItem({
   tool,
   collapsed,
@@ -32,9 +26,8 @@ export default function SidebarToolItem({
 }: Props) {
   const Icon = tool.icon;
 
-  // Indent lives on the wrapper div — margin/padding on <a> is unreliable
   const wrapperClass = !collapsed && indented
-    ? "ml-7 mr-3 my-[1px]"   // shifted right for sub-tool indent
+    ? "ml-7 mr-3 my-[1px]"
     : "mx-3 my-[1px]";
 
   return (
@@ -42,22 +35,17 @@ export default function SidebarToolItem({
       <Link
         href={tool.href}
         title={collapsed ? tool.label : undefined}
-        className={`flex items-center rounded-[3px] transition-colors duration-150 ${
-          collapsed
-            ? "justify-center py-2.5"
-            : "gap-3 px-3 py-2.5"
-        } ${active ? "bg-[var(--ossad-accent-glow)]" : "hover:bg-white/3"}`}
+        className={cn(
+          "flex items-center transition-colors duration-150",
+          collapsed ? "justify-center py-2.5" : "gap-3 px-3 py-2.5",
+          active
+            ? "bg-primary/10 text-primary"
+            : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        )}
       >
-        <Icon
-          size={ICON_SIZE}
-          className="flex-shrink-0"
-          style={{ color: active ? ICON_COLOR_ACTIVE : ICON_COLOR_INACTIVE }}
-        />
+        <Icon size={ICON_SIZE} className="flex-shrink-0" />
         {!collapsed && (
-          <span
-            className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden"
-            style={{ color: active ? TEXT_COLOR_ACTIVE : TEXT_COLOR_INACTIVE }}
-          >
+          <span className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
             {tool.label}
           </span>
         )}
