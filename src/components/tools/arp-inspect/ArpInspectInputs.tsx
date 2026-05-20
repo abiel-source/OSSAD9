@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Play, Square, RotateCcw } from "lucide-react";
 import { useArpStore } from "@/store/arp";
+import { useCapabilitiesStore } from "@/store/capabilities";
 
 export interface ArpInspectConfig {
   target: string;
@@ -12,7 +13,6 @@ export interface ArpInspectConfig {
 
 export interface ArpInspectInputsProps {
   isRunning: boolean;
-  isRemoteDeployment?: boolean;
   onRun: (config: ArpInspectConfig) => void;
   onStop: () => void;
   onResume: () => void;
@@ -21,7 +21,6 @@ export interface ArpInspectInputsProps {
 
 export function ArpInspectInputs({
   isRunning,
-  isRemoteDeployment = false,
   onRun,
   onStop,
   onResume,
@@ -32,8 +31,8 @@ export function ArpInspectInputs({
     useState<ArpInspectConfig["interface"]>("ETH0");
   const [timeout, setTimeout] = useState(5);
 
-  // MOCK SIMULATION DATA
   const { isPaused, setIsPaused } = useArpStore();
+  const { isRemoteDeployment } = useCapabilitiesStore();
 
   const handleRun = () => {
     // TEMPORARILY ADD THIS FOR MOCK DATA TESTING
