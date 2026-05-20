@@ -4,20 +4,11 @@ interface ToolHeaderButtonProps {
   onClick?: () => void;
 }
 
-export function ToolHeaderButton({
-  label,
-  icon,
-  onClick,
-}: ToolHeaderButtonProps) {
+export function ToolHeaderButton({ label, icon, onClick }: ToolHeaderButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-1.5 px-2 py-[5px] rounded-[3px] text-[10px] font-mono tracking-[0.08em] transition-colors duration-150"
-      style={{
-        border: "1px solid var(--ossad-border)",
-        backgroundColor: "var(--ossad-bg-elevated)",
-        color: "var(--ossad-text-secondary)",
-      }}
+      className="flex items-center gap-1.5 px-2 py-[5px] text-[10px] font-mono tracking-[0.08em] transition-colors duration-150 border border-border bg-card text-muted-foreground hover:bg-accent hover:text-accent-foreground"
     >
       {icon}
       {label}
