@@ -54,7 +54,7 @@ export function ArpInspectInputs({
           ARP Configuration
         </span>
         {isRemoteDeployment && (
-          <span className="text-[9px] font-mono tracking-[0.12em] uppercase px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-500">
+          <span className="text-[9px] font-mono tracking-[0.12em] uppercase text-amber-500">
             Simulation Mode
           </span>
         )}
@@ -84,7 +84,7 @@ export function ArpInspectInputs({
               className={cn(
                 "px-3 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 border-t border-b border-l border-border",
                 _interface === i
-                  ? "bg-primary/10 text-primary"
+                  ? "bg-primary text-primary-foreground"
                   : "bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               )}
             >
@@ -99,8 +99,8 @@ export function ArpInspectInputs({
           className={cn(
             "flex items-center justify-center gap-2 px-4 py-2 text-[11px] font-mono transition-colors duration-150 flex-shrink-0 border",
             isRunning && !isPaused
-              ? "bg-destructive/10 border-destructive/30 text-destructive"
-              : "bg-primary/10 border-primary/30 text-primary"
+              ? "bg-destructive border-destructive text-destructive-foreground"
+              : "bg-primary border-primary text-primary-foreground"
           )}
         >
           {isRunning && !isPaused ? <Square size={12} /> : <Play size={12} />}

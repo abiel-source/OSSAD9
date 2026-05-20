@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 flex-shrink-0 border-t border-border">
       {/* App name + copyright */}
       <div className="flex flex-col gap-0.5">
-        <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-primary font-heading">
+        <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-foreground font-heading">
           OSSAD-9
         </span>
         <span className="text-[10px] font-mono text-muted-foreground">

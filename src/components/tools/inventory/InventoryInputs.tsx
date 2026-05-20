@@ -190,7 +190,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         {COMPLIANCES.map((badge) => (
           <div
             key={badge}
-            className="px-2 py-[3px] text-[7.5px] font-mono tracking-[0.15em] uppercase border border-primary/25 bg-primary/5 text-primary"
+            className="px-2 py-[3px] text-[7.5px] font-mono tracking-[0.15em] uppercase bg-primary text-primary-foreground"
           >
             {badge}
           </div>
@@ -221,7 +221,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="px-3 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border border-destructive/30 bg-destructive/10 text-destructive"
+            className="px-3 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border border-destructive bg-destructive text-destructive-foreground"
           >
             Clear Filters
           </button>
@@ -242,7 +242,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
               className={cn(
                 "px-2 py-1 text-[10px] font-mono tracking-[0.08em] transition-colors duration-150 border",
                 sources[key]
-                  ? "bg-primary/10 border-primary/30 text-primary"
+                  ? "bg-primary border-primary text-primary-foreground"
                   : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               )}
             >
@@ -266,7 +266,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
               className={cn(
                 "px-2 py-1 text-[10px] font-mono tracking-[0.08em] transition-colors duration-150 border",
                 deviceTypes[key]
-                  ? "bg-primary/10 border-primary/30 text-primary"
+                  ? "bg-primary border-primary text-primary-foreground"
                   : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               )}
             >
@@ -284,7 +284,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
           className={cn(
             "px-2 py-1 text-[10px] font-mono tracking-[0.08em] transition-colors duration-150 border",
             conflictsOnly
-              ? "bg-destructive/10 border-destructive/30 text-destructive"
+              ? "bg-destructive border-destructive text-destructive-foreground"
               : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
           )}
         >

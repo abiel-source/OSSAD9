@@ -39,7 +39,7 @@ export default function SidebarToolItem({
           "flex items-center transition-colors duration-150",
           collapsed ? "justify-center py-2.5" : "gap-3 px-3 py-2.5",
           active
-            ? "bg-primary/10 text-primary"
+            ? "bg-primary text-primary-foreground"
             : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         )}
       >

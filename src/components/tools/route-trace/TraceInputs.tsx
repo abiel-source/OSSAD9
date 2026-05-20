@@ -41,9 +41,9 @@ export default function TraceInputs({
   const isDisabled = isRemoteDeployment || !hasTraceroute;
 
   const badge = isRemoteDeployment
-    ? { label: "Simulation Mode", cls: "bg-amber-500/10 border border-amber-500/30 text-amber-500" }
+    ? { label: "Simulation Mode", cls: "text-amber-500" }
     : !hasTraceroute
-    ? { label: "traceroute not found", cls: "bg-destructive/10 border border-destructive/30 text-destructive" }
+    ? { label: "traceroute not found", cls: "text-destructive" }
     : null;
 
   const placeholder = isRemoteDeployment
@@ -104,7 +104,7 @@ export default function TraceInputs({
               className={cn(
                 "px-3 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 border-t border-b border-l border-border",
                 protocol === p
-                  ? "bg-primary/10 text-primary"
+                  ? "bg-primary text-primary-foreground"
                   : "bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               )}
             >
@@ -119,8 +119,8 @@ export default function TraceInputs({
           className={cn(
             "flex items-center justify-center gap-2 px-4 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border",
             isRunning && !isPaused
-              ? "bg-destructive/10 border-destructive/30 text-destructive"
-              : "bg-primary/10 border-primary/30 text-primary"
+              ? "bg-destructive border-destructive text-destructive-foreground"
+              : "bg-primary border-primary text-primary-foreground"
           )}
         >
           {isRunning && !isPaused ? <Square size={12} /> : <Play size={12} />}

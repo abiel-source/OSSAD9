@@ -97,7 +97,7 @@ export const PRIMARY_KITS: Toolkit[] = [
       },
       {
         id: "arp",
-        label: "ARP / Layer 2",
+        label: "ARP Inspect",
         icon: GitBranch,
         href: "/topology/arp",
         description: "MAC-to-IP mapping, OUI resolution, and L2 conflict detection",

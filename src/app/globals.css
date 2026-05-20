@@ -116,8 +116,8 @@
 
 /* Selection */
 ::selection {
-  background: oklch(0.398 0.195 277.366 / 20%);
-  color: var(--foreground);
+  background: oklch(0.50 0.21 277.366);
+  color: #ffffff;
 }
 
 /* Flash animation */

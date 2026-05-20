@@ -32,9 +32,9 @@ export function HostMapInputs({
   const isDisabled = isRemoteDeployment || !hasNmap;
 
   const badge = isRemoteDeployment
-    ? { label: "Simulation Mode", cls: "bg-amber-500/10 border border-amber-500/30 text-amber-500" }
+    ? { label: "Simulation Mode", cls: "text-amber-500" }
     : !hasNmap
-    ? { label: "nmap not found", cls: "bg-destructive/10 border border-destructive/30 text-destructive" }
+    ? { label: "nmap not found", cls: "text-destructive" }
     : null;
 
   const placeholder = isRemoteDeployment
@@ -93,8 +93,8 @@ export function HostMapInputs({
           className={cn(
             "flex items-center justify-center gap-2 px-4 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border",
             isRunning && !isPaused
-              ? "bg-destructive/10 border-destructive/30 text-destructive"
-              : "bg-primary/10 border-primary/30 text-primary"
+              ? "bg-destructive border-destructive text-destructive-foreground"
+              : "bg-primary border-primary text-primary-foreground"
           )}
         >
           {isRunning && !isPaused ? <Square size={12} /> : <Play size={12} />}

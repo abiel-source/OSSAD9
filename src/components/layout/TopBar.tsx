@@ -44,12 +44,12 @@ export default function TopBar() {
             <span className="text-[10px] flex-shrink-0 text-muted-foreground opacity-40">
               ›
             </span>
-            <span className="text-[11px] font-mono tracking-[0.1em] uppercase flex-shrink-0 text-primary">
+            <span className="text-[11px] font-mono tracking-[0.1em] uppercase flex-shrink-0 text-foreground">
               {current.label}
             </span>
           </>
         ) : current ? (
-          <span className="text-[11px] font-mono tracking-[0.1em] uppercase flex-shrink-0 text-primary">
+          <span className="text-[11px] font-mono tracking-[0.1em] uppercase flex-shrink-0 text-foreground">
             {current.label}
           </span>
         ) : null}
@@ -81,10 +81,10 @@ export default function TopBar() {
         </IconButton>
 
         {/* Sign In */}
-        <StatusBadge variant="primary" asButton>
+        <button className="flex items-center gap-1.5 px-2 py-1 text-[9px] font-mono tracking-[0.2em] uppercase flex-shrink-0 bg-primary text-primary-foreground border border-primary">
           <LogIn size={11} className="flex-shrink-0" />
           <span>Sign In</span>
-        </StatusBadge>
+        </button>
       </div>
     </header>
   );
@@ -118,8 +118,8 @@ function StatusBadge({
 }) {
   const cls = cn(
     "flex items-center gap-1.5 px-2 py-1 text-[9px] font-mono tracking-[0.2em] uppercase flex-shrink-0",
-    variant === "success" && "bg-emerald-500/10 border border-emerald-500/20 text-emerald-500",
-    variant === "primary" && "bg-primary/10 border border-primary/20 text-primary"
+    variant === "success" && "text-emerald-500",
+    variant === "primary" && "text-primary"
   );
 
   return asButton ? (

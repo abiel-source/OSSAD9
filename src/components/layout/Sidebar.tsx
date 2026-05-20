@@ -75,9 +75,9 @@ export default function Sidebar() {
           effectivelyCollapsed ? "justify-center pr-[4px]" : "gap-3 px-6"
         )}
       >
-        <Radar size={18} className="flex-shrink-0 text-primary" />
+        <Radar size={18} className="flex-shrink-0 text-foreground" />
         {!effectivelyCollapsed && (
-          <span className="text-[11px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-primary font-heading">
+          <span className="text-[11px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-foreground font-heading">
             OSSAD-9
           </span>
         )}
@@ -94,7 +94,7 @@ export default function Sidebar() {
               "flex items-center transition-colors duration-150",
               effectivelyCollapsed ? "justify-center py-2.5" : "gap-3 px-3 py-2.5",
               isOverviewActive
-                ? "bg-primary/10 text-primary"
+                ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
             )}
           >
