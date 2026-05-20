@@ -15,29 +15,18 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
 
   if (!isRunning && hops.length === 0) {
     return (
-      <div
-        className="flex flex-col mb-6 pb-[32.5px] rounded-[3px]"
-        style={{
-          border: "1px solid var(--ossad-border)",
-          backgroundColor: "var(--ossad-bg-surface)",
-        }}
-      >
+      <div className="flex flex-col mb-6 pb-[32.5px] border border-border bg-card">
         {/* HEADER */}
         <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
           {/* header group 1 LEFT */}
           <div className="flex items-center gap-2">
             <div
-              className={`rounded-full w-2 h-2 shrink-0`}
-              style={{
-                backgroundColor: class2Colour("cautious"),
-              }}
+              className="rounded-full w-2 h-2 shrink-0"
+              style={{ backgroundColor: class2Colour("cautious") }}
             />
             <span
               className="text-[11px] font-mono tracking-[0.1em]"
-              style={{
-                color: class2Colour("cautious"),
-                opacity: 0.66,
-              }}
+              style={{ color: class2Colour("cautious"), opacity: 0.66 }}
             >
               idle
             </span>
@@ -45,47 +34,21 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
 
           {/* header group 2 RIGHT */}
           <div className="flex items-center gap-4">
-            <span
-              className="text-[11px] font-mono tracking-[0.1em]"
-              style={{
-                color: "var(--ossad-text-secondary)",
-                opacity: 0.66,
-              }}
-            >
+            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
               hops [0]
             </span>
-            <span
-              className="text-[11px] font-mono tracking-[0.1em]"
-              style={{
-                color: "var(--ossad-text-secondary)",
-                opacity: 0.66,
-              }}
-            >
+            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
               latency [0.00ms]
             </span>
-            <span
-              className="text-[11px] font-mono tracking-[0.1em]"
-              style={{
-                color: "var(--ossad-text-secondary)",
-                opacity: 0.66,
-              }}
-            >
+            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
               packet loss [0.00%]
             </span>
           </div>
         </div>
 
         {/* EMPTY CANVAS */}
-        <div
-          className="w-full flex items-center justify-center"
-          style={{
-            height: "180px",
-          }}
-        >
-          <span
-            className="text-[11px] font-mono tracking-[0.1em]"
-            style={{ color: "var(--ossad-text-secondary)", opacity: 0.66 }}
-          >
+        <div className="w-full flex items-center justify-center" style={{ height: "180px" }}>
+          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
             Run a trace to visualize the path
           </span>
         </div>
@@ -127,42 +90,28 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
     })),
   ];
 
+  const statusColour = !isRunning
+    ? class2Colour("running")
+    : isPaused
+    ? class2Colour("cautious")
+    : "var(--primary)";
+
   return (
-    <div
-      className="flex flex-col mb-6 pb-[32.5px] rounded-[3px]"
-      style={{
-        border: "1px solid var(--ossad-border)",
-        backgroundColor: "var(--ossad-bg-surface)",
-      }}
-    >
+    <div className="flex flex-col mb-6 pb-[32.5px] border border-border bg-card">
       {/* HEADER */}
       <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
         {/* header group 1 LEFT */}
         <div className="flex items-center gap-2">
           <div
-            className={`rounded-full w-2 h-2 shrink-0`}
+            className="rounded-full w-2 h-2 shrink-0"
             style={{
-              backgroundColor: !isRunning
-                ? class2Colour("running")
-                : isPaused
-                ? class2Colour("cautious")
-                : "var(--ossad-accent)",
-              animation:
-                isRunning && !isPaused
-                  ? "flash 0.33s ease-in-out infinite"
-                  : "",
+              backgroundColor: statusColour,
+              animation: isRunning && !isPaused ? "flash 0.33s ease-in-out infinite" : "",
             }}
           />
           <span
             className="text-[11px] font-mono tracking-[0.1em]"
-            style={{
-              color: !isRunning
-                ? class2Colour("running")
-                : isPaused
-                ? class2Colour("cautious")
-                : "var(--ossad-accent)",
-              opacity: 0.66,
-            }}
+            style={{ color: statusColour, opacity: 0.66 }}
           >
             {!isRunning ? "done" : isPaused ? "paused" : "tracing"}
           </span>
@@ -170,43 +119,20 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
 
         {/* header group 2 RIGHT */}
         <div className="flex items-center gap-4">
-          <span
-            className="text-[11px] font-mono tracking-[0.1em]"
-            style={{
-              color: "var(--ossad-text-secondary)",
-              opacity: 0.66,
-            }}
-          >
+          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
             hops [{runningHops}]
           </span>
-          <span
-            className="text-[11px] font-mono tracking-[0.1em]"
-            style={{
-              color: "var(--ossad-text-secondary)",
-              opacity: 0.66,
-            }}
-          >
+          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
             latency [{runningRtts}ms]
           </span>
-          <span
-            className="text-[11px] font-mono tracking-[0.1em]"
-            style={{
-              color: "var(--ossad-text-secondary)",
-              opacity: 0.66,
-            }}
-          >
+          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
             packet loss [{runningPacketLoss}%]
           </span>
         </div>
       </div>
 
       {/* CANVAS */}
-      <div
-        className="w-full overflow-x-auto flex"
-        style={{
-          height: "180px",
-        }}
-      >
+      <div className="w-full overflow-x-auto flex" style={{ height: "180px" }}>
         <LineGraph nodes={graphNodes} isRunning={isRunning} />
       </div>
     </div>

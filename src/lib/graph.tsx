@@ -22,17 +22,17 @@ export interface GraphNode {
 export function class2Colour(nodeClass: GraphNodeClass): string {
   switch (nodeClass) {
     case "origin":
-      return "var(--ossad-accent)";
+      return "var(--primary)";
     case "cautious":
-      return "var(--ossad-cautious)";
+      return "var(--color-amber-500)";
     case "warning":
-      return "var(--ossad-catastrophic)";
+      return "var(--destructive)";
     case "catastrophic":
-      return "var(--ossad-catastrophic)";
+      return "var(--destructive)";
     case "running":
-      return "var(--ossad-online)";
+      return "var(--color-emerald-500)";
     default:
-      return "var(--ossad-text-dim)";
+      return "var(--muted-foreground)";
   }
 }
 
@@ -48,7 +48,7 @@ function GraphNodeUI({ node }: { node: GraphNode }) {
         <div>
           <span
             className="text-[9px] font-mono tracking-widest uppercase truncate max-w-full text-center"
-            style={{ color: "var(--ossad-text-secondary)" }}
+            style={{ color: "var(--muted-foreground)" }}
           >
             {node.superlabel}
           </span>
@@ -68,7 +68,7 @@ function GraphNodeUI({ node }: { node: GraphNode }) {
         <div>
           <span
             className="text-[9px] font-mono truncate max-w-full text-center"
-            style={{ color: "var(--ossad-text-secondary)", opacity: 0.5 }}
+            style={{ color: "var(--muted-foreground)", opacity: 0.5 }}
           >
             {node.sublabel}
           </span>
@@ -93,7 +93,7 @@ function GraphEdgeUI({
         <div className="absolute top-1.5">
           <span
             className="text-[8px] font-mono"
-            style={{ color: "var(--ossad-text-secondary)", opacity: 0.5 }}
+            style={{ color: "var(--muted-foreground)", opacity: 0.5 }}
           >
             {weight}
           </span>
@@ -130,7 +130,7 @@ export function CompletionIndicator() {
   return (
     <div
       className="w-[80px] flex justify-end items-center gap-1 pr-5"
-      style={{ color: "var(--ossad-online)" }}
+      style={{ color: "var(--color-emerald-500)" }}
     >
       <span className="text-[9px] font-mono tracking-widest uppercase ">
         Done

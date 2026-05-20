@@ -19,27 +19,15 @@ export default function OverviewPage() {
       {/* Page header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1
-            className="text-base font-semibold tracking-wide"
-            style={{ color: "var(--ossad-text-primary)" }}
-          >
+          <h1 className="text-base font-semibold tracking-wide text-foreground font-heading">
             Overview
           </h1>
-          <p
-            className="text-xs font-mono mt-0.5"
-            style={{ color: "var(--ossad-text-secondary)" }}
-          >
+          <p className="text-xs font-mono mt-0.5 text-muted-foreground">
             System-wide status. No network target configured.
           </p>
         </div>
 
-        <button
-          className="flex items-center gap-2 px-3 py-1.5 text-[11px] font-mono tracking-widest uppercase rounded-[3px] border transition-colors duration-150"
-          style={{
-            borderColor: "var(--ossad-border)",
-            color: "var(--ossad-text-secondary)",
-          }}
-        >
+        <button className="flex items-center gap-2 px-3 py-1.5 text-[11px] font-mono tracking-widest uppercase border border-border text-muted-foreground bg-card hover:bg-accent hover:text-accent-foreground transition-colors duration-150">
           Configure Target
         </button>
       </div>
@@ -49,30 +37,17 @@ export default function OverviewPage() {
         {statCards.map((card) => (
           <div
             key={card.label}
-            className="rounded-[3px] border p-4"
-            style={{
-              backgroundColor: "var(--ossad-bg-surface)",
-              borderColor: "var(--ossad-border)",
-            }}
+            className="border border-border bg-card p-4"
           >
-            <p
-              className="text-[10px] font-mono tracking-[0.16em] uppercase mb-2"
-              style={{ color: "var(--ossad-text-secondary)" }}
-            >
+            <p className="text-[10px] font-mono tracking-[0.16em] uppercase mb-2 text-muted-foreground">
               {card.label}
             </p>
             <div className="flex items-baseline gap-1">
-              <span
-                className="text-2xl font-semibold"
-                style={{ color: "var(--ossad-text-primary)" }}
-              >
+              <span className="text-2xl font-semibold text-foreground">
                 {card.value}
               </span>
               {card.unit && (
-                <span
-                  className="text-xs font-mono"
-                  style={{ color: "var(--ossad-text-secondary)" }}
-                >
+                <span className="text-xs font-mono text-muted-foreground">
                   {card.unit}
                 </span>
               )}
@@ -86,31 +61,18 @@ export default function OverviewPage() {
         {panels.map((panel) => (
           <div
             key={panel.title}
-            className={`rounded-[3px] border ${panel.height}`}
-            style={{
-              backgroundColor: "var(--ossad-bg-surface)",
-              borderColor: "var(--ossad-border)",
-            }}
+            className={`border border-border bg-card ${panel.height}`}
           >
             {/* Panel header */}
-            <div
-              className="flex items-center px-4 h-9 border-b"
-              style={{ borderColor: "var(--ossad-border)" }}
-            >
-              <span
-                className="text-[10px] font-mono tracking-[0.16em] uppercase"
-                style={{ color: "var(--ossad-text-secondary)" }}
-              >
+            <div className="flex items-center px-4 h-9 border-b border-border">
+              <span className="text-[10px] font-mono tracking-[0.16em] uppercase text-muted-foreground">
                 {panel.title}
               </span>
             </div>
 
             {/* Empty state */}
             <div className="flex items-center justify-center h-[calc(100%-36px)]">
-              <span
-                className="text-[11px] font-mono"
-                style={{ color: "var(--ossad-border)" }}
-              >
+              <span className="text-[11px] font-mono text-border">
                 No data — target not configured
               </span>
             </div>

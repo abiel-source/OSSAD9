@@ -5,10 +5,10 @@ import { useTopologyStore } from "@/store/topology";
 import type { LogLevel } from "@/types/network";
 
 const LEVEL_COLORS: Record<LogLevel, string> = {
-  info: "var(--ossad-text-secondary)",
-  success: "var(--ossad-online)",
-  warning: "var(--ossad-cautious)",
-  error: "var(--ossad-catastrophic)",
+  info: "var(--muted-foreground)",
+  success: "var(--color-emerald-500)",
+  warning: "var(--color-amber-500)",
+  error: "var(--destructive)",
 };
 
 function formatTime(ts: number): string {
@@ -32,19 +32,10 @@ export function ScanLog() {
   }, [logs]);
 
   return (
-    <div
-      className="flex flex-col rounded-[3px] border overflow-hidden mb-6 p-4 gap-3"
-      style={{
-        backgroundColor: "var(--ossad-bg-surface)",
-        borderColor: "var(--ossad-border)",
-      }}
-    >
+    <div className="flex flex-col border border-border overflow-hidden mb-6 p-4 gap-3 bg-card">
       {/* HEADER */}
       <div className="flex items-center flex-shrink-0">
-        <span
-          className="text-[10px] font-mono tracking-[0.16em] uppercase"
-          style={{ color: "var(--ossad-text-secondary)" }}
-        >
+        <span className="text-[10px] font-mono tracking-[0.16em] uppercase text-muted-foreground">
           Scan Log
         </span>
       </div>
@@ -52,26 +43,16 @@ export function ScanLog() {
       {/* SCAN ENTRIES */}
       <div
         ref={scrollRef}
-        className="h-32 overflow-y-auto px-3 py-2 space-y-1"
-        style={{
-          border: "1px solid var(--ossad-border)",
-          backgroundColor: "var(--ossad-bg-elevated)",
-        }}
+        className="h-32 overflow-y-auto px-3 py-2 space-y-1 border border-border bg-background"
       >
         {logs.length === 0 ? (
-          <p
-            className="text-[11px] font-mono text-center mt-8"
-            style={{ color: "var(--ossad-border)" }}
-          >
+          <p className="text-[11px] font-mono text-center mt-8 text-border">
             No scan running
           </p>
         ) : (
           logs.map((entry) => (
             <div key={entry.id} className="flex items-start gap-2">
-              <span
-                className="text-[10px] font-mono flex-shrink-0 mt-px tabular-nums"
-                style={{ color: "var(--ossad-text-secondary)" }}
-              >
+              <span className="text-[10px] font-mono flex-shrink-0 mt-px tabular-nums text-muted-foreground">
                 {formatTime(entry.timestamp)}
               </span>
               <span
