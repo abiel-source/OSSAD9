@@ -58,11 +58,11 @@ export const arpRefEntries = [
 
 export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5">
       {/* arp table  */}
-      <div className="gap-4 h-fit border border-border bg-card">
+      <div className="gap-5 h-fit border border-border bg-card">
         <div className="overflow-x-auto overflow-y-auto max-h-100">
-          <table className="w-full text-[11px] font-mono">
+          <table className="w-full text-[13px]">
             <thead>
               <tr className="border-b border-border">
                 {[
@@ -77,7 +77,7 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
                   <th
                     key={col}
                     className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
-                    style={{ fontSize: "9px" }}
+                    style={{ fontSize: "10px" }}
                   >
                     {col}
                   </th>
@@ -85,7 +85,7 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
               </tr>
             </thead>
 
-            <tbody>
+            <tbody className="font-mono">
               {entries.length === 0 && (
                 <tr className="border-b border-border">
                   {Array(7)
@@ -120,16 +120,16 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
       </div>
 
       {/* reference table */}
-      <div className="gap-4 h-fit border border-border bg-card">
+      <div className="gap-5 h-fit border border-border bg-card">
         <div className="overflow-x-auto overflow-y-auto max-h-100">
-          <table className="w-full text-[11px] font-mono">
+          <table className="w-full text-[13px]">
             <thead>
               <tr className="border-b border-border">
                 {["address", "label", "description", "rfc"].map((col) => (
                   <th
                     key={col}
                     className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
-                    style={{ fontSize: "9px" }}
+                    style={{ fontSize: "10px" }}
                   >
                     {col}
                   </th>
@@ -137,7 +137,7 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
               </tr>
             </thead>
 
-            <tbody>
+            <tbody className="font-mono">
               {arpRefEntries.map((r, idx) => (
                 <tr key={idx} className="border-b border-border">
                   <td className="px-3 py-2 text-muted-foreground">{r.address}</td>

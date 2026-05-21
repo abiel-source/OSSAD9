@@ -15,7 +15,7 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
 
   if (!isRunning && hops.length === 0) {
     return (
-      <div className="flex flex-col mb-6 pb-[32.5px] border border-border bg-card">
+      <div className="flex flex-col mb-5 pb-[26px] border border-border bg-card">
         {/* HEADER */}
         <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
           {/* header group 1 LEFT */}
@@ -25,7 +25,7 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
               style={{ backgroundColor: class2Colour("cautious") }}
             />
             <span
-              className="text-[11px] font-mono tracking-[0.1em]"
+              className="text-[12px] tracking-[0.1em]"
               style={{ color: class2Colour("cautious"), opacity: 0.66 }}
             >
               idle
@@ -34,21 +34,21 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
 
           {/* header group 2 RIGHT */}
           <div className="flex items-center gap-4">
-            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
               hops [0]
             </span>
-            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
               latency [0.00ms]
             </span>
-            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
               packet loss [0.00%]
             </span>
           </div>
         </div>
 
         {/* EMPTY CANVAS */}
-        <div className="w-full flex items-center justify-center" style={{ height: "180px" }}>
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+        <div className="w-full flex items-center justify-center" style={{ height: "144px" }}>
+          <span className="text-[12px] tracking-[0.1em] text-muted-foreground/60">
             Run a trace to visualize the path
           </span>
         </div>
@@ -97,7 +97,7 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
     : "var(--primary)";
 
   return (
-    <div className="flex flex-col mb-6 pb-[32.5px] border border-border bg-card">
+    <div className="flex flex-col mb-5 pb-[26px] border border-border bg-card">
       {/* HEADER */}
       <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
         {/* header group 1 LEFT */}
@@ -110,7 +110,7 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
             }}
           />
           <span
-            className="text-[11px] font-mono tracking-[0.1em]"
+            className="text-[12px] tracking-[0.1em]"
             style={{ color: statusColour, opacity: 0.66 }}
           >
             {!isRunning ? "done" : isPaused ? "paused" : "tracing"}
@@ -119,20 +119,20 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
 
         {/* header group 2 RIGHT */}
         <div className="flex items-center gap-4">
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
             hops [{runningHops}]
           </span>
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
             latency [{runningRtts}ms]
           </span>
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
             packet loss [{runningPacketLoss}%]
           </span>
         </div>
       </div>
 
       {/* CANVAS */}
-      <div className="w-full overflow-x-auto flex" style={{ height: "180px" }}>
+      <div className="w-full overflow-x-auto flex" style={{ height: "144px" }}>
         <LineGraph nodes={graphNodes} isRunning={isRunning} />
       </div>
     </div>

@@ -132,7 +132,7 @@ export function CompletionIndicator() {
       className="w-[80px] flex justify-end items-center gap-1 pr-5"
       style={{ color: "var(--color-emerald-500)" }}
     >
-      <span className="text-[9px] font-mono tracking-widest uppercase ">
+      <span className="text-[9px] tracking-widest uppercase ">
         Done
       </span>
       <CircleCheckBig size={14} />

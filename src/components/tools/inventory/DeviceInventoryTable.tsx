@@ -19,9 +19,9 @@ function avgRTT(item: InventoryItem): string | null {
 export function DeviceInventoryTable({ catalogue }: DeviceInventoryProps) {
   return (
     <div>
-      <div className="gap-4 h-fit border border-border bg-card">
+      <div className="gap-5 h-fit border border-border bg-card">
         <div className="overflow-x-auto overflow-y-auto max-h-100">
-          <table className="w-full text-[11px] font-mono">
+          <table className="w-full text-[13px]">
             <thead>
               <tr className="border-b border-border">
                 {[
@@ -40,7 +40,7 @@ export function DeviceInventoryTable({ catalogue }: DeviceInventoryProps) {
                   <th
                     key={col}
                     className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
-                    style={{ fontSize: "9px" }}
+                    style={{ fontSize: "10px" }}
                   >
                     {col}
                   </th>
@@ -48,7 +48,7 @@ export function DeviceInventoryTable({ catalogue }: DeviceInventoryProps) {
               </tr>
             </thead>
 
-            <tbody>
+            <tbody className="font-mono">
               {catalogue.length === 0 && (
                 <tr className="border-b border-border">
                   {Array(11).fill(null).map((_, i) => (

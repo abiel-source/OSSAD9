@@ -32,10 +32,10 @@ export function ScanLog() {
   }, [logs]);
 
   return (
-    <div className="flex flex-col border border-border overflow-hidden mb-6 p-4 gap-3 bg-card">
+    <div className="flex flex-col border border-border overflow-hidden mb-5 p-4 gap-3 bg-card">
       {/* HEADER */}
       <div className="flex items-center flex-shrink-0">
-        <span className="text-[10px] font-mono tracking-[0.16em] uppercase text-muted-foreground">
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
           Scan Log
         </span>
       </div>
@@ -46,17 +46,17 @@ export function ScanLog() {
         className="h-32 overflow-y-auto px-3 py-2 space-y-1 border border-border bg-background"
       >
         {logs.length === 0 ? (
-          <p className="text-[11px] font-mono text-center mt-8 text-border">
+          <p className="text-[12px] text-center mt-6 text-border">
             No scan running
           </p>
         ) : (
           logs.map((entry) => (
-            <div key={entry.id} className="flex items-start gap-2">
-              <span className="text-[10px] font-mono flex-shrink-0 mt-px tabular-nums text-muted-foreground">
+            <div key={entry.id} className="flex items-start gap-3">
+              <span className="text-[12px] font-mono flex-shrink-0 mt-px tabular-nums text-muted-foreground">
                 {formatTime(entry.timestamp)}
               </span>
               <span
-                className="text-[10px] font-mono leading-relaxed break-all"
+                className="text-[12px] font-mono leading-relaxed break-all"
                 style={{ color: LEVEL_COLORS[entry.level] }}
               >
                 {entry.message}

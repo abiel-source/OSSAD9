@@ -58,14 +58,14 @@ export function HostMapInputs({
   const handleReset = () => { setIsPaused(false); onReset(); };
 
   return (
-    <div className="flex flex-col p-4 mb-6 gap-3 bg-card border border-border">
+    <div className="flex flex-col p-4 mb-5 gap-3 bg-card border border-border">
       {/* Header */}
       <div className="flex items-center gap-3 flex-shrink-0">
-        <span className="text-[10px] font-mono tracking-[0.16em] uppercase text-muted-foreground">
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
           Target Configuration
         </span>
         {badge && (
-          <span className={cn("text-[9px] font-mono tracking-[0.12em] uppercase px-2 py-0.5", badge.cls)}>
+          <span className={cn("text-[10px] tracking-[0.12em] uppercase px-2.5 py-0.5", badge.cls)}>
             {badge.label}
           </span>
         )}
@@ -81,7 +81,7 @@ export function HostMapInputs({
           placeholder={placeholder}
           disabled={isDisabled}
           className={cn(
-            "flex-1 px-3 py-2 text-[12px] font-mono outline-none bg-background border border-border text-foreground",
+            "flex-1 px-3 py-2 text-[13px] font-mono outline-none bg-background border border-border text-foreground",
             "placeholder:text-muted-foreground",
             isDisabled && "opacity-50 cursor-not-allowed text-muted-foreground"
           )}
@@ -91,7 +91,7 @@ export function HostMapInputs({
         <button
           onClick={isRunning && !isPaused ? handleStop : isPaused ? handleResume : handleRun}
           className={cn(
-            "flex items-center justify-center gap-2 px-4 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border",
+            "flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border",
             isRunning && !isPaused
               ? "bg-destructive border-destructive text-destructive-foreground"
               : "bg-primary border-primary text-primary-foreground"
@@ -105,7 +105,7 @@ export function HostMapInputs({
         <button
           onClick={handleReset}
           disabled={isRunning && !isPaused}
-          className="flex items-center justify-center gap-2 px-4 py-2 text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <RotateCcw size={12} />
           Reset

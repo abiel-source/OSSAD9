@@ -13,26 +13,26 @@ export default function SubToolStub({ title, description }: SubToolStubProps) {
     <div className="space-y-5 max-w-screen-xl">
       {/* Header */}
       <div>
-        <h1 className="text-base font-semibold tracking-wide text-foreground font-heading">
+        <h1 className="text-lg font-semibold tracking-wide text-foreground font-heading">
           {title}
         </h1>
-        <p className="text-xs font-mono mt-0.5 text-muted-foreground">
+        <p className="text-sm mt-1 text-muted-foreground">
           {description}
         </p>
       </div>
 
       {/* Empty canvas */}
       <div
-        className="border border-border bg-card flex flex-col items-center justify-center gap-2"
+        className="border border-border bg-card flex flex-col items-center justify-center gap-3"
         style={{ height: "calc(100vh - 196px)", minHeight: 400 }}
       >
-        <div className="w-6 h-6 border border-border flex items-center justify-center mb-1">
-          <div className="w-2 h-2 rounded-full bg-border" />
+        <div className="w-7 h-7 border border-border flex items-center justify-center mb-1">
+          <div className="w-2.5 h-2.5 rounded-full bg-border" />
         </div>
-        <p className="text-[11px] font-mono text-muted-foreground">
+        <p className="text-[14px] text-muted-foreground">
           {title} — not yet implemented
         </p>
-        <p className="text-[10px] font-mono text-border">
+        <p className="text-[12px] text-border">
           This sub-tool is in the build queue
         </p>
       </div>

@@ -25,10 +25,10 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Left: sparkline */}
       <div className="lg:w-[40%] p-4 border border-border bg-card">
-        <span className="text-[10px] font-mono tracking-[0.1em] uppercase block mb-4 text-muted-foreground">
+        <span className="text-[11px] tracking-[0.1em] uppercase block mb-4 text-muted-foreground">
           RTT per Hop (ms)
         </span>
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={160}>
           <LineChart data={chartData}>
             <CartesianGrid
               strokeDasharray="3 3"
@@ -38,7 +38,7 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
             <XAxis
               dataKey="ttl"
               tick={{
-                fontSize: 9,
+                fontSize: 11,
                 fontFamily: "var(--font-mono)",
                 fill: "var(--muted-foreground)",
               }}
@@ -46,14 +46,14 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
                 value: "TTL",
                 position: "insideBottomRight",
                 offset: -4,
-                fontSize: 9,
+                fontSize: 11,
                 fill: "var(--muted-foreground)",
                 fontFamily: "var(--font-mono)",
               }}
             />
             <YAxis
               tick={{
-                fontSize: 9,
+                fontSize: 11,
                 fontFamily: "var(--font-mono)",
                 fill: "var(--muted-foreground)",
               }}
@@ -64,7 +64,7 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
                 backgroundColor: "var(--card)",
                 border: "1px solid var(--border)",
                 borderRadius: "0px",
-                fontSize: "10px",
+                fontSize: "12px",
                 fontFamily: "var(--font-mono)",
                 color: "var(--foreground)",
               }}
@@ -86,7 +86,7 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
       {/* Right: hop table */}
       <div className="lg:w-[60%] overflow-hidden border border-border bg-card">
         <div className="overflow-x-auto">
-          <table className="w-full text-[11px] font-mono">
+          <table className="w-full text-[13px]">
             <thead>
               <tr className="border-b border-border">
                 {[
@@ -102,14 +102,14 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
                   <th
                     key={col}
                     className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
-                    style={{ fontSize: "9px" }}
+                    style={{ fontSize: "10px" }}
                   >
                     {col}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="font-mono">
               {hops.length === 0 && (
                 <tr className="border-b border-border">
                   {Array(8).fill(null).map((_, i) => (

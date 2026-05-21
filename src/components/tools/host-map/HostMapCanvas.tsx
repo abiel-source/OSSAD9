@@ -53,7 +53,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
 
   if (!isRunning && nodes.length === 0) {
     return (
-      <div className="flex flex-col pb-[32.5px] mb-6 border border-border bg-card">
+      <div className="flex flex-col pb-[26px] mb-5 border border-border bg-card">
         {/* HEADER */}
         <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
           {/* header group 1 LEFT */}
@@ -63,7 +63,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
               style={{ backgroundColor: class2Colour("cautious") }}
             />
             <span
-              className="text-[11px] font-mono tracking-[0.1em]"
+              className="text-[12px] tracking-[0.1em]"
               style={{ color: class2Colour("cautious"), opacity: 0.66 }}
             >
               idle
@@ -71,21 +71,21 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
           </div>
           {/* header group 2 RIGHT */}
           <div className="flex items-center gap-4">
-            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
               hosts [0]
             </span>
-            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
               latency [0.00ms]
             </span>
-            <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
               topology [none]
             </span>
           </div>
         </div>
 
         {/* CANVAS */}
-        <div className="w-full flex items-center justify-center" style={{ minHeight: "500px" }}>
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/40">
+        <div className="w-full flex items-center justify-center" style={{ minHeight: "400px" }}>
+          <span className="text-[12px] tracking-[0.1em] text-muted-foreground/40">
             Run map to visualize the network topology
           </span>
         </div>
@@ -140,7 +140,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
     : "var(--primary)";
 
   return (
-    <div className="flex flex-col pb-[32.5px] mb-6 border border-border bg-card">
+    <div className="flex flex-col pb-[26px] mb-5 border border-border bg-card">
       {/* HEADER */}
       <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
         {/* header group 1 LEFT */}
@@ -153,7 +153,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
             }}
           />
           <span
-            className="text-[11px] font-mono tracking-[0.1em]"
+            className="text-[12px] tracking-[0.1em]"
             style={{ color: statusColour, opacity: 0.66 }}
           >
             {!isRunning ? "done" : isPaused ? "paused" : "mapping"}
@@ -162,20 +162,20 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
 
         {/* header group 2 RIGHT */}
         <div className="flex items-center gap-4">
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
             hosts [{runningHosts}]
           </span>
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
             latency [{runningLatency}ms]
           </span>
-          <span className="text-[11px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
             topology [{layout}]
           </span>
         </div>
       </div>
 
       {/* CANVAS */}
-      <div className="w-full overflow-x-auto flex" style={{ minHeight: "500px" }}>
+      <div className="w-full overflow-x-auto flex" style={{ minHeight: "400px" }}>
         <StarGraph nodes={graphNodes} isRunning={isRunning} />
       </div>
     </div>

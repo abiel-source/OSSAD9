@@ -22,7 +22,7 @@ export default function TopBar() {
   };
 
   return (
-    <header className="flex items-center h-12 flex-shrink-0 px-2 gap-2 bg-card border-b border-border">
+    <header className="flex items-center h-14 flex-shrink-0 px-3 gap-2 bg-card border-b border-border">
       {/* Hamburger */}
       <button
         onClick={handleHamburger}
@@ -30,7 +30,7 @@ export default function TopBar() {
         title="Toggle sidebar"
         aria-label="Toggle sidebar"
       >
-        <Menu size={15} />
+        <Menu size={16} />
       </button>
 
       {/* Vertical divider */}
@@ -40,25 +40,22 @@ export default function TopBar() {
       <div className="flex items-center gap-2 flex-1 min-w-0 overflow-hidden">
         {current?.parent ? (
           <>
-            <span className="text-[11px] font-mono tracking-[0.1em] uppercase flex-shrink-0 text-muted-foreground">
+            <span className="text-[11px] tracking-[0.1em] uppercase flex-shrink-0 text-muted-foreground">
               {current.parent}
             </span>
-            <span className="text-[10px] flex-shrink-0 text-muted-foreground opacity-40">
-              ›
-            </span>
-            <span className="text-[11px] font-mono tracking-[0.1em] uppercase flex-shrink-0 text-foreground">
+            <span className="text-[11px] flex-shrink-0 text-muted-foreground opacity-40">›</span>
+            <span className="text-[11px] tracking-[0.1em] uppercase flex-shrink-0 text-foreground">
               {current.label}
             </span>
           </>
         ) : current ? (
-          <span className="text-[11px] font-mono tracking-[0.1em] uppercase flex-shrink-0 text-foreground">
+          <span className="text-[11px] tracking-[0.1em] uppercase flex-shrink-0 text-foreground">
             {current.label}
           </span>
         ) : null}
 
-        {/* Description — only on wide screens */}
         {current?.description && (
-          <span className="text-[10px] font-mono truncate hidden xl:block text-muted-foreground opacity-50">
+          <span className="text-[11px] truncate hidden xl:block text-muted-foreground opacity-50">
             — {current.description}
           </span>
         )}
@@ -66,7 +63,6 @@ export default function TopBar() {
 
       {/* Right section */}
       <div className="flex items-center gap-2 flex-shrink-0">
-        {/* Remote/Local status badge */}
         {!isLoading && (
           <StatusBadge variant={isRemoteDeployment ? "remote" : "local"}>
             <div className={cn("w-1.5 h-1.5 rounded-full flex-shrink-0", isRemoteDeployment ? "bg-amber-500" : "bg-emerald-500")} />
@@ -76,16 +72,10 @@ export default function TopBar() {
 
         <div className="h-4 w-px bg-border" />
 
-        <IconButton title="Search">
-          <Search size={14} />
-        </IconButton>
+        <IconButton title="Search"><Search size={14} /></IconButton>
+        <IconButton title="Alerts"><Bell size={14} /></IconButton>
 
-        <IconButton title="Alerts">
-          <Bell size={14} />
-        </IconButton>
-
-        {/* Sign In */}
-        <button className="flex items-center gap-1.5 px-2 py-1 text-[9px] font-mono tracking-[0.2em] uppercase flex-shrink-0 bg-primary text-primary-foreground border border-primary">
+        <button className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] tracking-[0.2em] uppercase flex-shrink-0 bg-primary text-primary-foreground border border-primary">
           <LogIn size={11} className="flex-shrink-0" />
           <span>Sign In</span>
         </button>
@@ -94,13 +84,7 @@ export default function TopBar() {
   );
 }
 
-function IconButton({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function IconButton({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <button
       className="flex items-center justify-center w-8 h-8 transition-colors duration-150 cursor-pointer text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -121,7 +105,7 @@ function StatusBadge({
   children: React.ReactNode;
 }) {
   const cls = cn(
-    "flex items-center gap-1.5 px-2 py-1 text-[9px] font-mono tracking-[0.2em] uppercase flex-shrink-0",
+    "flex items-center gap-1.5 px-2 py-1 text-[10px] tracking-[0.2em] uppercase flex-shrink-0",
     variant === "local" && "text-emerald-500",
     variant === "remote" && "text-amber-500",
     variant === "primary" && "text-primary"

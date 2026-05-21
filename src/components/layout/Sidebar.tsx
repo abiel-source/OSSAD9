@@ -63,21 +63,21 @@ export default function Sidebar() {
         sidebarOpen ? "translate-x-0" : "-translate-x-full",
         "lg:relative lg:z-auto lg:translate-x-0",
         "transition-all duration-200 ease-in-out",
-        "w-[240px]",
-        effectivelyCollapsed ? "lg:w-[60px] lg:min-w-[60px]" : "lg:w-[240px] lg:min-w-[240px]",
+        "w-[280px]",
+        effectivelyCollapsed ? "lg:w-[72px] lg:min-w-[72px]" : "lg:w-[280px] lg:min-w-[280px]",
         "bg-sidebar border-r border-sidebar-border"
       )}
     >
       {/* Logo */}
       <div
         className={cn(
-          "flex items-center h-12 flex-shrink-0 border-b border-sidebar-border",
+          "flex items-center h-14 flex-shrink-0 border-b border-sidebar-border",
           effectivelyCollapsed ? "justify-center pr-[4px]" : "gap-3 px-6"
         )}
       >
         <Radar size={18} className="flex-shrink-0 text-foreground" />
         {!effectivelyCollapsed && (
-          <span className="text-[11px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-foreground font-heading">
+          <span className="text-[13px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-foreground font-heading">
             OSSAD-9
           </span>
         )}
@@ -100,7 +100,7 @@ export default function Sidebar() {
           >
             <OVERVIEW_ITEM.icon size={OVERVIEW_ICON_SIZE} className="flex-shrink-0" />
             {!effectivelyCollapsed && (
-              <span className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
+              <span className="flex-1 text-[14px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
                 {OVERVIEW_ITEM.label}
               </span>
             )}

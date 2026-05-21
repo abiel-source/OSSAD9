@@ -30,10 +30,10 @@ function LatencyHistogram({ filtered }: InventoryStatsProps) {
 
   return (
     <GraphCard title="Latency Distribution (ms)">
-      <div className="flex items-end gap-1 h-24">
+      <div className="flex items-end gap-1.5 h-20">
         {buckets.map((b, i) => (
-          <div key={b.label} className="flex flex-col items-center flex-1 gap-1">
-            <span className="text-[8px] font-mono text-muted-foreground">
+          <div key={b.label} className="flex flex-col items-center flex-1 gap-1.5">
+            <span className="text-[12px] font-mono text-muted-foreground">
               {counts[i]}
             </span>
             <div
@@ -47,7 +47,7 @@ function LatencyHistogram({ filtered }: InventoryStatsProps) {
                 opacity: counts[i] > 0 ? 0.6 : 0.2,
               }}
             />
-            <span className="text-[8px] font-mono text-muted-foreground/60">
+            <span className="text-[12px] font-mono text-muted-foreground/60">
               {b.label}
             </span>
           </div>
@@ -75,10 +75,10 @@ function LatencyRttScatter({ filtered }: InventoryStatsProps) {
   return (
     <GraphCard title="Latency vs Avg RTT">
       <div
-        className="relative h-24 w-full border-l border-b border-border"
+        className="relative h-20 w-full border-l border-b border-border"
       >
         {points.length === 0 && (
-          <span className="absolute inset-0 flex items-center justify-center text-[9px] font-mono text-muted-foreground/40">
+          <span className="absolute inset-0 flex items-center justify-center text-[11px] text-muted-foreground/40">
             no overlapping data
           </span>
         )}
@@ -98,13 +98,13 @@ function LatencyRttScatter({ filtered }: InventoryStatsProps) {
         ))}
         {/* axis labels */}
         <span
-          className="absolute text-[7px] font-mono text-muted-foreground/50"
+          className="absolute text-[11px] text-muted-foreground/50"
           style={{ bottom: "-14px", right: "0" }}
         >
           latency
         </span>
         <span
-          className="absolute text-[7px] font-mono text-muted-foreground/50"
+          className="absolute text-[11px] text-muted-foreground/50"
           style={{
             top: "-2px",
             left: "-4px",
@@ -137,7 +137,7 @@ function SourceBreakdown({ filtered }: InventoryStatsProps) {
 
   return (
     <GraphCard title="Source Breakdown">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {/* stacked bar */}
         <div className="flex h-6 w-full overflow-hidden bg-background">
           {segments.map((seg) => (
@@ -154,15 +154,15 @@ function SourceBreakdown({ filtered }: InventoryStatsProps) {
         </div>
 
         {/* legend */}
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex gap-4 flex-wrap">
           {segments.map((seg) => (
-            <div key={seg.key} className="flex items-center gap-1.5">
+            <div key={seg.key} className="flex items-center gap-2">
               <div
-                className="w-2 h-2 rounded-full"
+                className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: seg.color, opacity: 0.6 }}
               />
               <span
-                className="text-[9px] font-mono text-muted-foreground"
+                className="text-[11px] text-muted-foreground"
               >
                 {seg.key} ({seg.count})
               </span>
@@ -184,7 +184,7 @@ function GraphCard({
 }) {
   return (
     <div className="flex-1 min-w-0 p-3 border border-border bg-card">
-      <span className="text-[9px] font-mono tracking-[0.1em] uppercase block mb-3 text-muted-foreground/60">
+      <span className="text-[10px] tracking-[0.1em] uppercase block mb-3 text-muted-foreground/60">
         {title}
       </span>
       {children}
@@ -194,7 +194,7 @@ function GraphCard({
 
 export function InventoryStats({ filtered }: InventoryStatsProps) {
   return (
-    <div className="flex flex-col sm:flex-row gap-3 mb-6">
+    <div className="flex flex-col sm:flex-row gap-4 mb-5">
       <LatencyHistogram filtered={filtered} />
       <LatencyRttScatter filtered={filtered} />
       <SourceBreakdown filtered={filtered} />

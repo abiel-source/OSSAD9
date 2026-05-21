@@ -61,14 +61,14 @@ export default function SidebarToolkit({
           />
           <span
             className={cn(
-              "flex-1 text-left text-[11px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden",
+              "flex-1 text-left text-[13px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden",
               hasActiveChild ? "text-foreground" : "text-muted-foreground"
             )}
           >
             {kit.label}
           </span>
           <ChevronRight
-            size={11}
+            size={12}
             className={cn(
               "flex-shrink-0 text-muted-foreground transition-transform duration-150",
               expanded ? "rotate-90" : "rotate-0"
