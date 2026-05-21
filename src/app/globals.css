@@ -1,54 +1,98 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* OSSAD-9 Design */
 :root {
-  /* Backgrounds */
-  --ossad-bg-primary: #09090f;
-  --ossad-bg-surface: #0f0f1a;
-  --ossad-bg-elevated: #14141f;
-
-  /* Borders */
-  --ossad-border: #1e1e2e;
-  --ossad-border-subtle: #16162a;
-
-  /* Accent */
-  --ossad-accent: #367bf0;
-  --ossad-accent-glow: rgba(54, 123, 240, 0.1);
-  --ossad-cyan: #22d3ee;
-
-  /* Status */
-  --ossad-online: #10b981;
-  --ossad-cautious: #f59e0b;
-  --ossad-catastrophic: #ef4444;
-
-  /* Text */
-  --ossad-text-primary: #e2e8f0;
-  --ossad-text-secondary: #64748b;
-  --ossad-text-dim: #94a3b8;
+  --background: oklch(0.148 0.004 228.8);
+  --foreground: oklch(0.987 0.002 197.1);
+  --card: oklch(0.218 0.008 223.9);
+  --card-foreground: oklch(0.987 0.002 197.1);
+  --popover: oklch(0.218 0.008 223.9);
+  --popover-foreground: oklch(0.987 0.002 197.1);
+  --primary: oklch(0.398 0.195 277.366);
+  --primary-foreground: oklch(0.962 0.018 272.314);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.275 0.011 216.9);
+  --muted-foreground: oklch(0.723 0.014 214.4);
+  --accent: oklch(0.275 0.011 216.9);
+  --accent-foreground: oklch(0.987 0.002 197.1);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.56 0.021 213.5);
+  --chart-1: oklch(0.845 0.143 164.978);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.596 0.145 163.225);
+  --chart-4: oklch(0.508 0.118 165.612);
+  --chart-5: oklch(0.432 0.095 166.913);
+  --radius: 0;
+  --sidebar: oklch(0.218 0.008 223.9);
+  --sidebar-foreground: oklch(0.987 0.002 197.1);
+  --sidebar-primary: oklch(0.585 0.233 277.117);
+  --sidebar-primary-foreground: oklch(0.962 0.018 272.314);
+  --sidebar-accent: oklch(0.275 0.011 216.9);
+  --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.56 0.021 213.5);
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background-color: var(--ossad-bg-primary);
-  color: var(--ossad-text-primary);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
 
 /* Scrollbar */
@@ -58,66 +102,26 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--ossad-bg-primary);
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--ossad-border);
-  border-radius: 2px;
+  background: var(--border);
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ossad-accent);
+  background: var(--primary);
 }
 
 /* Selection */
 ::selection {
-  background: var(--ossad-accent-glow);
-  color: var(--ossad-text-primary);
+  background: oklch(0.50 0.21 277.366);
+  color: #ffffff;
 }
 
-/* React Flow overrides */
-
-.react-flow__controls {
-  background-color: var(--ossad-bg-elevated);
-  border: 1px solid var(--ossad-border);
-  border-radius: 3px;
-  box-shadow: none;
-}
-
-.react-flow__controls-button {
-  background-color: var(--ossad-bg-elevated);
-  border-bottom: 1px solid var(--ossad-border);
-  color: var(--ossad-text-secondary);
-  fill: var(--ossad-text-secondary);
-}
-
-.react-flow__controls-button:hover {
-  background-color: var(--ossad-bg-surface);
-  fill: var(--ossad-text-primary);
-}
-
-.react-flow__controls-button svg {
-  fill: inherit;
-}
-
-.react-flow__edge-path {
-  stroke: var(--ossad-border);
-}
-
-.react-flow__minimap {
-  background-color: var(--ossad-bg-elevated);
-  border: 1px solid var(--ossad-border);
-  border-radius: 3px;
-}
-
-/* flashing animation */
+/* Flash animation */
 @keyframes flash {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.2;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
 }

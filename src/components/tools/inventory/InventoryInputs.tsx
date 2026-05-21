@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import { InventoryItem } from "@/types/network";
+import { cn } from "@/lib/utils";
 
 type SourceKey = "hostmap" | "routetrace" | "arp";
 type SortField = "ip" | "hostname" | "vendor" | "latencyMs" | "asn";
@@ -176,68 +177,43 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
     sortDir !== "asc";
 
   return (
-    <div
-      className="flex flex-col gap-3 p-4 rounded-[3px] mb-6"
-      style={{
-        border: "1px solid var(--ossad-border)",
-        backgroundColor: "var(--ossad-bg-surface)",
-      }}
-    >
+    <div className="flex flex-col gap-3 p-4 mb-5 border border-border bg-card">
       {/* Header */}
       <div className="flex items-center flex-shrink-0">
-        <span
-          className="text-[10px] font-mono tracking-[0.16em] uppercase"
-          style={{ color: "var(--ossad-text-secondary)" }}
-        >
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
           INVENTORY CONFIGURATION
         </span>
       </div>
 
       {/* Badge Line */}
-      <div className="flex items-center gap-1.5 flex-wrap">
+      <div className="flex items-center gap-2 flex-wrap">
         {COMPLIANCES.map((badge) => (
           <div
             key={badge}
-            className="px-2 py-[3px] rounded-[3px] text-[7.5px] font-mono tracking-[0.15em] uppercase"
-            style={{
-              border: "1px solid rgba(54,123,240,0.25)",
-              backgroundColor: "rgba(54,123,240,0.05)",
-              color: "var(--ossad-accent)",
-            }}
+            className="px-2.5 py-0.5 text-[9px] tracking-[0.15em] uppercase bg-primary text-primary-foreground"
           >
             {badge}
           </div>
         ))}
-
-        <span
-          className="text-[9px] font-mono tracking-[0.08em]"
-          style={{ color: "var(--ossad-text-secondary)" }}
-        >
+        <span className="text-[10px] tracking-[0.08em] text-muted-foreground">
           compliant when required
         </span>
       </div>
 
       {/* Row 1: search + clear + result count */}
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-        <div
-          className="flex items-center gap-2 flex-1 px-3 py-2 rounded-[3px]"
-          style={{
-            border: "1px solid var(--ossad-border)",
-            backgroundColor: "var(--ossad-bg-elevated)",
-          }}
-        >
-          <Search size={12} style={{ color: "var(--ossad-text-secondary)" }} />
+        <div className="flex items-center gap-2 flex-1 px-3 py-2 border border-border bg-background">
+          <Search size={12} className="text-muted-foreground" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search IP, hostname, MAC, vendor, ASN..."
-            className="flex-1 bg-transparent text-[12px] font-mono outline-none"
-            style={{ color: "var(--ossad-text-primary)" }}
+            className="flex-1 bg-transparent text-[13px] font-mono outline-none text-foreground placeholder:text-muted-foreground"
           />
           {search && (
             <button onClick={() => setSearch("")}>
-              <X size={12} style={{ color: "var(--ossad-text-secondary)" }} />
+              <X size={12} className="text-muted-foreground" />
             </button>
           )}
         </div>
@@ -245,12 +221,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="px-3 py-2 rounded-[3px] text-[11px] font-mono tracking-[0.08em] transition-colors duration-150 flex-shrink-0"
-            style={{
-              border: "1px solid rgba(239,68,68,0.3)",
-              backgroundColor: "rgba(239,68,68,0.1)",
-              color: "var(--ossad-catastrophic)",
-            }}
+            className="px-3 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border border-destructive bg-destructive text-destructive-foreground"
           >
             Clear Filters
           </button>
@@ -258,31 +229,22 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
       </div>
 
       {/* Row 2: source toggles + conflict toggle + Sort by + device type toggles */}
-      <div className="flex flex-wrap gap-3 items-center">
+      <div className="flex flex-wrap gap-4 items-center">
         {/* Source toggles */}
-        <div className="flex items-center gap-1">
-          <span
-            className="text-[10px] font-mono tracking-[0.08em] mr-1"
-            style={{ color: "var(--ossad-text-secondary)" }}
-          >
+        <div className="flex items-center gap-1.5">
+          <span className="text-[12px] tracking-[0.08em] mr-1 text-muted-foreground">
             SOURCE
           </span>
           {(["hostmap", "routetrace", "arp"] as SourceKey[]).map((key) => (
             <button
               key={key}
               onClick={() => toggleSource(key)}
-              className="px-2 py-1 rounded-[3px] text-[10px] font-mono tracking-[0.08em] transition-colors duration-150"
-              style={{
-                backgroundColor: sources[key]
-                  ? "rgba(54,123,240,0.12)"
-                  : "var(--ossad-bg-elevated)",
-                border: sources[key]
-                  ? "1px solid rgba(54,123,240,0.3)"
-                  : "1px solid var(--ossad-border)",
-                color: sources[key]
-                  ? "var(--ossad-accent)"
-                  : "var(--ossad-text-secondary)",
-              }}
+              className={cn(
+                "px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border",
+                sources[key]
+                  ? "bg-primary border-primary text-primary-foreground"
+                  : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              )}
             >
               {key}
             </button>
@@ -290,35 +252,23 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         </div>
 
         {/* Divider */}
-        <div
-          className="w-px h-4"
-          style={{ backgroundColor: "var(--ossad-border)" }}
-        />
+        <div className="w-px h-4 bg-border" />
 
         {/* Device type toggles */}
-        <div className="flex items-center gap-1">
-          <span
-            className="text-[10px] font-mono tracking-[0.08em] mr-1"
-            style={{ color: "var(--ossad-text-secondary)" }}
-          >
+        <div className="flex items-center gap-1.5">
+          <span className="text-[12px] tracking-[0.08em] mr-1 text-muted-foreground">
             TYPE
           </span>
           {["router", "device", "unknown"].map((key) => (
             <button
               key={key}
               onClick={() => toggleDeviceType(key)}
-              className="px-2 py-1 rounded-[3px] text-[10px] font-mono tracking-[0.08em] transition-colors duration-150"
-              style={{
-                backgroundColor: deviceTypes[key]
-                  ? "rgba(54,123,240,0.12)"
-                  : "var(--ossad-bg-elevated)",
-                border: deviceTypes[key]
-                  ? "1px solid rgba(54,123,240,0.3)"
-                  : "1px solid var(--ossad-border)",
-                color: deviceTypes[key]
-                  ? "var(--ossad-accent)"
-                  : "var(--ossad-text-secondary)",
-              }}
+              className={cn(
+                "px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border",
+                deviceTypes[key]
+                  ? "bg-primary border-primary text-primary-foreground"
+                  : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              )}
             >
               {key}
             </button>
@@ -326,50 +276,33 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         </div>
 
         {/* Divider */}
-        <div
-          className="w-px h-4"
-          style={{ backgroundColor: "var(--ossad-border)" }}
-        />
+        <div className="w-px h-4 bg-border" />
 
         {/* Conflicts only */}
         <button
           onClick={() => setConflictsOnly(!conflictsOnly)}
-          className="px-2 py-1 rounded-[3px] text-[10px] font-mono tracking-[0.08em] transition-colors duration-150"
-          style={{
-            backgroundColor: conflictsOnly
-              ? "rgba(239,68,68,0.1)"
-              : "var(--ossad-bg-elevated)",
-            border: conflictsOnly
-              ? "1px solid rgba(239,68,68,0.3)"
-              : "1px solid var(--ossad-border)",
-            color: conflictsOnly
-              ? "var(--ossad-catastrophic)"
-              : "var(--ossad-text-secondary)",
-          }}
+          className={cn(
+            "px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border",
+            conflictsOnly
+              ? "bg-destructive border-destructive text-destructive-foreground"
+              : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+          )}
         >
           conflicts only
         </button>
       </div>
 
       {/* Row 3: Sort By + Entry Type  */}
-      <div className="flex flex-wrap gap-3 items-center">
+      <div className="flex flex-wrap gap-4 items-center">
         {/* Entry Type */}
-        <div className="flex items-center gap-2">
-          <span
-            className="text-[10px] font-mono tracking-[0.08em]"
-            style={{ color: "var(--ossad-text-secondary)" }}
-          >
+        <div className="flex items-center gap-3">
+          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
             ENTRY TYPE
           </span>
           <select
             value={entryType}
             onChange={(e) => setEntryType(e.target.value as EntryType)}
-            className="px-2 py-1 rounded-[3px] text-[10px] font-mono outline-none"
-            style={{
-              backgroundColor: "var(--ossad-bg-elevated)",
-              border: "1px solid var(--ossad-border)",
-              color: "var(--ossad-text-primary)",
-            }}
+            className="px-3 py-1.5 text-[12px] font-mono outline-none bg-background border border-border text-foreground"
           >
             <option value="any">Any</option>
             <option value="static">Static</option>
@@ -379,17 +312,11 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         </div>
 
         {/* Divider */}
-        <div
-          className="w-px h-4"
-          style={{ backgroundColor: "var(--ossad-border)" }}
-        />
+        <div className="w-px h-4 bg-border" />
 
         {/* Latency threshold */}
-        <div className="flex items-center gap-2">
-          <span
-            className="text-[10px] font-mono tracking-[0.08em]"
-            style={{ color: "var(--ossad-text-secondary)" }}
-          >
+        <div className="flex items-center gap-3">
+          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
             MIN LATENCY
           </span>
           <input
@@ -400,27 +327,16 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
             onChange={(e) =>
               setMinLatency(e.target.value === "" ? null : Number(e.target.value))
             }
-            className="w-16 px-2 py-1 rounded-[3px] text-[10px] font-mono text-center outline-none"
-            style={{
-              backgroundColor: "var(--ossad-bg-elevated)",
-              border: "1px solid var(--ossad-border)",
-              color: "var(--ossad-text-primary)",
-            }}
+            className="w-20 px-3 py-1.5 text-[12px] font-mono text-center outline-none bg-background border border-border text-foreground"
           />
         </div>
 
         {/* Divider */}
-        <div
-          className="w-px h-4"
-          style={{ backgroundColor: "var(--ossad-border)" }}
-        />
+        <div className="w-px h-4 bg-border" />
 
         {/* RTT threshold */}
-        <div className="flex items-center gap-2">
-          <span
-            className="text-[10px] font-mono tracking-[0.08em]"
-            style={{ color: "var(--ossad-text-secondary)" }}
-          >
+        <div className="flex items-center gap-3">
+          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
             MIN RTT
           </span>
           <input
@@ -431,38 +347,22 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
             onChange={(e) =>
               setMinRtt(e.target.value === "" ? null : Number(e.target.value))
             }
-            className="w-16 px-2 py-1 rounded-[3px] text-[10px] font-mono text-center outline-none"
-            style={{
-              backgroundColor: "var(--ossad-bg-elevated)",
-              border: "1px solid var(--ossad-border)",
-              color: "var(--ossad-text-primary)",
-            }}
+            className="w-20 px-3 py-1.5 text-[12px] font-mono text-center outline-none bg-background border border-border text-foreground"
           />
         </div>
 
         {/* Divider */}
-        <div
-          className="w-px h-4"
-          style={{ backgroundColor: "var(--ossad-border)" }}
-        />
+        <div className="w-px h-4 bg-border" />
 
         {/* Sort by */}
-        <div className="flex items-center gap-2">
-          <span
-            className="text-[10px] font-mono tracking-[0.08em]"
-            style={{ color: "var(--ossad-text-secondary)" }}
-          >
+        <div className="flex items-center gap-3">
+          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
             SORT BY
           </span>
           <select
             value={sortField}
             onChange={(e) => setSortField(e.target.value as SortField)}
-            className="px-2 py-1 rounded-[3px] text-[10px] font-mono outline-none"
-            style={{
-              backgroundColor: "var(--ossad-bg-elevated)",
-              border: "1px solid var(--ossad-border)",
-              color: "var(--ossad-text-primary)",
-            }}
+            className="px-3 py-1.5 text-[12px] font-mono outline-none bg-background border border-border text-foreground"
           >
             <option value="ip">IP</option>
             <option value="hostname">Hostname</option>
@@ -472,12 +372,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
           </select>
           <button
             onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
-            className="px-2 py-1 rounded-[3px] text-[10px] font-mono tracking-[0.08em] transition-colors duration-150"
-            style={{
-              backgroundColor: "var(--ossad-bg-elevated)",
-              border: "1px solid var(--ossad-border)",
-              color: "var(--ossad-text-secondary)",
-            }}
+            className="px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground"
           >
             {sortDir === "asc" ? "ASC" : "DESC"}
           </button>
@@ -485,11 +380,8 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
       </div>
 
       {/* Row 4: result count */}
-      <div className="flex flex-wrap gap-3 items-center justify-center">
-        <span
-          className="text-[10px] font-mono tracking-[0.08em]"
-          style={{ color: "var(--ossad-text-secondary)", opacity: 0.66 }}
-        >
+      <div className="flex flex-wrap gap-4 items-center justify-center">
+        <span className="text-[12px] tracking-[0.08em] text-muted-foreground/60">
           showing {catalogue.length} records
         </span>
       </div>

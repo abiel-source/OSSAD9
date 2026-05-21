@@ -58,23 +58,13 @@ export const arpRefEntries = [
 
 export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5">
       {/* arp table  */}
-      <div
-        className=" rounded-[3px] gap-4 h-fit"
-        style={{
-          border: "1px solid var(--ossad-border)",
-          backgroundColor: "var(--ossad-bg-surface)",
-        }}
-      >
+      <div className="gap-5 h-fit border border-border bg-card">
         <div className="overflow-x-auto overflow-y-auto max-h-100">
-          <table className="w-full text-[11px] font-mono">
+          <table className="w-full text-[13px]">
             <thead>
-              <tr
-                style={{
-                  borderBottom: "1px solid var(--ossad-border)",
-                }}
-              >
+              <tr className="border-b border-border">
                 {[
                   "IP",
                   "MAC",
@@ -86,11 +76,8 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
                 ].map((col) => (
                   <th
                     key={col}
-                    className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap"
-                    style={{
-                      color: "var(--ossad-text-secondary)",
-                      fontSize: "9px",
-                    }}
+                    className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
+                    style={{ fontSize: "10px" }}
                   >
                     {col}
                   </th>
@@ -98,17 +85,13 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
               </tr>
             </thead>
 
-            <tbody>
+            <tbody className="font-mono">
               {entries.length === 0 && (
-                <tr style={{ borderBottom: "1px solid var(--ossad-border)" }}>
+                <tr className="border-b border-border">
                   {Array(7)
                     .fill(null)
                     .map((_, i) => (
-                      <td
-                        key={i}
-                        className="px-3 py-2"
-                        style={{ color: "var(--ossad-text-secondary)" }}
-                      >
+                      <td key={i} className="px-3 py-2 text-muted-foreground">
                         -
                       </td>
                     ))}
@@ -120,68 +103,14 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
                 const macColour = mac2Colour(entry.conflict);
                 const conflictColour = conflict2Colour(entry.conflict);
                 return (
-                  <tr
-                    key={idx}
-                    style={{
-                      borderBottom: "1px solid var(--ossad-border)",
-                    }}
-                  >
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: ipColour,
-                      }}
-                    >
-                      {entry.ip}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: macColour,
-                      }}
-                    >
-                      {entry.mac}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {entry.vendor ?? "-"}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {entry.interface}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {entry.entryType}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {entry.ttl ?? "-"}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: conflictColour,
-                      }}
-                    >
-                      {entry.conflict ?? "nominal"}
-                    </td>
+                  <tr key={idx} className="border-b border-border">
+                    <td className="px-3 py-2" style={{ color: ipColour }}>{entry.ip}</td>
+                    <td className="px-3 py-2" style={{ color: macColour }}>{entry.mac}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{entry.vendor ?? "-"}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{entry.interface}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{entry.entryType}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{entry.ttl ?? "-"}</td>
+                    <td className="px-3 py-2" style={{ color: conflictColour }}>{entry.conflict ?? "nominal"}</td>
                   </tr>
                 );
               })}
@@ -191,25 +120,16 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
       </div>
 
       {/* reference table */}
-      <div
-        className=" rounded-[3px] gap-4 h-fit"
-        style={{
-          border: "1px solid var(--ossad-border)",
-          backgroundColor: "var(--ossad-bg-surface)",
-        }}
-      >
+      <div className="gap-5 h-fit border border-border bg-card">
         <div className="overflow-x-auto overflow-y-auto max-h-100">
-          <table className="w-full text-[11px] font-mono">
+          <table className="w-full text-[13px]">
             <thead>
-              <tr style={{ borderBottom: "1px solid var(--ossad-border)" }}>
+              <tr className="border-b border-border">
                 {["address", "label", "description", "rfc"].map((col) => (
                   <th
                     key={col}
-                    className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap"
-                    style={{
-                      color: "var(--ossad-text-secondary)",
-                      fontSize: "9px",
-                    }}
+                    className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
+                    style={{ fontSize: "10px" }}
                   >
                     {col}
                   </th>
@@ -217,50 +137,15 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
               </tr>
             </thead>
 
-            <tbody>
-              {arpRefEntries.map((r, idx) => {
-                return (
-                  <tr
-                    key={idx}
-                    style={{
-                      borderBottom: "1px solid var(--ossad-border)",
-                    }}
-                  >
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {r.address}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {r.label}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {r.description}
-                    </td>
-                    <td
-                      className="px-3 py-2"
-                      style={{
-                        color: "var(--ossad-text-secondary)",
-                      }}
-                    >
-                      {r.rfc}
-                    </td>
-                  </tr>
-                );
-              })}
+            <tbody className="font-mono">
+              {arpRefEntries.map((r, idx) => (
+                <tr key={idx} className="border-b border-border">
+                  <td className="px-3 py-2 text-muted-foreground">{r.address}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{r.label}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{r.description}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{r.rfc}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -272,34 +157,34 @@ export function ArpInspectDetails({ entries }: ArpInspectDetailsProps) {
 function ip2Colour(conflict: ArpEntry["conflict"]) {
   switch (conflict) {
     case null:
-      return "var(--ossad-online)";
+      return "var(--color-emerald-500)";
     case "duplicate-ip":
-      return "var(--ossad-catastrophic)";
+      return "var(--destructive)";
     case "static-violation":
-      return "var(--ossad-catastrophic)";
+      return "var(--destructive)";
     default:
-      return "var(--ossad-text-primary)";
+      return "var(--foreground)";
   }
 }
 
 function mac2Colour(conflict: ArpEntry["conflict"]) {
   switch (conflict) {
     case null:
-      return "var(--ossad-online)";
+      return "var(--color-emerald-500)";
     case "duplicate-mac":
-      return "var(--ossad-catastrophic)";
+      return "var(--destructive)";
     case "static-violation":
-      return "var(--ossad-catastrophic)";
+      return "var(--destructive)";
     default:
-      return "var(--ossad-text-primary)";
+      return "var(--foreground)";
   }
 }
 
 function conflict2Colour(conflict: ArpEntry["conflict"]) {
   switch (conflict) {
     case null:
-      return "var(--ossad-online)";
+      return "var(--color-emerald-500)";
     default:
-      return "var(--ossad-catastrophic)";
+      return "var(--destructive)";
   }
 }

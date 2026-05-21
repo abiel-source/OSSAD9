@@ -3,13 +3,10 @@
 import { ChevronRight } from "lucide-react";
 import SidebarToolItem from "@/components/layout/SidebarToolItem";
 import type { Toolkit } from "@/lib/nav";
+import { cn } from "@/lib/utils";
 
-// Constants
-const KIT_ICON_SIZE = 18;
-const KIT_ICON_COLOR = "var(--ossad-text-secondary)";
-const KIT_ICON_HAS_ACTIVE = "var(--ossad-text-dim)";
+const KIT_ICON_SIZE = 15;
 
-// Props
 interface Props {
   kit: Toolkit;
   collapsed: boolean;
@@ -18,7 +15,6 @@ interface Props {
   currentPath: string;
 }
 
-// Component
 export default function SidebarToolkit({
   kit,
   collapsed,
@@ -54,27 +50,29 @@ export default function SidebarToolkit({
           type="button"
           onClick={() => onToggle(kit.id)}
           title={kit.label}
-          className="flex items-center w-full gap-3 px-3 py-2.5 rounded-[3px] transition-colors duration-150 hover:bg-white/3"
+          className="flex items-center w-full gap-2.5 px-3 py-2 transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         >
           <Icon
             size={KIT_ICON_SIZE}
-            className="flex-shrink-0"
-            style={{ color: hasActiveChild ? KIT_ICON_HAS_ACTIVE : KIT_ICON_COLOR }}
+            className={cn(
+              "flex-shrink-0",
+              hasActiveChild ? "text-foreground" : "text-muted-foreground"
+            )}
           />
           <span
-            className="flex-1 text-left text-[11px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden"
-            style={{ color: hasActiveChild ? "var(--ossad-text-dim)" : "var(--ossad-text-secondary)" }}
+            className={cn(
+              "flex-1 text-left text-[11px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden",
+              hasActiveChild ? "text-foreground" : "text-muted-foreground"
+            )}
           >
             {kit.label}
           </span>
           <ChevronRight
             size={11}
-            className="flex-shrink-0"
-            style={{
-              color: "var(--ossad-text-secondary)",
-              transform: expanded ? "rotate(90deg)" : "rotate(0deg)",
-              transition: "transform 150ms ease",
-            }}
+            className={cn(
+              "flex-shrink-0 text-muted-foreground transition-transform duration-150",
+              expanded ? "rotate-90" : "rotate-0"
+            )}
           />
         </button>
       </div>

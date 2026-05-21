@@ -30,30 +30,24 @@ function LatencyHistogram({ filtered }: InventoryStatsProps) {
 
   return (
     <GraphCard title="Latency Distribution (ms)">
-      <div className="flex items-end gap-1 h-24">
+      <div className="flex items-end gap-1.5 h-20">
         {buckets.map((b, i) => (
-          <div key={b.label} className="flex flex-col items-center flex-1 gap-1">
-            <span
-              className="text-[8px] font-mono"
-              style={{ color: "var(--ossad-text-secondary)" }}
-            >
+          <div key={b.label} className="flex flex-col items-center flex-1 gap-1.5">
+            <span className="text-[12px] font-mono text-muted-foreground">
               {counts[i]}
             </span>
             <div
-              className="w-full rounded-t-[2px] transition-all duration-300"
+              className="w-full transition-all duration-300"
               style={{
                 height: `${(counts[i] / max) * 100}%`,
                 minHeight: counts[i] > 0 ? "4px" : "1px",
-                backgroundColor:
-                  counts[i] > 0
-                    ? "rgba(54,123,240,0.5)"
-                    : "rgba(54,123,240,0.1)",
+                backgroundColor: counts[i] > 0
+                  ? "var(--primary)"
+                  : "color-mix(in oklch, var(--primary) 20%, transparent)",
+                opacity: counts[i] > 0 ? 0.6 : 0.2,
               }}
             />
-            <span
-              className="text-[8px] font-mono"
-              style={{ color: "var(--ossad-text-secondary)", opacity: 0.66 }}
-            >
+            <span className="text-[12px] font-mono text-muted-foreground/60">
               {b.label}
             </span>
           </div>
@@ -81,17 +75,10 @@ function LatencyRttScatter({ filtered }: InventoryStatsProps) {
   return (
     <GraphCard title="Latency vs Avg RTT">
       <div
-        className="relative h-24 w-full"
-        style={{
-          borderLeft: "1px solid var(--ossad-border)",
-          borderBottom: "1px solid var(--ossad-border)",
-        }}
+        className="relative h-20 w-full border-l border-b border-border"
       >
         {points.length === 0 && (
-          <span
-            className="absolute inset-0 flex items-center justify-center text-[9px] font-mono"
-            style={{ color: "var(--ossad-text-secondary)", opacity: 0.4 }}
-          >
+          <span className="absolute inset-0 flex items-center justify-center text-[11px] text-muted-foreground/40">
             no overlapping data
           </span>
         )}
@@ -103,30 +90,24 @@ function LatencyRttScatter({ filtered }: InventoryStatsProps) {
               left: `${(p.x / maxX) * 95}%`,
               bottom: `${(p.y / maxY) * 90}%`,
               backgroundColor: p.conflict
-                ? "var(--ossad-catastrophic)"
-                : "rgba(54,123,240,0.7)",
+                ? "var(--destructive)"
+                : "var(--primary)",
+              opacity: 0.7,
             }}
           />
         ))}
         {/* axis labels */}
         <span
-          className="absolute text-[7px] font-mono"
-          style={{
-            bottom: "-14px",
-            right: "0",
-            color: "var(--ossad-text-secondary)",
-            opacity: 0.5,
-          }}
+          className="absolute text-[11px] text-muted-foreground/50"
+          style={{ bottom: "-14px", right: "0" }}
         >
           latency
         </span>
         <span
-          className="absolute text-[7px] font-mono"
+          className="absolute text-[11px] text-muted-foreground/50"
           style={{
             top: "-2px",
             left: "-4px",
-            color: "var(--ossad-text-secondary)",
-            opacity: 0.5,
             transform: "rotate(-90deg) translateX(-100%)",
             transformOrigin: "top left",
           }}
@@ -149,19 +130,16 @@ function SourceBreakdown({ filtered }: InventoryStatsProps) {
   const total = filtered.length || 1;
 
   const segments: { key: string; count: number; color: string }[] = [
-    { key: "hostmap", count: counts.hostmap, color: "rgba(54,123,240,0.6)" },
-    { key: "routetrace", count: counts.routetrace, color: "rgba(139,92,246,0.6)" },
-    { key: "arp", count: counts.arp, color: "rgba(34,197,94,0.6)" },
+    { key: "hostmap", count: counts.hostmap, color: "var(--primary)" },
+    { key: "routetrace", count: counts.routetrace, color: "var(--color-violet-400)" },
+    { key: "arp", count: counts.arp, color: "var(--color-emerald-500)" },
   ];
 
   return (
     <GraphCard title="Source Breakdown">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {/* stacked bar */}
-        <div
-          className="flex h-6 w-full rounded-[2px] overflow-hidden"
-          style={{ backgroundColor: "var(--ossad-bg-elevated)" }}
-        >
+        <div className="flex h-6 w-full overflow-hidden bg-background">
           {segments.map((seg) => (
             <div
               key={seg.key}
@@ -169,22 +147,22 @@ function SourceBreakdown({ filtered }: InventoryStatsProps) {
               style={{
                 width: `${(seg.count / total) * 100}%`,
                 backgroundColor: seg.color,
+                opacity: 0.6,
               }}
             />
           ))}
         </div>
 
         {/* legend */}
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex gap-4 flex-wrap">
           {segments.map((seg) => (
-            <div key={seg.key} className="flex items-center gap-1.5">
+            <div key={seg.key} className="flex items-center gap-2">
               <div
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: seg.color }}
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: seg.color, opacity: 0.6 }}
               />
               <span
-                className="text-[9px] font-mono"
-                style={{ color: "var(--ossad-text-secondary)" }}
+                className="text-[11px] text-muted-foreground"
               >
                 {seg.key} ({seg.count})
               </span>
@@ -205,17 +183,8 @@ function GraphCard({
   children: React.ReactNode;
 }) {
   return (
-    <div
-      className="flex-1 min-w-0 p-3 rounded-[3px]"
-      style={{
-        border: "1px solid var(--ossad-border)",
-        backgroundColor: "var(--ossad-bg-surface)",
-      }}
-    >
-      <span
-        className="text-[9px] font-mono tracking-[0.1em] uppercase block mb-3"
-        style={{ color: "var(--ossad-text-secondary)", opacity: 0.66 }}
-      >
+    <div className="flex-1 min-w-0 p-3 border border-border bg-card">
+      <span className="text-[10px] tracking-[0.1em] uppercase block mb-3 text-muted-foreground/60">
         {title}
       </span>
       {children}
@@ -225,7 +194,7 @@ function GraphCard({
 
 export function InventoryStats({ filtered }: InventoryStatsProps) {
   return (
-    <div className="flex flex-col sm:flex-row gap-3 mb-6">
+    <div className="flex flex-col sm:flex-row gap-4 mb-5">
       <LatencyHistogram filtered={filtered} />
       <LatencyRttScatter filtered={filtered} />
       <SourceBreakdown filtered={filtered} />
