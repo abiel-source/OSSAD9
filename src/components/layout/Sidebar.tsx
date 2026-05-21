@@ -16,7 +16,7 @@ import {
 import { useUIStore } from "@/store/ui";
 import { cn } from "@/lib/utils";
 
-const OVERVIEW_ICON_SIZE = 18;
+const OVERVIEW_ICON_SIZE = 15;
 
 function NavDivider() {
   return <div className="mx-3 my-3 h-px bg-border" />;
@@ -63,8 +63,8 @@ export default function Sidebar() {
         sidebarOpen ? "translate-x-0" : "-translate-x-full",
         "lg:relative lg:z-auto lg:translate-x-0",
         "transition-all duration-200 ease-in-out",
-        "w-[280px]",
-        effectivelyCollapsed ? "lg:w-[72px] lg:min-w-[72px]" : "lg:w-[280px] lg:min-w-[280px]",
+        "w-[240px]",
+        effectivelyCollapsed ? "lg:w-[56px] lg:min-w-[56px]" : "lg:w-[240px] lg:min-w-[240px]",
         "bg-sidebar border-r border-sidebar-border"
       )}
     >
@@ -72,12 +72,12 @@ export default function Sidebar() {
       <div
         className={cn(
           "flex items-center h-14 flex-shrink-0 border-b border-sidebar-border",
-          effectivelyCollapsed ? "justify-center pr-[4px]" : "gap-3 px-6"
+          effectivelyCollapsed ? "justify-center" : "gap-3 px-5"
         )}
       >
-        <Radar size={18} className="flex-shrink-0 text-foreground" />
+        <Radar size={16} className="flex-shrink-0 text-foreground" />
         {!effectivelyCollapsed && (
-          <span className="text-[13px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-foreground font-heading">
+          <span className="text-[12px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-foreground font-heading">
             OSSAD-9
           </span>
         )}
@@ -92,7 +92,7 @@ export default function Sidebar() {
             title={effectivelyCollapsed ? OVERVIEW_ITEM.label : undefined}
             className={cn(
               "flex items-center transition-colors duration-150",
-              effectivelyCollapsed ? "justify-center py-2.5" : "gap-3 px-3 py-2.5",
+              effectivelyCollapsed ? "justify-center py-2" : "gap-2.5 px-3 py-2",
               isOverviewActive
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -100,7 +100,7 @@ export default function Sidebar() {
           >
             <OVERVIEW_ITEM.icon size={OVERVIEW_ICON_SIZE} className="flex-shrink-0" />
             {!effectivelyCollapsed && (
-              <span className="flex-1 text-[14px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
+              <span className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
                 {OVERVIEW_ITEM.label}
               </span>
             )}

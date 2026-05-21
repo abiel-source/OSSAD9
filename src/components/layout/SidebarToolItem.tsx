@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Tool } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
-const ICON_SIZE = 18;
+const ICON_SIZE = 15;
 
 interface Props {
   tool: Tool;
@@ -37,7 +37,7 @@ export default function SidebarToolItem({
         title={collapsed ? tool.label : undefined}
         className={cn(
           "flex items-center transition-colors duration-150",
-          collapsed ? "justify-center py-2.5" : "gap-3 px-3 py-2.5",
+          collapsed ? "justify-center py-2" : "gap-2.5 px-3 py-2",
           active
             ? "bg-primary text-primary-foreground"
             : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -45,7 +45,7 @@ export default function SidebarToolItem({
       >
         <Icon size={ICON_SIZE} className="flex-shrink-0" />
         {!collapsed && (
-          <span className="flex-1 text-[14px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
+          <span className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
             {tool.label}
           </span>
         )}
