@@ -40,16 +40,16 @@ export default function TopBar() {
       <div className="flex items-center gap-2 flex-1 min-w-0 overflow-hidden">
         {current?.parent ? (
           <>
-            <span className="text-[11px] flex-shrink-0 text-muted-foreground">
+            <span className="text-[13px] flex-shrink-0 text-muted-foreground">
               {current.parent}
             </span>
-            <span className="text-[11px] flex-shrink-0 text-muted-foreground opacity-40">›</span>
-            <span className="text-[11px] flex-shrink-0 text-foreground">
+            <span className="text-[13px] flex-shrink-0 text-muted-foreground opacity-40">›</span>
+            <span className="text-[13px] flex-shrink-0 text-foreground">
               {current.label}
             </span>
           </>
         ) : current ? (
-          <span className="text-[11px] flex-shrink-0 text-foreground">
+          <span className="text-[13px] flex-shrink-0 text-foreground">
             {current.label}
           </span>
         ) : null}
