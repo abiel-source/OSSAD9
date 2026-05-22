@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import ToolHeader from "@/components/tools/ToolHeader";
+import { Milestone } from "lucide-react";
 import { useCapabilitiesStore } from "@/store/capabilities";
 import TraceInputs, {
   TraceConfig,
@@ -160,6 +161,7 @@ export default function RouteTracePage() {
       <ToolHeader
         title="Route Trace"
         description="Map the hop-by-hop path packets take to a target host"
+        icon={Milestone}
         rfcBadges={COMPLIANCES}
         onExportJSON={() => console.log("export json")}
         onExportCSV={() => console.log("export csv")}

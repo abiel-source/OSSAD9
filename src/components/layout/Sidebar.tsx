@@ -77,7 +77,7 @@ export default function Sidebar() {
       >
         <Radar size={16} className="flex-shrink-0 text-foreground" />
         {!effectivelyCollapsed && (
-          <span className="text-[12px] font-bold tracking-[0.22em] uppercase whitespace-nowrap text-foreground font-heading">
+          <span className="text-[12px] font-bold whitespace-nowrap text-foreground">
             OSSAD-9
           </span>
         )}

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import ToolHeader from "@/components/tools/ToolHeader";
+import { Network } from "lucide-react";
 import { useTopologyStore } from "@/store/topology";
 import { useCapabilitiesStore } from "@/store/capabilities";
 import { type ScanEvent, type DiscoveredHost } from "@/types/network";
@@ -365,6 +366,7 @@ export default function TopologyPage() {
       <ToolHeader
         title="Host Map"
         description="Network map & host discovery — enter a CIDR range to begin."
+        icon={Network}
         rfcBadges={COMPLIANCES}
         onExportJSON={() => console.log("export json")}
         onExportCSV={() => console.log("export csv")}
