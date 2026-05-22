@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Noto_Sans, Oxanium } from "next/font/google";
+import { IBM_Plex_Mono, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const oxaniumHeading = Oxanium({ subsets: ["latin"], variable: "--font-heading" });
 const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-mono",
@@ -27,7 +26,6 @@ export default function RootLayout({
       className={cn(
         "dark h-full antialiased",
         notoSans.variable,
-        oxaniumHeading.variable,
         ibmPlexMono.variable
       )}
     >

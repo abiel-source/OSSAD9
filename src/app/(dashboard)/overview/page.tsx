@@ -1,3 +1,5 @@
+import { LayoutDashboard } from "lucide-react";
+
 export default function OverviewPage() {
   const statCards = [
     { label: "Active Hosts",     value: "—",   unit: ""    },
@@ -18,11 +20,14 @@ export default function OverviewPage() {
 
       {/* Page header */}
       <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-lg font-semibold tracking-wide text-foreground font-heading">
-            Overview
-          </h1>
-          <p className="text-sm mt-1 text-muted-foreground">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-4">
+            <LayoutDashboard size={32} className="flex-shrink-0 text-foreground" />
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">
+              Network & Developer Toolkit
+            </h1>
+          </div>
+          <p className="text-sm text-muted-foreground">
             System-wide status. No network target configured.
           </p>
         </div>

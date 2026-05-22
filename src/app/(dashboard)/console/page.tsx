@@ -1,3 +1,5 @@
+import { Terminal } from "lucide-react";
+
 export default function ConsolePage() {
   const quickCommands = [
     { label: "ping",       example: "ping 192.168.1.1"          },
@@ -12,15 +14,16 @@ export default function ConsolePage() {
     <div className="space-y-5 max-w-screen-xl">
 
       {/* Page header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-lg font-semibold tracking-wide text-foreground font-heading">
+      <div className="flex flex-col gap-1.5 mb-2">
+        <div className="flex items-center gap-3">
+          <Terminal size={22} className="flex-shrink-0 text-foreground" />
+          <h1 className="text-2xl font-bold tracking-[0.02em] text-foreground">
             Console
           </h1>
-          <p className="text-sm mt-1 text-muted-foreground">
-            Raw tool runner — ping, traceroute, dig, nmap, whois, curl.
-          </p>
         </div>
+        <p className="text-[12px] text-muted-foreground">
+          Raw tool runner — ping, traceroute, dig, nmap, whois, curl.
+        </p>
       </div>
 
       <div

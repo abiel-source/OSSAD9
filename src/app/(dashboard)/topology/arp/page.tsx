@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import ToolHeader from "@/components/tools/ToolHeader";
+import { GitBranch } from "lucide-react";
 import { useCapabilitiesStore } from "@/store/capabilities";
 import {
   ArpInspectInputs,
@@ -186,6 +187,7 @@ export default function ArpMapPage() {
       <ToolHeader
         title="ARP / Layer 2 Inspector"
         description="MAC-to-IP mapping, OUI vendor resolution, and Layer 2 conflict detection across the local subnet."
+        icon={GitBranch}
         rfcBadges={COMPLIANCES}
         onExportJSON={() => console.log("export json")}
         onExportCSV={() => console.log("export csv")}

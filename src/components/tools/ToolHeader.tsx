@@ -1,12 +1,14 @@
 "use client";
 
 import { Download, FolderOpen, Save } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { ComplianceBadge } from "./ComplianceBadge";
 import { ToolHeaderButton } from "./ToolHeaderButton";
 
 interface ToolHeaderProps {
   title: string;
   description: string;
+  icon?: LucideIcon;
   rfcBadges?: string[];
   onExportJSON?: () => void;
   onExportCSV?: () => void;
@@ -17,6 +19,7 @@ interface ToolHeaderProps {
 export default function ToolHeader({
   title,
   description,
+  icon: Icon,
   rfcBadges = [],
   onExportJSON,
   onExportCSV,
@@ -27,9 +30,12 @@ export default function ToolHeader({
     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5 mb-7">
       {/* Left: title + description */}
       <div className="flex flex-col gap-1.5">
-        <h1 className="text-2xl font-bold tracking-[0.02em] text-foreground font-heading">
-          {title}
-        </h1>
+        <div className="flex items-center gap-3">
+          {Icon && <Icon size={22} className="flex-shrink-0 text-foreground" />}
+          <h1 className="text-2xl font-bold tracking-[0.02em] text-foreground">
+            {title}
+          </h1>
+        </div>
         <p className="text-[12px] text-muted-foreground">
           {description}
         </p>

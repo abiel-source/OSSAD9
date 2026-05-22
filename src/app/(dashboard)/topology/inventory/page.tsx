@@ -8,6 +8,7 @@ import { useArpStore } from "@/store/arp";
 import { Hop, DiscoveredHost, ArpEntry, InventoryItem } from "@/types/network";
 
 import ToolHeader from "@/components/tools/ToolHeader";
+import { Database } from "lucide-react";
 import { DeviceInventoryTable } from "@/components/tools/inventory/DeviceInventoryTable";
 import { InventoryInputs } from "@/components/tools/inventory/InventoryInputs";
 
@@ -159,6 +160,7 @@ export default function DeviceInventoryPage() {
       <ToolHeader
         title="Network Inventory"
         description="Discovered host table with IP, MAC, vendor, OS, and hostname metadata."
+        icon={Database}
         rfcBadges={COMPLIANCES}
         onExportJSON={() => console.log("export json")}
         onExportCSV={() => console.log("export csv")}
