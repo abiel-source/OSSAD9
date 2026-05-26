@@ -252,6 +252,54 @@ export default function EncodeHashPage() {
           )}
         </div>
       )}
+
+      {/* Examples */}
+      <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <div className="flex flex-wrap gap-2">
+          {[
+            {
+              label: "Base64 — plain text",
+              action: () => { setTab("base64"); setB64Input("Hello, World!"); setB64Result(null); },
+            },
+            {
+              label: "Base64 — JSON object",
+              action: () => { setTab("base64"); setB64Input('{"user":"admin","role":"superuser"}'); setB64Result(null); },
+            },
+            {
+              label: "URL — query string",
+              action: () => { setTab("url"); setUrlInput("https://example.com/search?q=hello world&lang=en&page=1"); },
+            },
+            {
+              label: "URL — encoded input",
+              action: () => { setTab("url"); setUrlInput("https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dhello%20world"); },
+            },
+            {
+              label: "Hash — password",
+              action: () => { setTab("hash"); setHashInput("password123"); setHashes(null); },
+            },
+            {
+              label: "Hash — empty string",
+              action: () => { setTab("hash"); setHashInput(""); setHashes(null); },
+            },
+            {
+              label: "JWT — HS256 sample",
+              action: () => {
+                setTab("jwt");
+                setJwtInput("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+              },
+            },
+          ].map((ex) => (
+            <button
+              key={ex.label}
+              onClick={ex.action}
+              className="px-3 py-1.5 text-[12px] font-mono border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              {ex.label}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
