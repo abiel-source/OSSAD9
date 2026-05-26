@@ -139,6 +139,30 @@ export default function MacToolsPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Examples */}
+      <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "00:0C:29:4A:B2:C1", desc: "VMware (colon)" },
+            { label: "00-1B-63-AA-BB-CC", desc: "Apple Inc. (dash)" },
+            { label: "0000.0C12.3456",    desc: "Cisco (dotted)" },
+            { label: "001A2BFCFBFA",      desc: "Cisco Systems (bare)" },
+            { label: "FF:FF:FF:FF:FF:FF", desc: "Broadcast" },
+            { label: "02:00:5E:10:00:01", desc: "LAA unicast" },
+          ].map((ex) => (
+            <button
+              key={ex.label}
+              onClick={() => setInput(ex.label)}
+              className="px-3 py-1.5 text-left text-[12px] font-mono border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <span className="text-foreground">{ex.label}</span>
+              <span className="ml-2 text-[11px] hidden sm:inline">— {ex.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -201,6 +201,34 @@ export default function DataBandwidthPage() {
         </div>
 
       </div>
+
+      {/* Examples */}
+      <div className="flex flex-col p-4 gap-3 bg-card border border-border">
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "4K movie",      dv: "50",    du: "GB" as DataUnit,  sv: "100",  su: "Mbps" as SpeedUnit },
+            { label: "Blu-ray disc",  dv: "25",    du: "GB" as DataUnit,  sv: "1",    su: "Gbps" as SpeedUnit },
+            { label: "OS backup",     dv: "500",   du: "MB" as DataUnit,  sv: "10",   su: "Mbps" as SpeedUnit },
+            { label: "1 TB archive",  dv: "1",     du: "TB" as DataUnit,  sv: "1",    su: "Gbps" as SpeedUnit },
+            { label: "Email (5 MB)",  dv: "5",     du: "MB" as DataUnit,  sv: "10",   su: "Mbps" as SpeedUnit },
+          ].map((ex) => (
+            <button
+              key={ex.label}
+              onClick={() => {
+                setDataValue(ex.dv);
+                setDataUnit(ex.du);
+                setSpeedValue(ex.sv);
+                setSpeedUnit(ex.su);
+              }}
+              className="px-3 py-1.5 text-left text-[12px] font-mono border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <span className="text-foreground">{ex.label}</span>
+              <span className="ml-2 text-[11px] hidden sm:inline">— {ex.dv} {ex.du} @ {ex.sv} {ex.su}</span>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

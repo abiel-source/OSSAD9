@@ -107,6 +107,30 @@ export default function IpUtilitiesPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Examples */}
+      <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "127.0.0.1",    desc: "Loopback" },
+            { label: "192.168.1.1",  desc: "Private — default gateway" },
+            { label: "10.0.0.1",     desc: "Private — RFC 1918" },
+            { label: "8.8.8.8",      desc: "Public — Google DNS" },
+            { label: "169.254.1.1",  desc: "Link-local / APIPA" },
+            { label: "224.0.0.1",    desc: "Multicast — all hosts" },
+          ].map((ex) => (
+            <button
+              key={ex.label}
+              onClick={() => setInput(ex.label)}
+              className="px-3 py-1.5 text-left text-[12px] font-mono border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <span className="text-foreground">{ex.label}</span>
+              <span className="ml-2 text-[11px] hidden sm:inline">— {ex.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

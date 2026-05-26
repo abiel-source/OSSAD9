@@ -413,6 +413,59 @@ export default function TimestampPage() {
           )}
         </div>
       )}
+
+      {/* Examples */}
+      <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
+        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <div className="flex flex-wrap gap-2">
+          {[
+            {
+              label: "Unix → Date — Unix epoch",
+              action: () => { setTab("convert"); setUnixInput("0"); setUnixResult(null); setUnixError(false); },
+            },
+            {
+              label: "Unix → Date — Y2K",
+              action: () => { setTab("convert"); setUnixInput("946684800"); setUnixResult(null); setUnixError(false); },
+            },
+            {
+              label: "Unix → Date — milliseconds",
+              action: () => { setTab("convert"); setUnixInput("1716307200000"); setUnixResult(null); setUnixError(false); },
+            },
+            {
+              label: "Date → Unix — ISO 8601",
+              action: () => { setTab("convert"); setDateInput("2024-05-21T12:00:00Z"); setDateResult(null); setDateError(false); },
+            },
+            {
+              label: "Date → Unix — natural",
+              action: () => { setTab("convert"); setDateInput("January 1 2000 00:00:00 UTC"); setDateResult(null); setDateError(false); },
+            },
+            {
+              label: "Uptime — 30-day window",
+              action: () => {
+                setTab("uptime");
+                setStartInput("2024-04-01T00:00");
+                setEndInput("2024-05-01T00:00");
+              },
+            },
+            {
+              label: "Uptime — 1 year",
+              action: () => {
+                setTab("uptime");
+                setStartInput("2024-01-01T00:00");
+                setEndInput("2025-01-01T00:00");
+              },
+            },
+          ].map((ex) => (
+            <button
+              key={ex.label}
+              onClick={ex.action}
+              className="px-3 py-1.5 text-[12px] font-mono border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              {ex.label}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
