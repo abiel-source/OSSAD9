@@ -1,6 +1,6 @@
 "use client";
 
-import { Hop } from "./types";
+import { Hop } from "@/types/network";
 import {
   LineChart,
   Line,

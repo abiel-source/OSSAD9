@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { Calculator } from "lucide-react";
 
 function parseIPv4CIDR(cidr: string) {

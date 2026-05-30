@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { GitBranch } from "lucide-react";
 import { useCapabilitiesStore } from "@/store/capabilities";
 import {

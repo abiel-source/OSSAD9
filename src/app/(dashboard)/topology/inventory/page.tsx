@@ -7,7 +7,7 @@ import { useRouteTraceStore } from "@/store/routetrace";
 import { useArpStore } from "@/store/arp";
 import { Hop, DiscoveredHost, ArpEntry, InventoryItem } from "@/types/network";
 
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { Database } from "lucide-react";
 import { DeviceInventoryTable } from "@/components/tools/inventory/DeviceInventoryTable";
 import { InventoryInputs } from "@/components/tools/inventory/InventoryInputs";

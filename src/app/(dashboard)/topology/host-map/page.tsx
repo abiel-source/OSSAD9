@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { Network } from "lucide-react";
 import { useTopologyStore } from "@/store/topology";
 import { useCapabilitiesStore } from "@/store/capabilities";
 import { type ScanEvent, type DiscoveredHost } from "@/types/network";
-import { ScanLog } from "@/components/topology/ScanLog";
+import { ScanLog } from "@/components/tools/host-map/ScanLog";
 import { HostMapInputs } from "@/components/tools/host-map/HostMapInputs";
 import { HostMapCanvas } from "@/components/tools/host-map/HostMapCanvas";
 import { HostMapConfig } from "@/components/tools/host-map/HostMapInputs";

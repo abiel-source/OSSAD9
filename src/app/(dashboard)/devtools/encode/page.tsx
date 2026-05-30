@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { Key } from "lucide-react";
 
 type TabId = "base64" | "url" | "hash" | "jwt";
