@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { BarChart2 } from "lucide-react";
 
 const DATA_UNITS = ["bits", "bytes", "KB", "MB", "GB", "TB", "PB"] as const;

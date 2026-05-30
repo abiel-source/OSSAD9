@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { Code2 } from "lucide-react";
 
 function parseIP(ip: string): number[] | null {

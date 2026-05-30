@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { Clock } from "lucide-react";
 
 type TabId = "live" | "convert" | "uptime";

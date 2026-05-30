@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import ToolHeader from "@/components/tools/ToolHeader";
+import ToolHeader from "@/components/ui/ToolHeader";
 import { Network } from "lucide-react";
 import { useTopologyStore } from "@/store/topology";
 import { useCapabilitiesStore } from "@/store/capabilities";
