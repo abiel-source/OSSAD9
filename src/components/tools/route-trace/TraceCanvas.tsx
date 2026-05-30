@@ -1,6 +1,6 @@
 "use client";
 
-import { Hop } from "./types";
+import { Hop } from "@/types/network";
 import { LineGraph, GraphNode, GraphNodeClass } from "@/lib/graph";
 import { class2Colour } from "@/lib/graph";
 import { useRouteTraceStore } from "@/store/routetrace";
