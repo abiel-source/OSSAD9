@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Radar } from "lucide-react";
 import SidebarToolkit from "@/components/layout/SidebarToolkit";
@@ -16,8 +15,6 @@ import {
 import { useUIStore } from "@/store/ui";
 import { cn } from "@/lib/utils";
 
-const OVERVIEW_ICON_SIZE = 15;
-
 function NavDivider() {
   return <div className="mx-3 my-3 h-px bg-border" />;
 }
@@ -29,12 +26,12 @@ export default function Sidebar() {
   const effectivelyCollapsed = sidebarCollapsed && !sidebarOpen;
 
   const [expandedKits, setExpandedKits] = useState<Set<string>>(
-    () => new Set(ALL_KITS.map((kit) => kit.id))
+    () => new Set(ALL_KITS.map((kit) => kit.id)),
   );
 
   useEffect(() => {
     const activeKit = ALL_KITS.find((kit) =>
-      kit.tools.some((tool) => pathname === tool.href)
+      kit.tools.some((tool) => pathname === tool.href),
     );
     if (activeKit && !expandedKits.has(activeKit.id)) {
       setExpandedKits((prev) => new Set([...prev, activeKit.id]));
@@ -53,8 +50,6 @@ export default function Sidebar() {
     });
   };
 
-  const isOverviewActive = pathname === OVERVIEW_ITEM.href;
-
   return (
     <aside
       className={cn(
@@ -64,15 +59,17 @@ export default function Sidebar() {
         "lg:relative lg:z-auto lg:translate-x-0",
         "transition-all duration-200 ease-in-out",
         "w-[240px]",
-        effectivelyCollapsed ? "lg:w-[56px] lg:min-w-[56px]" : "lg:w-[240px] lg:min-w-[240px]",
-        "bg-sidebar border-r border-sidebar-border"
+        effectivelyCollapsed
+          ? "lg:w-[56px] lg:min-w-[56px]"
+          : "lg:w-[240px] lg:min-w-[240px]",
+        "bg-sidebar border-r border-sidebar-border",
       )}
     >
       {/* Logo */}
       <div
         className={cn(
           "flex items-center h-14 flex-shrink-0 border-b border-sidebar-border",
-          effectivelyCollapsed ? "justify-center" : "gap-3 px-5"
+          effectivelyCollapsed ? "justify-center" : "gap-3 px-5",
         )}
       >
         <Radar size={16} className="flex-shrink-0 text-foreground" />
@@ -86,26 +83,12 @@ export default function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden">
         {/* Overview */}
-        <div className="mx-3 my-[1px]">
-          <Link
-            href={OVERVIEW_ITEM.href}
-            title={effectivelyCollapsed ? OVERVIEW_ITEM.label : undefined}
-            className={cn(
-              "flex items-center transition-colors duration-150",
-              effectivelyCollapsed ? "justify-center py-2" : "gap-2.5 px-3 py-2",
-              isOverviewActive
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            )}
-          >
-            <OVERVIEW_ITEM.icon size={OVERVIEW_ICON_SIZE} className="flex-shrink-0" />
-            {!effectivelyCollapsed && (
-              <span className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
-                {OVERVIEW_ITEM.label}
-              </span>
-            )}
-          </Link>
-        </div>
+        <SidebarToolItem
+          tool={OVERVIEW_ITEM}
+          collapsed={effectivelyCollapsed}
+          active={OVERVIEW_ITEM.href === pathname}
+          indented={false}
+        />
 
         {/* Primary toolkits */}
         {PRIMARY_KITS.map((kit) => (

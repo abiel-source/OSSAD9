@@ -10,11 +10,7 @@ interface Props {
   tool: Tool;
   collapsed: boolean;
   active: boolean;
-  /**
-   * indented=true  → sub-tool under a toolkit dropdown (default)
-   * indented=false → flat item at the same visual level as kit headers
-   *                  (used for single-tool kits like Console)
-   */
+  // indicates whether the tool is standalone or a member of a toolkit
   indented?: boolean;
 }
 
