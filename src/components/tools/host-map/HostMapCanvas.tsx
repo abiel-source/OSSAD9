@@ -10,7 +10,7 @@ export interface HostMapCanvasProps {
   isRunning: boolean;
 }
 
-// classify if discovered host is a router or not - the work of figuring out if a list of hosts is a router or not
+// NOTE: classify if discovered host is a router or not - the work of figuring out if a list of hosts is a router or not
 // is done by filterGateway. We read latency & deviceType to translate what graph node class the device is for render.
 function Host2Class(host: DiscoveredHost): GraphNode["class"] {
   if (host.deviceType === "router") return "origin";
@@ -27,7 +27,6 @@ function Host2Class(host: DiscoveredHost): GraphNode["class"] {
 export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
   const { isPaused } = useTopologyStore();
 
-  // compute running stats
   const runningHosts = nodes.length;
 
   const numericalLatencies = nodes
@@ -42,7 +41,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
         ).toFixed(2)
       : "0.00";
 
-  // GraphNode accepts possible undefined whereas DiscoveredHost accepts possible nulls
+  // NOTE: GraphNode accepts possible undefined whereas DiscoveredHost accepts possible nulls
   // im going to leave the interface patterns b/c I want DiscoveredHost to be explicitly compatible with Firebase
   const graphNodes: GraphNode[] = nodes.map((node) => {
     const nodeClass = Host2Class(node);
@@ -91,6 +90,8 @@ function Canvas({
           ? "line"
           : "star";
 
+  // WARNING: initial state could be mistaken for mapping 0 hosts (failed map or no network)
+  // instead of displaying idle state we should display the case of a potential failed mapping
   const isInitialState = !isRunning && runningHosts === 0;
 
   const statusColour = isInitialState
@@ -103,9 +104,9 @@ function Canvas({
 
   return (
     <div className="flex flex-col flex-1 pb-[26px] border border-border bg-card">
-      {/* HEADER */}
+      {/* Header */}
       <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
-        {/* header group 1 LEFT */}
+        {/* Left header group */}
         <div className="flex items-center gap-2">
           <div
             className="rounded-full w-2 h-2 shrink-0"
@@ -131,7 +132,7 @@ function Canvas({
           </span>
         </div>
 
-        {/* header group 2 RIGHT */}
+        {/* Right header group */}
         <div className="flex items-center gap-4">
           <span className="text-[12px] font-mono text-muted-foreground/60">
             hosts [{runningHosts}]
@@ -145,7 +146,7 @@ function Canvas({
         </div>
       </div>
 
-      {/* CANVAS */}
+      {/* Canvas */}
       {isInitialState ? (
         <div className="w-full flex items-center justify-center h-[500px]">
           <span className="text-[12px] text-muted-foreground/40">
