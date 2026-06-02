@@ -106,16 +106,31 @@ function IconButton({
 }
 
 function StatusBadge({ deployment }: { deployment: "local" | "remote" }) {
-  const isRemoteDeployment = deployment === "remote"
+  const isRemoteDeployment = deployment === "remote";
   const cls = cn(
     "flex items-center gap-1.5 px-2 py-1 text-[10px] flex-shrink-0 uppercase",
     !isRemoteDeployment && "text-emerald-500",
     isRemoteDeployment && "text-amber-500",
+    "group relative",
   );
+  const clsToolTip = cn(
+    "hidden group-hover:block absolute",
+    "w-48 top-full left-1/2 -translate-x-1/2 normal-case text-center text-primary-foreground",
+    "bg-card border border-border p-2",
+  );
+  const remoteTooltip: string =
+    "Remote Mode: Some features of this application are unavailable due to network access limitations. Consider using a local deployment instead. Instructions available at: https://github.com/abiel-source/OSSAD9";
+  const localTooltip: string =
+    "Local Mode: All features of this application are available.";
 
   return (
     <div className={cls}>
-      <span className="hidden sm:block">{isRemoteDeployment ? "Remote" : "Local"}</span>
+      <span className="hidden sm:block">
+        {isRemoteDeployment ? "Remote" : "Local"}
+      </span>
+      <div className={clsToolTip}>
+        {isRemoteDeployment ? remoteTooltip : localTooltip}
+      </div>
     </div>
   );
 }
