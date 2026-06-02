@@ -6,6 +6,7 @@ import { ALL_ROUTES } from "@/lib/nav";
 import { useUIStore } from "@/store/ui";
 import { useCapabilitiesStore } from "@/store/capabilities";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 export default function TopBar() {
   const pathname = usePathname();
@@ -43,7 +44,9 @@ export default function TopBar() {
             <span className="text-[13px] flex-shrink-0 text-muted-foreground">
               {current.parent}
             </span>
-            <span className="text-[13px] flex-shrink-0 text-muted-foreground opacity-40">›</span>
+            <span className="text-[13px] flex-shrink-0 text-muted-foreground opacity-40">
+              ›
+            </span>
             <span className="text-[13px] flex-shrink-0 text-foreground">
               {current.label}
             </span>
@@ -64,16 +67,17 @@ export default function TopBar() {
       {/* Right section */}
       <div className="flex items-center gap-2 flex-shrink-0">
         {!isLoading && (
-          <StatusBadge variant={isRemoteDeployment ? "remote" : "local"}>
-            <div className={cn("w-1.5 h-1.5 rounded-full flex-shrink-0", isRemoteDeployment ? "bg-amber-500" : "bg-emerald-500")} />
-            <span className="hidden sm:block">{isRemoteDeployment ? "Remote" : "Local"}</span>
-          </StatusBadge>
+          <StatusBadge deployment={isRemoteDeployment ? "remote" : "local"} />
         )}
 
         <div className="h-4 w-px bg-border" />
 
-        <IconButton title="Search"><Search size={14} /></IconButton>
-        <IconButton title="Alerts"><Bell size={14} /></IconButton>
+        <IconButton title="Search">
+          <Search size={14} />
+        </IconButton>
+        <IconButton title="Alerts">
+          <Bell size={14} />
+        </IconButton>
 
         <button className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] tracking-[0.2em] uppercase flex-shrink-0 bg-primary text-primary-foreground border border-primary">
           <LogIn size={11} className="flex-shrink-0" />
@@ -84,7 +88,13 @@ export default function TopBar() {
   );
 }
 
-function IconButton({ title, children }: { title: string; children: React.ReactNode }) {
+function IconButton({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <button
       className="flex items-center justify-center w-8 h-8 transition-colors duration-150 cursor-pointer text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -95,25 +105,17 @@ function IconButton({ title, children }: { title: string; children: React.ReactN
   );
 }
 
-function StatusBadge({
-  variant,
-  asButton = false,
-  children,
-}: {
-  variant: "local" | "remote" | "primary";
-  asButton?: boolean;
-  children: React.ReactNode;
-}) {
+function StatusBadge({ deployment }: { deployment: "local" | "remote" }) {
+  const isRemoteDeployment = deployment === "remote"
   const cls = cn(
-    "flex items-center gap-1.5 px-2 py-1 text-[10px] tracking-[0.2em] uppercase flex-shrink-0",
-    variant === "local" && "text-emerald-500",
-    variant === "remote" && "text-amber-500",
-    variant === "primary" && "text-primary"
+    "flex items-center gap-1.5 px-2 py-1 text-[10px] flex-shrink-0 uppercase",
+    !isRemoteDeployment && "text-emerald-500",
+    isRemoteDeployment && "text-amber-500",
   );
 
-  return asButton ? (
-    <button className={cls}>{children}</button>
-  ) : (
-    <div className={cls}>{children}</div>
+  return (
+    <div className={cls}>
+      <span className="hidden sm:block">{isRemoteDeployment ? "Remote" : "Local"}</span>
+    </div>
   );
 }
