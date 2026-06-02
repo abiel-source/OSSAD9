@@ -139,7 +139,7 @@ export default function TopologyPage() {
     startScan();
 
     const url = `/api/topology/discover?cidr=${encodeURIComponent(
-      cidr.trim()
+      cidr.trim(),
     )}`;
 
     try {
@@ -226,36 +226,42 @@ export default function TopologyPage() {
     });
 
     MOCK_DATA.forEach((host, i) => {
-      const t = window.setTimeout(() => {
-        handleScanEvent({ type: "host_discovered", host });
-        handleScanEvent({
-          type: "log",
-          level: "success",
-          message: `Discovered host ${host.ip}`,
-        });
-        handleScanEvent({
-          type: "log",
-          level: "info",
-          message: `${host.ip}${
-            host.hostname ? ` name: (${host.hostname})` : ""
-          }${host.mac ? ` mac: ${host.mac}` : ""}${
-            host.vendor ? ` vendor: ${host.vendor}` : ""
-          }${host.deviceType ? ` device type: ${host.deviceType}` : ""}`,
-        });
+      const t = window.setTimeout(
+        () => {
+          handleScanEvent({ type: "host_discovered", host });
+          handleScanEvent({
+            type: "log",
+            level: "success",
+            message: `Discovered host ${host.ip}`,
+          });
+          handleScanEvent({
+            type: "log",
+            level: "info",
+            message: `${host.ip}${
+              host.hostname ? ` name: (${host.hostname})` : ""
+            }${host.mac ? ` mac: ${host.mac}` : ""}${
+              host.vendor ? ` vendor: ${host.vendor}` : ""
+            }${host.deviceType ? ` device type: ${host.deviceType}` : ""}`,
+          });
 
-        incrementDispatchCount();
-      }, (i + 1) * 500);
+          incrementDispatchCount();
+        },
+        (i + 1) * 500,
+      );
 
       appendTimeoutRef(t);
     });
 
-    const completionT = window.setTimeout(() => {
-      handleScanEvent({
-        type: "complete",
-        hostsFound: MOCK_DATA.length,
-        durationMs: 3000,
-      });
-    }, (MOCK_DATA.length + 1) * 500);
+    const completionT = window.setTimeout(
+      () => {
+        handleScanEvent({
+          type: "complete",
+          hostsFound: MOCK_DATA.length,
+          durationMs: 3000,
+        });
+      },
+      (MOCK_DATA.length + 1) * 500,
+    );
 
     appendTimeoutRef(completionT);
   };
@@ -285,36 +291,42 @@ export default function TopologyPage() {
 
     // still more data
     MOCK_DATA.slice(dispatchCount).forEach((host, i) => {
-      const t = window.setTimeout(() => {
-        handleScanEvent({ type: "host_discovered", host });
-        handleScanEvent({
-          type: "log",
-          level: "success",
-          message: `Discovered host ${host.ip}`,
-        });
-        handleScanEvent({
-          type: "log",
-          level: "info",
-          message: `${host.ip}${
-            host.hostname ? ` name: (${host.hostname})` : ""
-          }${host.mac ? ` mac: ${host.mac}` : ""}${
-            host.vendor ? ` vendor: ${host.vendor}` : ""
-          }${host.deviceType ? ` device type: ${host.deviceType}` : ""}`,
-        });
+      const t = window.setTimeout(
+        () => {
+          handleScanEvent({ type: "host_discovered", host });
+          handleScanEvent({
+            type: "log",
+            level: "success",
+            message: `Discovered host ${host.ip}`,
+          });
+          handleScanEvent({
+            type: "log",
+            level: "info",
+            message: `${host.ip}${
+              host.hostname ? ` name: (${host.hostname})` : ""
+            }${host.mac ? ` mac: ${host.mac}` : ""}${
+              host.vendor ? ` vendor: ${host.vendor}` : ""
+            }${host.deviceType ? ` device type: ${host.deviceType}` : ""}`,
+          });
 
-        incrementDispatchCount();
-      }, (i + 1) * 500);
+          incrementDispatchCount();
+        },
+        (i + 1) * 500,
+      );
 
       appendTimeoutRef(t);
     });
 
-    const completionT = window.setTimeout(() => {
-      handleScanEvent({
-        type: "complete",
-        hostsFound: MOCK_DATA.length,
-        durationMs: 3000,
-      });
-    }, (MOCK_DATA.length + 1 - dispatchCount) * 500);
+    const completionT = window.setTimeout(
+      () => {
+        handleScanEvent({
+          type: "complete",
+          hostsFound: MOCK_DATA.length,
+          durationMs: 3000,
+        });
+      },
+      (MOCK_DATA.length + 1 - dispatchCount) * 500,
+    );
 
     appendTimeoutRef(completionT);
   };
@@ -382,8 +394,10 @@ export default function TopologyPage() {
         isRunning={isScanning}
       />
 
-      <ScanLog />
-      <HostMapCanvas nodes={hostList} isRunning={isScanning} />
+      <div className="flex flex-col lg:flex-row gap-4 mb-5">
+        <HostMapCanvas nodes={hostList} isRunning={isScanning} />
+        <ScanLog />
+      </div>
     </div>
   );
 }

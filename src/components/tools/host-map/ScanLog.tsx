@@ -32,7 +32,7 @@ export function ScanLog() {
   }, [logs]);
 
   return (
-    <div className="flex flex-col border border-border overflow-hidden mb-5 p-4 gap-3 bg-card">
+    <div className="flex flex-col flex-1 border border-border overflow-hidden p-4 gap-3 bg-card">
       {/* HEADER */}
       <div className="flex items-center flex-shrink-0">
         <span className="text-[11px] uppercase text-muted-foreground">
@@ -43,7 +43,7 @@ export function ScanLog() {
       {/* SCAN ENTRIES */}
       <div
         ref={scrollRef}
-        className="h-32 overflow-y-auto px-3 py-2 space-y-1 border border-border bg-background"
+        className="h-[500px] overflow-y-auto px-3 py-2 space-y-1 border border-border bg-background"
       >
         {logs.length === 0 ? (
           <p className="text-[12px] text-center mt-6 text-border">

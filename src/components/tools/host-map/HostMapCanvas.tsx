@@ -5,30 +5,6 @@ import { GraphNode, StarGraph } from "@/lib/graph";
 import { class2Colour } from "@/lib/graph";
 import { useTopologyStore } from "@/store/topology";
 
-//////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////// FOR REFERENCE ONLY //////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
-// export interface GraphNode {
-//   id: string; // e.g., TTL, IP
-//   superlabel?: string; // optional top label
-//   sublabel?: string; // optional bottom label
-//   class: GraphNodeClass; // primarily just for color coding (for now)
-//   weight?: string; // optional weight- used to draw the edge
-// }
-
-// export interface DiscoveredHost {
-//   id: string; // IP address (Firestore document ID)
-//   ip: string;
-//   hostname: string | null;
-//   mac: string | null;
-//   vendor: string | null;
-//   latencyMs: number | null;
-//   deviceType: DeviceType;
-// }
-//////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
-
 export interface HostMapCanvasProps {
   nodes: DiscoveredHost[];
   isRunning: boolean;
@@ -51,48 +27,6 @@ function Host2Class(host: DiscoveredHost): GraphNode["class"] {
 export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
   const { isPaused } = useTopologyStore();
 
-  if (!isRunning && nodes.length === 0) {
-    return (
-      <div className="flex flex-col pb-[26px] mb-5 border border-border bg-card">
-        {/* HEADER */}
-        <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
-          {/* header group 1 LEFT */}
-          <div className="flex items-center gap-2">
-            <div
-              className="rounded-full w-2 h-2 shrink-0"
-              style={{ backgroundColor: class2Colour("cautious") }}
-            />
-            <span
-              className="text-[12px]"
-              style={{ color: class2Colour("cautious"), opacity: 0.66 }}
-            >
-              idle
-            </span>
-          </div>
-          {/* header group 2 RIGHT */}
-          <div className="flex items-center gap-4">
-            <span className="text-[12px] font-mono text-muted-foreground/60">
-              hosts [0]
-            </span>
-            <span className="text-[12px] font-mono text-muted-foreground/60">
-              latency [0.00ms]
-            </span>
-            <span className="text-[12px] font-mono text-muted-foreground/60">
-              topology [none]
-            </span>
-          </div>
-        </div>
-
-        {/* CANVAS */}
-        <div className="w-full flex items-center justify-center" style={{ minHeight: "400px" }}>
-          <span className="text-[12px] text-muted-foreground/40">
-            Run map to visualize the network topology
-          </span>
-        </div>
-      </div>
-    );
-  }
-
   // compute running stats
   const runningHosts = nodes.length;
 
@@ -107,15 +41,6 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
           numericalLatencies.length
         ).toFixed(2)
       : "0.00";
-
-  const layout =
-    runningHosts === 0
-      ? "none"
-      : runningHosts === 1
-      ? "singleton"
-      : runningHosts === 2
-      ? "line"
-      : "star";
 
   // GraphNode accepts possible undefined whereas DiscoveredHost accepts possible nulls
   // im going to leave the interface patterns b/c I want DiscoveredHost to be explicitly compatible with Firebase
@@ -133,14 +58,51 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
     };
   });
 
-  const statusColour = !isRunning
-    ? class2Colour("running")
-    : isPaused
-    ? class2Colour("cautious")
-    : "var(--primary)";
+  return (
+    <Canvas
+      graphNodes={graphNodes}
+      isRunning={isRunning}
+      isPaused={isPaused}
+      runningHosts={runningHosts}
+      runningLatency={runningLatency}
+    />
+  );
+}
+
+function Canvas({
+  graphNodes,
+  isRunning,
+  isPaused,
+  runningHosts,
+  runningLatency,
+}: {
+  graphNodes: GraphNode[];
+  isRunning: boolean;
+  isPaused: boolean;
+  runningHosts: number;
+  runningLatency: string;
+}) {
+  const layout =
+    runningHosts === 0
+      ? "none"
+      : runningHosts === 1
+        ? "singleton"
+        : runningHosts === 2
+          ? "line"
+          : "star";
+
+  const isInitialState = !isRunning && runningHosts === 0;
+
+  const statusColour = isInitialState
+    ? class2Colour("cautious") // initial state
+    : !isRunning
+      ? class2Colour("running") // complete
+      : isPaused
+        ? class2Colour("cautious") // running but paused
+        : "var(--primary)"; // running
 
   return (
-    <div className="flex flex-col pb-[26px] mb-5 border border-border bg-card">
+    <div className="flex flex-col flex-1 pb-[26px] border border-border bg-card">
       {/* HEADER */}
       <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
         {/* header group 1 LEFT */}
@@ -149,14 +111,23 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
             className="rounded-full w-2 h-2 shrink-0"
             style={{
               backgroundColor: statusColour,
-              animation: isRunning && !isPaused ? "flash 0.33s ease-in-out infinite" : "",
+              animation:
+                isRunning && !isPaused
+                  ? "flash 0.33s ease-in-out infinite"
+                  : "",
             }}
           />
           <span
             className="text-[12px]"
             style={{ color: statusColour, opacity: 0.66 }}
           >
-            {!isRunning ? "done" : isPaused ? "paused" : "mapping"}
+            {isInitialState
+              ? "idle"
+              : !isRunning
+                ? "done"
+                : isPaused
+                  ? "paused"
+                  : "mapping"}
           </span>
         </div>
 
@@ -175,9 +146,17 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
       </div>
 
       {/* CANVAS */}
-      <div className="w-full overflow-x-auto flex" style={{ minHeight: "400px" }}>
-        <StarGraph nodes={graphNodes} isRunning={isRunning} />
-      </div>
+      {isInitialState ? (
+        <div className="w-full flex items-center justify-center h-[500px]">
+          <span className="text-[12px] text-muted-foreground/40">
+            Run map to visualize the network topology
+          </span>
+        </div>
+      ) : (
+        <div className="w-full overflow-x-auto flex h-[500px]">
+          <StarGraph nodes={graphNodes} isRunning={isRunning} />
+        </div>
+      )}
     </div>
   );
 }
