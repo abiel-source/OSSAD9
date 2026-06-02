@@ -13,7 +13,7 @@ export default function SubToolStub({ title, description }: SubToolStubProps) {
     <div className="space-y-5 max-w-screen-xl">
       {/* Header */}
       <div>
-        <h1 className="text-lg font-semibold tracking-wide text-foreground font-heading">
+        <h1 className="text-lg font-semibold text-foreground font-heading">
           {title}
         </h1>
         <p className="text-sm mt-1 text-muted-foreground">

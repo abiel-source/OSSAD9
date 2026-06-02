@@ -39,7 +39,7 @@ export function DeviceInventoryTable({ catalogue }: DeviceInventoryProps) {
                 ].map((col) => (
                   <th
                     key={col}
-                    className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
+                    className="px-3 py-2 text-left uppercase font-medium whitespace-nowrap text-muted-foreground"
                     style={{ fontSize: "10px" }}
                   >
                     {col}

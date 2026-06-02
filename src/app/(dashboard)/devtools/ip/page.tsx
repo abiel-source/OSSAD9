@@ -57,7 +57,7 @@ export default function IpUtilitiesPage() {
       />
 
       <div className="flex flex-col p-4 mb-5 gap-3 bg-card border border-border">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+        <span className="text-[11px] uppercase text-muted-foreground">
           IPv4 Address
         </span>
         <input
@@ -81,7 +81,7 @@ export default function IpUtilitiesPage() {
               {["Representation", "Value"].map((col) => (
                 <th
                   key={col}
-                  className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium text-muted-foreground"
+                  className="px-3 py-2 text-left uppercase font-medium text-muted-foreground"
                   style={{ fontSize: "10px" }}
                 >
                   {col}
@@ -110,7 +110,7 @@ export default function IpUtilitiesPage() {
 
       {/* Examples */}
       <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <span className="text-[11px] uppercase text-muted-foreground">Examples</span>
         <div className="flex flex-wrap gap-2">
           {[
             { label: "127.0.0.1",    desc: "Loopback" },

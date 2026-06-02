@@ -47,7 +47,7 @@ function GraphNodeUI({ node }: { node: GraphNode }) {
       {node.superlabel && (
         <div>
           <span
-            className="text-[9px] font-mono tracking-widest uppercase truncate max-w-full text-center"
+            className="text-[9px] font-mono uppercase truncate max-w-full text-center"
             style={{ color: "var(--muted-foreground)" }}
           >
             {node.superlabel}
@@ -132,7 +132,7 @@ export function CompletionIndicator() {
       className="w-[80px] flex justify-end items-center gap-1 pr-5"
       style={{ color: "var(--color-emerald-500)" }}
     >
-      <span className="text-[9px] tracking-widest uppercase ">
+      <span className="text-[9px] uppercase ">
         Done
       </span>
       <CircleCheckBig size={14} />

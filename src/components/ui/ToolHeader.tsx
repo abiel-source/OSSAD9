@@ -32,7 +32,7 @@ export default function ToolHeader({
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center gap-3">
           {Icon && <Icon size={22} className="flex-shrink-0 text-foreground" />}
-          <h1 className="text-2xl font-bold tracking-[0.02em] text-foreground">
+          <h1 className="text-2xl font-bold text-foreground">
             {title}
           </h1>
         </div>

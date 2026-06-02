@@ -79,7 +79,7 @@ export default function TopBar() {
           <Bell size={14} />
         </IconButton>
 
-        <button className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] tracking-[0.2em] uppercase flex-shrink-0 bg-primary text-primary-foreground border border-primary">
+        <button className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] uppercase flex-shrink-0 bg-primary text-primary-foreground border border-primary">
           <LogIn size={11} className="flex-shrink-0" />
           <span>Sign In</span>
         </button>

@@ -63,7 +63,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
               style={{ backgroundColor: class2Colour("cautious") }}
             />
             <span
-              className="text-[12px] tracking-[0.1em]"
+              className="text-[12px]"
               style={{ color: class2Colour("cautious"), opacity: 0.66 }}
             >
               idle
@@ -71,13 +71,13 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
           </div>
           {/* header group 2 RIGHT */}
           <div className="flex items-center gap-4">
-            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono text-muted-foreground/60">
               hosts [0]
             </span>
-            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono text-muted-foreground/60">
               latency [0.00ms]
             </span>
-            <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
+            <span className="text-[12px] font-mono text-muted-foreground/60">
               topology [none]
             </span>
           </div>
@@ -85,7 +85,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
 
         {/* CANVAS */}
         <div className="w-full flex items-center justify-center" style={{ minHeight: "400px" }}>
-          <span className="text-[12px] tracking-[0.1em] text-muted-foreground/40">
+          <span className="text-[12px] text-muted-foreground/40">
             Run map to visualize the network topology
           </span>
         </div>
@@ -153,7 +153,7 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
             }}
           />
           <span
-            className="text-[12px] tracking-[0.1em]"
+            className="text-[12px]"
             style={{ color: statusColour, opacity: 0.66 }}
           >
             {!isRunning ? "done" : isPaused ? "paused" : "mapping"}
@@ -162,13 +162,13 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
 
         {/* header group 2 RIGHT */}
         <div className="flex items-center gap-4">
-          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono text-muted-foreground/60">
             hosts [{runningHosts}]
           </span>
-          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono text-muted-foreground/60">
             latency [{runningLatency}ms]
           </span>
-          <span className="text-[12px] font-mono tracking-[0.1em] text-muted-foreground/60">
+          <span className="text-[12px] font-mono text-muted-foreground/60">
             topology [{layout}]
           </span>
         </div>

@@ -25,7 +25,7 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Left: sparkline */}
       <div className="lg:w-[40%] p-4 border border-border bg-card">
-        <span className="text-[11px] tracking-[0.1em] uppercase block mb-4 text-muted-foreground">
+        <span className="text-[11px] uppercase block mb-4 text-muted-foreground">
           RTT per Hop (ms)
         </span>
         <ResponsiveContainer width="100%" height={160}>
@@ -101,7 +101,7 @@ export default function TraceDetails({ hops }: TraceDetailsProps) {
                 ].map((col) => (
                   <th
                     key={col}
-                    className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium whitespace-nowrap text-muted-foreground"
+                    className="px-3 py-2 text-left uppercase font-medium whitespace-nowrap text-muted-foreground"
                     style={{ fontSize: "10px" }}
                   >
                     {col}

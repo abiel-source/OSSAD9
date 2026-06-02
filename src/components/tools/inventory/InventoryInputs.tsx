@@ -180,7 +180,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
     <div className="flex flex-col gap-3 p-4 mb-5 border border-border bg-card">
       {/* Header */}
       <div className="flex items-center flex-shrink-0">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+        <span className="text-[11px] uppercase text-muted-foreground">
           INVENTORY CONFIGURATION
         </span>
       </div>
@@ -190,12 +190,12 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         {COMPLIANCES.map((badge) => (
           <div
             key={badge}
-            className="px-2.5 py-0.5 text-[9px] tracking-[0.15em] uppercase bg-primary text-primary-foreground"
+            className="px-2.5 py-0.5 text-[9px] uppercase bg-primary text-primary-foreground"
           >
             {badge}
           </div>
         ))}
-        <span className="text-[10px] tracking-[0.08em] text-muted-foreground">
+        <span className="text-[10px] text-muted-foreground">
           compliant when required
         </span>
       </div>
@@ -221,7 +221,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="px-3 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border border-destructive bg-destructive text-destructive-foreground"
+            className="px-3 py-2 text-[12px] transition-colors duration-150 flex-shrink-0 border border-destructive bg-destructive text-destructive-foreground"
           >
             Clear Filters
           </button>
@@ -232,7 +232,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
       <div className="flex flex-wrap gap-4 items-center">
         {/* Source toggles */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[12px] tracking-[0.08em] mr-1 text-muted-foreground">
+          <span className="text-[12px] mr-1 text-muted-foreground">
             SOURCE
           </span>
           {(["hostmap", "routetrace", "arp"] as SourceKey[]).map((key) => (
@@ -240,7 +240,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
               key={key}
               onClick={() => toggleSource(key)}
               className={cn(
-                "px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border",
+                "px-3 py-1.5 text-[12px] transition-colors duration-150 border",
                 sources[key]
                   ? "bg-primary border-primary text-primary-foreground"
                   : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -256,7 +256,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* Device type toggles */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[12px] tracking-[0.08em] mr-1 text-muted-foreground">
+          <span className="text-[12px] mr-1 text-muted-foreground">
             TYPE
           </span>
           {["router", "device", "unknown"].map((key) => (
@@ -264,7 +264,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
               key={key}
               onClick={() => toggleDeviceType(key)}
               className={cn(
-                "px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border",
+                "px-3 py-1.5 text-[12px] transition-colors duration-150 border",
                 deviceTypes[key]
                   ? "bg-primary border-primary text-primary-foreground"
                   : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -282,7 +282,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
         <button
           onClick={() => setConflictsOnly(!conflictsOnly)}
           className={cn(
-            "px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border",
+            "px-3 py-1.5 text-[12px] transition-colors duration-150 border",
             conflictsOnly
               ? "bg-destructive border-destructive text-destructive-foreground"
               : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -296,7 +296,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
       <div className="flex flex-wrap gap-4 items-center">
         {/* Entry Type */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
+          <span className="text-[12px] text-muted-foreground">
             ENTRY TYPE
           </span>
           <select
@@ -316,7 +316,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* Latency threshold */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
+          <span className="text-[12px] text-muted-foreground">
             MIN LATENCY
           </span>
           <input
@@ -336,7 +336,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* RTT threshold */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
+          <span className="text-[12px] text-muted-foreground">
             MIN RTT
           </span>
           <input
@@ -356,7 +356,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* Sort by */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] tracking-[0.08em] text-muted-foreground">
+          <span className="text-[12px] text-muted-foreground">
             SORT BY
           </span>
           <select
@@ -372,7 +372,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
           </select>
           <button
             onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
-            className="px-3 py-1.5 text-[12px] tracking-[0.08em] transition-colors duration-150 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            className="px-3 py-1.5 text-[12px] transition-colors duration-150 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground"
           >
             {sortDir === "asc" ? "ASC" : "DESC"}
           </button>
@@ -381,7 +381,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
       {/* Row 4: result count */}
       <div className="flex flex-wrap gap-4 items-center justify-center">
-        <span className="text-[12px] tracking-[0.08em] text-muted-foreground/60">
+        <span className="text-[12px] text-muted-foreground/60">
           showing {catalogue.length} records
         </span>
       </div>

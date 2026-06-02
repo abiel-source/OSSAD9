@@ -126,7 +126,7 @@ export default function TimestampPage() {
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
-            className={`px-4 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 border-r border-border last:border-r-0 ${
+            className={`px-4 py-2 text-[12px] transition-colors duration-150 border-r border-border last:border-r-0 ${
               tab === t.id
                 ? "bg-primary text-primary-foreground"
                 : "bg-card text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -142,7 +142,7 @@ export default function TimestampPage() {
         <div className="flex flex-col gap-5">
           {/* Big Unix counter */}
           <div className="flex flex-col p-4 gap-2 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[11px] uppercase text-muted-foreground">
               Unix Timestamp (seconds)
             </span>
             <span className="text-4xl font-mono font-bold text-foreground tabular-nums">
@@ -183,7 +183,7 @@ export default function TimestampPage() {
           {/* SLA downtime reference */}
           <div className="border border-border bg-card overflow-hidden">
             <div className="px-3 py-2 border-b border-border">
-              <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+              <span className="text-[11px] uppercase text-muted-foreground">
                 SLA Downtime Reference
               </span>
             </div>
@@ -226,7 +226,7 @@ export default function TimestampPage() {
 
           {/* Unix → Human */}
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[11px] uppercase text-muted-foreground">
               Unix → Human Readable
             </span>
             <div className="flex gap-3">
@@ -256,7 +256,7 @@ export default function TimestampPage() {
 
           {/* Human → Unix */}
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[11px] uppercase text-muted-foreground">
               Human Readable → Unix
             </span>
             <div className="flex gap-3">
@@ -286,7 +286,7 @@ export default function TimestampPage() {
 
           {/* Quick reference */}
           <div className="flex flex-col p-4 gap-2 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[11px] uppercase text-muted-foreground">
               Current timestamps (live)
             </span>
             <table className="w-full text-[13px]">
@@ -315,7 +315,7 @@ export default function TimestampPage() {
       {tab === "uptime" && (
         <div className="flex flex-col gap-5">
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[11px] uppercase text-muted-foreground">
               Uptime Calculator
             </span>
             <p className="text-[11px] text-muted-foreground">
@@ -367,7 +367,7 @@ export default function TimestampPage() {
               {/* SLA against common window sizes */}
               <div className="border border-border bg-card overflow-hidden">
                 <div className="px-3 py-2 border-b border-border">
-                  <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+                  <span className="text-[11px] uppercase text-muted-foreground">
                     SLA equivalent (uptime as % of window)
                   </span>
                 </div>
@@ -416,7 +416,7 @@ export default function TimestampPage() {
 
       {/* Examples */}
       <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <span className="text-[11px] uppercase text-muted-foreground">Examples</span>
         <div className="flex flex-wrap gap-2">
           {[
             {

@@ -35,7 +35,7 @@ export function ScanLog() {
     <div className="flex flex-col border border-border overflow-hidden mb-5 p-4 gap-3 bg-card">
       {/* HEADER */}
       <div className="flex items-center flex-shrink-0">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+        <span className="text-[11px] uppercase text-muted-foreground">
           Scan Log
         </span>
       </div>

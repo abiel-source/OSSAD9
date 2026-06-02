@@ -184,7 +184,7 @@ function GraphCard({
 }) {
   return (
     <div className="flex-1 min-w-0 p-3 border border-border bg-card">
-      <span className="text-[10px] tracking-[0.1em] uppercase block mb-3 text-muted-foreground/60">
+      <span className="text-[10px] uppercase block mb-3 text-muted-foreground/60">
         {title}
       </span>
       {children}

@@ -17,7 +17,7 @@ export default function ConsolePage() {
       <div className="flex flex-col gap-1.5 mb-2">
         <div className="flex items-center gap-3">
           <Terminal size={22} className="flex-shrink-0 text-foreground" />
-          <h1 className="text-2xl font-bold tracking-[0.02em] text-foreground">
+          <h1 className="text-2xl font-bold text-foreground">
             Console
           </h1>
         </div>
@@ -37,7 +37,7 @@ export default function ConsolePage() {
         {/* Quick commands */}
         <div className="border border-border bg-card flex flex-col">
           <div className="flex items-center px-5 h-11 border-b border-border flex-shrink-0">
-            <span className="text-[12px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[12px] uppercase text-muted-foreground">
               Commands
             </span>
           </div>
@@ -76,7 +76,7 @@ export default function ConsolePage() {
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#10B981", opacity: 0.6 }} />
             </div>
             <div className="h-3.5 w-px bg-border" />
-            <span className="text-[12px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[12px] uppercase text-muted-foreground">
               Output
             </span>
           </div>

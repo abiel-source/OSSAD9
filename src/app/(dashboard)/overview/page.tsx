@@ -23,7 +23,7 @@ export default function OverviewPage() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-4">
             <LayoutDashboard size={32} className="flex-shrink-0 text-foreground" />
-            <h1 className="text-4xl font-bold tracking-tight text-foreground">
+            <h1 className="text-4xl font-bold text-foreground">
               Network & Developer Toolkit
             </h1>
           </div>
@@ -32,7 +32,7 @@ export default function OverviewPage() {
           </p>
         </div>
 
-        <button className="flex items-center gap-3 px-4 py-2 text-[14px] tracking-widest uppercase border border-border text-muted-foreground bg-card hover:bg-accent hover:text-accent-foreground transition-colors duration-150">
+        <button className="flex items-center gap-3 px-4 py-2 text-[14px] uppercase border border-border text-muted-foreground bg-card hover:bg-accent hover:text-accent-foreground transition-colors duration-150">
           Configure Target
         </button>
       </div>
@@ -44,7 +44,7 @@ export default function OverviewPage() {
             key={card.label}
             className="border border-border bg-card p-5"
           >
-            <p className="text-[12px] tracking-[0.16em] uppercase mb-3 text-muted-foreground">
+            <p className="text-[12px] uppercase mb-3 text-muted-foreground">
               {card.label}
             </p>
             <div className="flex items-baseline gap-1.5">
@@ -70,7 +70,7 @@ export default function OverviewPage() {
           >
             {/* Panel header */}
             <div className="flex items-center px-5 h-11 border-b border-border">
-              <span className="text-[12px] tracking-[0.16em] uppercase text-muted-foreground">
+              <span className="text-[12px] uppercase text-muted-foreground">
                 {panel.title}
               </span>
             </div>

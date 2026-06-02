@@ -44,7 +44,7 @@ function ResultRow({ label, value }: { label: string; value: string }) {
 function JsonPanel({ title, data }: { title: string; data: object }) {
   return (
     <div className="flex flex-col p-4 gap-2 bg-card border border-border">
-      <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">{title}</span>
+      <span className="text-[11px] uppercase text-muted-foreground">{title}</span>
       <pre className="text-[12px] font-mono text-foreground overflow-x-auto whitespace-pre-wrap">
         {JSON.stringify(data, null, 2)}
       </pre>
@@ -110,7 +110,7 @@ export default function EncodeHashPage() {
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
-            className={`px-4 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 border-r border-border last:border-r-0 ${
+            className={`px-4 py-2 text-[12px] transition-colors duration-150 border-r border-border last:border-r-0 ${
               tab === t.id
                 ? "bg-primary text-primary-foreground"
                 : "bg-card text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -125,7 +125,7 @@ export default function EncodeHashPage() {
       {tab === "base64" && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Input</span>
+            <span className="text-[11px] uppercase text-muted-foreground">Input</span>
             <textarea
               value={b64Input}
               onChange={(e) => setB64Input(e.target.value)}
@@ -151,7 +151,7 @@ export default function EncodeHashPage() {
 
           {b64Result && (
             <div className="flex flex-col p-4 gap-2 bg-card border border-border">
-              <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+              <span className="text-[11px] uppercase text-muted-foreground">
                 {b64Result.label}
               </span>
               <p className="text-[13px] font-mono text-foreground break-all">{b64Result.value}</p>
@@ -164,7 +164,7 @@ export default function EncodeHashPage() {
       {tab === "url" && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Input</span>
+            <span className="text-[11px] uppercase text-muted-foreground">Input</span>
             <input
               type="text"
               value={urlInput}
@@ -191,7 +191,7 @@ export default function EncodeHashPage() {
       {tab === "hash" && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Input</span>
+            <span className="text-[11px] uppercase text-muted-foreground">Input</span>
             <textarea
               value={hashInput}
               onChange={(e) => setHashInput(e.target.value)}
@@ -225,7 +225,7 @@ export default function EncodeHashPage() {
       {tab === "jwt" && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">JWT Token</span>
+            <span className="text-[11px] uppercase text-muted-foreground">JWT Token</span>
             <textarea
               value={jwtInput}
               onChange={(e) => setJwtInput(e.target.value)}
@@ -255,7 +255,7 @@ export default function EncodeHashPage() {
 
       {/* Examples */}
       <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <span className="text-[11px] uppercase text-muted-foreground">Examples</span>
         <div className="flex flex-wrap gap-2">
           {[
             {

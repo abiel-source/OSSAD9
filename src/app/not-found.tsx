@@ -16,7 +16,7 @@ export default function NotFound() {
 
         {/* Error content */}
         <div className="flex flex-col gap-3">
-          <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+          <span className="text-[11px] uppercase text-muted-foreground">
             Error
           </span>
           <h1 className="text-6xl font-bold text-foreground">404</h1>

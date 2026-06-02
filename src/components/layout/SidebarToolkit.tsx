@@ -61,7 +61,7 @@ export default function SidebarToolkit({
           />
           <span
             className={cn(
-              "flex-1 text-left text-[11px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden",
+              "flex-1 text-left text-[11px] font-semibold uppercase whitespace-nowrap overflow-hidden",
               hasActiveChild ? "text-foreground" : "text-muted-foreground"
             )}
           >

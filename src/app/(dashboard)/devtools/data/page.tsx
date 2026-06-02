@@ -88,7 +88,7 @@ export default function DataBandwidthPage() {
 
           {/* Data converter */}
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[11px] uppercase text-muted-foreground">
               Data Size Converter
             </span>
             <div className="flex gap-3">
@@ -132,7 +132,7 @@ export default function DataBandwidthPage() {
 
           {/* Transfer time */}
           <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            <span className="text-[11px] uppercase text-muted-foreground">
               Transfer Time Estimator
             </span>
             <p className="text-[11px] text-muted-foreground">
@@ -165,7 +165,7 @@ export default function DataBandwidthPage() {
 
         {/* Right column: SLA table */}
         <div className="flex flex-col p-4 gap-3 bg-card border border-border lg:w-[420px]">
-          <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+          <span className="text-[11px] uppercase text-muted-foreground">
             SLA Uptime Reference
           </span>
           <div className="border border-border overflow-hidden">
@@ -204,7 +204,7 @@ export default function DataBandwidthPage() {
 
       {/* Examples */}
       <div className="flex flex-col p-4 gap-3 bg-card border border-border">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <span className="text-[11px] uppercase text-muted-foreground">Examples</span>
         <div className="flex flex-wrap gap-2">
           {[
             { label: "4K movie",      dv: "50",    du: "GB" as DataUnit,  sv: "100",  su: "Mbps" as SpeedUnit },

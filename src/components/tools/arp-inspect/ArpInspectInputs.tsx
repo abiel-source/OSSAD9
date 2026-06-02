@@ -50,11 +50,11 @@ export function ArpInspectInputs({
     <div className="flex flex-col gap-3 p-4 mb-5 bg-card border border-border">
       {/* Header */}
       <div className="flex items-center gap-3 flex-shrink-0">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+        <span className="text-[11px] uppercase text-muted-foreground">
           ARP Configuration
         </span>
         {isRemoteDeployment && (
-          <span className="text-[10px] tracking-[0.12em] uppercase text-amber-500">
+          <span className="text-[10px] uppercase text-amber-500">
             Simulation Mode
           </span>
         )}
@@ -82,7 +82,7 @@ export function ArpInspectInputs({
               key={i}
               onClick={() => setInterface(i)}
               className={cn(
-                "px-3 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 border-t border-b border-l border-border",
+                "px-3 py-2 text-[12px] transition-colors duration-150 border-t border-b border-l border-border",
                 _interface === i
                   ? "bg-primary text-primary-foreground"
                   : "bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -111,7 +111,7 @@ export function ArpInspectInputs({
         <button
           onClick={handleReset}
           disabled={isRunning && !isPaused}
-          className="flex items-center justify-center gap-2 px-4 py-2 text-[12px] tracking-[0.08em] transition-colors duration-150 flex-shrink-0 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 px-4 py-2 text-[12px] transition-colors duration-150 flex-shrink-0 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <RotateCcw size={12} />
           Reset

@@ -89,7 +89,7 @@ export default function MacToolsPage() {
       />
 
       <div className="flex flex-col p-4 mb-5 gap-3 bg-card border border-border">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+        <span className="text-[11px] uppercase text-muted-foreground">
           MAC Address
         </span>
         <input
@@ -113,7 +113,7 @@ export default function MacToolsPage() {
               {["Field", "Value"].map((col) => (
                 <th
                   key={col}
-                  className="px-3 py-2 text-left tracking-[0.08em] uppercase font-medium text-muted-foreground"
+                  className="px-3 py-2 text-left uppercase font-medium text-muted-foreground"
                   style={{ fontSize: "10px" }}
                 >
                   {col}
@@ -142,7 +142,7 @@ export default function MacToolsPage() {
 
       {/* Examples */}
       <div className="mt-5 flex flex-col p-4 gap-3 bg-card border border-border">
-        <span className="text-[11px] tracking-[0.16em] uppercase text-muted-foreground">Examples</span>
+        <span className="text-[11px] uppercase text-muted-foreground">Examples</span>
         <div className="flex flex-wrap gap-2">
           {[
             { label: "00:0C:29:4A:B2:C1", desc: "VMware (colon)" },

@@ -41,7 +41,7 @@ export default function SidebarToolItem({
       >
         <Icon size={ICON_SIZE} className="flex-shrink-0" />
         {!collapsed && (
-          <span className="flex-1 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap overflow-hidden">
+          <span className="flex-1 text-[13px] font-medium whitespace-nowrap overflow-hidden">
             {tool.label}
           </span>
         )}

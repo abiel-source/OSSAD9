@@ -19,7 +19,7 @@ export default function Footer() {
           <a
             key={link}
             href="#"
-            className="text-[12px] tracking-[0.1em] text-muted-foreground hover:text-foreground hover:underline transition-colors duration-150"
+            className="text-[12px] text-muted-foreground hover:text-foreground hover:underline transition-colors duration-150"
           >
             {link}
           </a>
@@ -31,7 +31,7 @@ export default function Footer() {
         {["WCAG AA", "SOC 2"].map((label) => (
           <div
             key={label}
-            className="px-3 py-1 text-[11px] tracking-[0.15em] uppercase border border-border bg-muted/20 text-muted-foreground"
+            className="px-3 py-1 text-[11px] uppercase border border-border bg-muted/20 text-muted-foreground"
           >
             {label}
           </div>
