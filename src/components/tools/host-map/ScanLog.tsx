@@ -32,15 +32,15 @@ export function ScanLog() {
   }, [logs]);
 
   return (
-    <div className="flex flex-col flex-1 border border-border overflow-hidden p-4 gap-3 bg-card">
-      {/* HEADER */}
+    <div className="flex flex-col flex-1 border border-border p-4 gap-3 bg-card">
+      {/* Header */}
       <div className="flex items-center flex-shrink-0">
         <span className="text-[11px] uppercase text-muted-foreground">
           Scan Log
         </span>
       </div>
 
-      {/* SCAN ENTRIES */}
+      {/* Scan entries */}
       <div
         ref={scrollRef}
         className="h-[500px] overflow-y-auto px-3 py-2 space-y-1 border border-border bg-background"

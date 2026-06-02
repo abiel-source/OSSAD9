@@ -103,7 +103,10 @@ function Canvas({
         : "var(--primary)"; // running
 
   return (
-    <div className="flex flex-col flex-1 pb-[26px] border border-border bg-card">
+    // FIX: by default flex children have min width auto which disallows shrinking below the content size
+    // since the canvas width is variable from inserting graphical nodes, we need to lower the floor to min-w-0
+    // otherwise the canvas pushes the scan log sibling into the direct parent's padding.
+    <div className="flex flex-col flex-1 min-w-0 pb-[26px] border border-border bg-card">
       {/* Header */}
       <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between px-4 py-2 gap-2">
         {/* Left header group */}
