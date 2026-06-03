@@ -1,7 +1,10 @@
-// Types are Firebase/Firestore compatible:
-// (All IDs are strings)
-// (No undefined values - null instead)
+// NOTE: Types are Firebase/Firestore compatible:
+// Constraint 1: All IDs are strings
+// Constraint 2: No undefined values - null instead
 
+//////////////////////////////////////////////////////////////
+////////////////////////// Host Map //////////////////////////
+//////////////////////////////////////////////////////////////
 export type DeviceType = "router" | "device";
 
 export interface DiscoveredHost {
@@ -14,6 +17,9 @@ export interface DiscoveredHost {
   deviceType: DeviceType;
 }
 
+///////////////////////////////////////////////////////////////
+////////////////////////// Route Trace ////////////////////////
+///////////////////////////////////////////////////////////////
 export interface Hop {
   ttl: number;
   ip: string | null; // null = timeout (* * *)
@@ -22,6 +28,9 @@ export interface Hop {
   rtts: (number | null)[]; // one per probe, null = timeout
 }
 
+///////////////////////////////////////////////////////////////
+////////////////////////// Arp Inspect ////////////////////////
+///////////////////////////////////////////////////////////////
 export interface ArpEntry {
   ip: string;
   mac: string;
@@ -32,22 +41,9 @@ export interface ArpEntry {
   conflict: "duplicate-ip" | "duplicate-mac" | "static-violation" | null;
 }
 
-export type LogLevel = "info" | "success" | "warning" | "error";
-
-export interface ScanLogEntry {
-  id: string;
-  timestamp: number;
-  level: LogLevel;
-  message: string;
-}
-
-// SSE events (server --> client)
-export type ScanEvent =
-  | { type: "host_discovered"; host: DiscoveredHost }
-  | { type: "log"; level: LogLevel; message: string }
-  | { type: "complete"; hostsFound: number; durationMs: number }
-  | { type: "error"; message: string };
-
+///////////////////////////////////////////////////////////////
+////////////////////////// Network Inventory //////////////////
+///////////////////////////////////////////////////////////////
 // Pool stores together into 1 catalogue
 // combination of unique fields from DiscoveredHost, Hop & ArpEntry
 // combine duplicate IP from cross-data into 1 InventoryItem
@@ -65,3 +61,22 @@ export interface InventoryItem {
   conflict: ArpEntry["conflict"]; // arp only
   sources: ("hostmap" | "routetrace" | "arp")[];
 }
+
+///////////////////////////////////////////////////////////////
+////////////////////////// Scan Log ///////////////////////////
+///////////////////////////////////////////////////////////////
+export type LogLevel = "info" | "success" | "warning" | "error";
+
+export interface ScanLogEntry {
+  id: string;
+  timestamp: number;
+  level: LogLevel;
+  message: string;
+}
+
+// SSE events (server --> client)
+export type ScanEvent =
+  | { type: "host_discovered"; host: DiscoveredHost }
+  | { type: "log"; level: LogLevel; message: string }
+  | { type: "complete"; hostsFound: number; durationMs: number }
+  | { type: "error"; message: string };
