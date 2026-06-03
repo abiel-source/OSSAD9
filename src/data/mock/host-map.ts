@@ -1,0 +1,58 @@
+import { DiscoveredHost } from "@/types/network";
+
+export const MOCK_DATA: DiscoveredHost[] = [
+  {
+    id: "10.0.1.1",
+    ip: "10.0.1.1",
+    hostname: "gateway.local",
+    mac: "00:1a:2b:3c:4d:01",
+    vendor: "Cisco Systems",
+    latencyMs: 1,
+    deviceType: "router",
+  },
+  {
+    id: "10.0.1.10",
+    ip: "10.0.1.10",
+    hostname: "workstation-1.local",
+    mac: "00:1a:2b:3c:4d:10",
+    vendor: "Dell Inc.",
+    latencyMs: 3,
+    deviceType: "device",
+  },
+  {
+    id: "10.0.1.20",
+    ip: "10.0.1.20",
+    hostname: "laptop-1.local",
+    mac: "00:1a:2b:3c:4d:20",
+    vendor: "Apple Inc.",
+    latencyMs: 5,
+    deviceType: "device",
+  },
+  {
+    id: "10.0.1.30",
+    ip: "10.0.1.30",
+    hostname: null,
+    mac: "00:1a:2b:3c:4d:30",
+    vendor: "Espressif Inc.",
+    latencyMs: 8,
+    deviceType: "device",
+  },
+  {
+    id: "10.0.1.40",
+    ip: "10.0.1.40",
+    hostname: "nas.local",
+    mac: "00:1a:2b:3c:4d:40",
+    vendor: "Hewlett Packard",
+    latencyMs: 2,
+    deviceType: "device",
+  },
+  {
+    id: "10.0.1.50",
+    ip: "10.0.1.50",
+    hostname: "phone-1.local",
+    mac: "00:1a:2b:3c:4d:50",
+    vendor: "Samsung Electronics",
+    latencyMs: 6,
+    deviceType: "device",
+  },
+];
