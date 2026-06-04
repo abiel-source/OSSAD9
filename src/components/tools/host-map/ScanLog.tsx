@@ -22,7 +22,6 @@ function formatTime(ts: number): string {
 
 export function ScanLog() {
   const logs = useTopologyStore((s) => s.logs);
-  const isScanning = useTopologyStore((s) => s.isScanning);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

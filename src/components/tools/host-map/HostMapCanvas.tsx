@@ -3,7 +3,6 @@
 import { DiscoveredHost } from "@/types/network";
 import { GraphNode, StarGraph } from "@/lib/graph";
 import { class2Colour } from "@/lib/graph";
-import { useTopologyStore } from "@/store/topology";
 
 export interface HostMapCanvasProps {
   nodes: DiscoveredHost[];
@@ -20,13 +19,11 @@ function Host2Class(host: DiscoveredHost): GraphNode["class"] {
   if (host.latencyMs < 100) return "nominal";
   if (host.latencyMs < 300) return "cautious";
   if (host.latencyMs >= 300) return "warning";
-  // unreachable branch - cannot tell between disconnected node and lack of latency information
+  // WARNING: unreachable branch - cannot tell between disconnected node and lack of latency information
   else return "catastrophic";
 }
 
 export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
-  const { isPaused } = useTopologyStore();
-
   const runningHosts = nodes.length;
 
   const numericalLatencies = nodes
@@ -61,7 +58,6 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
     <Canvas
       graphNodes={graphNodes}
       isRunning={isRunning}
-      isPaused={isPaused}
       runningHosts={runningHosts}
       runningLatency={runningLatency}
     />
@@ -71,13 +67,11 @@ export function HostMapCanvas({ nodes, isRunning }: HostMapCanvasProps) {
 function Canvas({
   graphNodes,
   isRunning,
-  isPaused,
   runningHosts,
   runningLatency,
 }: {
   graphNodes: GraphNode[];
   isRunning: boolean;
-  isPaused: boolean;
   runningHosts: number;
   runningLatency: string;
 }) {
@@ -98,9 +92,7 @@ function Canvas({
     ? class2Colour("cautious") // initial state
     : !isRunning
       ? class2Colour("running") // complete
-      : isPaused
-        ? class2Colour("cautious") // running but paused
-        : "var(--primary)"; // running
+      : "var(--primary)"; // running
 
   return (
     // FIX: by default flex children have min width auto which disallows shrinking below the content size
@@ -115,23 +107,14 @@ function Canvas({
             className="rounded-full w-2 h-2 shrink-0"
             style={{
               backgroundColor: statusColour,
-              animation:
-                isRunning && !isPaused
-                  ? "flash 0.33s ease-in-out infinite"
-                  : "",
+              animation: isRunning ? "flash 0.33s ease-in-out infinite" : "",
             }}
           />
           <span
             className="text-[12px]"
             style={{ color: statusColour, opacity: 0.66 }}
           >
-            {isInitialState
-              ? "idle"
-              : !isRunning
-                ? "done"
-                : isPaused
-                  ? "paused"
-                  : "mapping"}
+            {isInitialState ? "idle" : !isRunning ? "done" : "mapping"}
           </span>
         </div>
 
