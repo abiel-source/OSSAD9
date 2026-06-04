@@ -1,16 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
 import ToolHeader from "@/components/ui/ToolHeader";
 import { Network } from "lucide-react";
 import { useTopologyStore } from "@/store/topology";
-import { useCapabilitiesStore } from "@/store/capabilities";
 import { type ScanEvent, type DiscoveredHost } from "@/types/network";
 import { ScanLog } from "@/components/tools/host-map/ScanLog";
 import { HostMapInputs } from "@/components/tools/host-map/HostMapInputs";
 import { HostMapCanvas } from "@/components/tools/host-map/HostMapCanvas";
 import { HostMapConfig } from "@/components/tools/host-map/HostMapInputs";
-import { MOCK_DATA } from "@/data/mock/host-map";
 
 const COMPLIANCES = ["WCAG AA"];
 
@@ -32,7 +29,8 @@ export default function TopologyPage() {
     try {
       const res = await fetch(url);
       if (!res.ok || !res.body) {
-        handleScanEvent({ type: "error", message: `HTTP ${res.status}` });
+        const msg = await res.text();
+        handleScanEvent({ type: "error", message: msg });
         return;
       }
 
@@ -70,161 +68,9 @@ export default function TopologyPage() {
     }
   };
 
-  // REAL BACKEND HANDLER
-  // const handleRun = (config: HostMapConfig) => {
-  //   handleDiscover(config.target);
-  // };
-
-  ////////////////////////////////////////////////////
-  /////////// HANDLER FOR MOCK DATA TESTING //////////
-  ////////////////////////////////////////////////////
-  const {
-    timeoutRefs,
-    dispatchedCountRef,
-    appendTimeoutRef,
-    emptyTimeoutRefs,
-    incrementDispatchCount,
-  } = useTopologyStore();
-
   const handleRun = (config: HostMapConfig) => {
-    timeoutRefs.forEach((t) => window.clearTimeout(t));
-    reset();
-    startScan();
-    handleScanEvent({
-      type: "log",
-      level: "info",
-      message: "Starting HOST MAP v1.0.0...",
-    });
-    handleScanEvent({
-      type: "log",
-      level: "warning",
-      message: "Remote deployment detected",
-    });
-    handleScanEvent({
-      type: "log",
-      level: "warning",
-      message:
-        "Running HOST MAP remotely violates Vercel server TOS - simulating network data instead",
-    });
-    handleScanEvent({
-      type: "log",
-      level: "info",
-      message: "To HOST MAP your LAN consider switching to a local deployment",
-    });
-
-    MOCK_DATA.forEach((host, i) => {
-      const t = window.setTimeout(
-        () => {
-          handleScanEvent({ type: "host_discovered", host });
-          handleScanEvent({
-            type: "log",
-            level: "success",
-            message: `Discovered host ${host.ip}`,
-          });
-          handleScanEvent({
-            type: "log",
-            level: "info",
-            message: `${host.ip}${
-              host.hostname ? ` name: (${host.hostname})` : ""
-            }${host.mac ? ` mac: ${host.mac}` : ""}${
-              host.vendor ? ` vendor: ${host.vendor}` : ""
-            }${host.deviceType ? ` device type: ${host.deviceType}` : ""}`,
-          });
-
-          incrementDispatchCount();
-        },
-        (i + 1) * 500,
-      );
-
-      appendTimeoutRef(t);
-    });
-
-    const completionT = window.setTimeout(
-      () => {
-        handleScanEvent({
-          type: "complete",
-          hostsFound: MOCK_DATA.length,
-          durationMs: 3000,
-        });
-      },
-      (MOCK_DATA.length + 1) * 500,
-    );
-
-    appendTimeoutRef(completionT);
+    handleDiscover(config.target);
   };
-
-  const handleResume = () => {
-    const dispatchCount = dispatchedCountRef;
-
-    handleScanEvent({
-      type: "log",
-      level: "info",
-      message: "Resuming host discovery...",
-    });
-
-    // handle completion
-    if (dispatchCount === MOCK_DATA.length) {
-      const completionT = window.setTimeout(() => {
-        handleScanEvent({
-          type: "complete",
-          hostsFound: MOCK_DATA.length,
-          durationMs: 3000,
-        });
-      }, 500);
-
-      appendTimeoutRef(completionT);
-      return;
-    }
-
-    // still more data
-    MOCK_DATA.slice(dispatchCount).forEach((host, i) => {
-      const t = window.setTimeout(
-        () => {
-          handleScanEvent({ type: "host_discovered", host });
-          handleScanEvent({
-            type: "log",
-            level: "success",
-            message: `Discovered host ${host.ip}`,
-          });
-          handleScanEvent({
-            type: "log",
-            level: "info",
-            message: `${host.ip}${
-              host.hostname ? ` name: (${host.hostname})` : ""
-            }${host.mac ? ` mac: ${host.mac}` : ""}${
-              host.vendor ? ` vendor: ${host.vendor}` : ""
-            }${host.deviceType ? ` device type: ${host.deviceType}` : ""}`,
-          });
-
-          incrementDispatchCount();
-        },
-        (i + 1) * 500,
-      );
-
-      appendTimeoutRef(t);
-    });
-
-    const completionT = window.setTimeout(
-      () => {
-        handleScanEvent({
-          type: "complete",
-          hostsFound: MOCK_DATA.length,
-          durationMs: 3000,
-        });
-      },
-      (MOCK_DATA.length + 1 - dispatchCount) * 500,
-    );
-
-    appendTimeoutRef(completionT);
-  };
-
-  const handleStop = () => {
-    timeoutRefs.forEach((t) => window.clearTimeout(t));
-    emptyTimeoutRefs();
-  };
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
 
   // Returns index of the best-guess gateway node
   function filterGateway(hosts: DiscoveredHost[]): number {
@@ -273,13 +119,7 @@ export default function TopologyPage() {
         onSaveToProject={() => console.log("save")}
       />
 
-      <HostMapInputs
-        onRun={handleRun}
-        onReset={reset}
-        onStop={handleStop}
-        onResume={handleResume}
-        isRunning={isScanning}
-      />
+      <HostMapInputs onRun={handleRun} onReset={reset} isRunning={isScanning} />
 
       <div className="flex flex-col lg:flex-row gap-4 mb-5">
         <HostMapCanvas nodes={hostList} isRunning={isScanning} />
