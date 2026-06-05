@@ -8,6 +8,8 @@ import { ScanLog } from "@/components/tools/host-map/ScanLog";
 import { HostMapInputs } from "@/components/tools/host-map/HostMapInputs";
 import { HostMapCanvas } from "@/components/tools/host-map/HostMapCanvas";
 import { HostMapConfig } from "@/components/tools/host-map/HostMapInputs";
+import { References } from "@/components/tools/host-map/References";
+import { About } from "@/components/tools/host-map/About";
 
 const COMPLIANCES = ["WCAG AA"];
 
@@ -125,6 +127,9 @@ export default function TopologyPage() {
         <HostMapCanvas nodes={hostList} isRunning={isScanning} />
         <ScanLog />
       </div>
+
+      <References />
+      <About />
     </div>
   );
 }
