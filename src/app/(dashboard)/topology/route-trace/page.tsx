@@ -10,75 +10,11 @@ import TraceInputs, {
 import TraceCanvas from "@/components/tools/route-trace/TraceCanvas";
 import TraceDetails from "@/components/tools/route-trace/TraceDetails";
 import { useRouteTraceStore } from "@/store/routetrace";
-import { Hop } from "@/types/network";
+import { MOCK_DATA } from "@/data/mock/route-trace";
 
 import { CompletionIndicator } from "@/lib/graph";
 
 const COMPLIANCES = ["RFC 792", "RFC 1393", "RFC 2544", "RFC 4443"];
-
-// const MOCK_DATA: Hop[] = [
-//   {
-//     ttl: 1,
-//     ip: "192.168.1.1",
-//     hostname: "router.local",
-//     asn: "AS1234",
-//     rtts: [1, 2, 1],
-//   },
-//   {
-//     ttl: 2,
-//     ip: "10.0.0.1",
-//     hostname: "isp-gateway.net",
-//     asn: "AS5678",
-//     rtts: [12, 11, 13],
-//   },
-//   { ttl: 3, ip: null, hostname: null, asn: null, rtts: [null, null, null] },
-//   {
-//     ttl: 4,
-//     ip: "72.14.209.1",
-//     hostname: "google-peering.net",
-//     asn: "AS15169",
-//     rtts: [18, 20, 19],
-//   },
-//   {
-//     ttl: 5,
-//     ip: "8.8.8.8",
-//     hostname: "dns.google",
-//     asn: "AS15169",
-//     rtts: [22, 21, 23],
-//   },
-// ];
-
-const MOCK_DATA: Hop[] = [
-  {
-    ttl: 1,
-    ip: "10.0.1.1",
-    hostname: "gateway.local",
-    asn: null,
-    rtts: [1, 2, 1],
-  },
-  {
-    ttl: 2,
-    ip: "10.10.0.1",
-    hostname: "isp-edge.net",
-    asn: "AS7018",
-    rtts: [11, 12, 10],
-  },
-  { ttl: 3, ip: null, hostname: null, asn: null, rtts: [null, null, null] },
-  {
-    ttl: 4,
-    ip: "72.14.209.1",
-    hostname: "core-peer.net",
-    asn: "AS15169",
-    rtts: [18, 20, 19],
-  },
-  {
-    ttl: 5,
-    ip: "8.8.8.8",
-    hostname: "dns.google",
-    asn: "AS15169",
-    rtts: [22, 21, 23],
-  },
-];
 
 export default function RouteTracePage() {
   const { hops, isRunning, setHops, appendHops, setIsRunning, reset } =
@@ -103,17 +39,23 @@ export default function RouteTracePage() {
     setIsRunning(true);
 
     MOCK_DATA.forEach((hop, i) => {
-      const t = window.setTimeout(() => {
-        appendHops([hop]);
-        incrementDispatchCount();
-      }, (i + 1) * 500);
+      const t = window.setTimeout(
+        () => {
+          appendHops([hop]);
+          incrementDispatchCount();
+        },
+        (i + 1) * 500,
+      );
 
       appendTimeoutRef(t);
     });
 
-    const completionT = window.setTimeout(() => {
-      setIsRunning(false);
-    }, (MOCK_DATA.length + 1) * 500);
+    const completionT = window.setTimeout(
+      () => {
+        setIsRunning(false);
+      },
+      (MOCK_DATA.length + 1) * 500,
+    );
 
     appendTimeoutRef(completionT);
   };
@@ -133,17 +75,23 @@ export default function RouteTracePage() {
 
     // general: queue remaining data + completion timeout
     MOCK_DATA.slice(dispatchCount).forEach((hop, i) => {
-      const t = window.setTimeout(() => {
-        appendHops([hop]);
-        incrementDispatchCount();
-      }, (i + 1) * 500);
+      const t = window.setTimeout(
+        () => {
+          appendHops([hop]);
+          incrementDispatchCount();
+        },
+        (i + 1) * 500,
+      );
 
       appendTimeoutRef(t);
     });
 
-    const completionT = window.setTimeout(() => {
-      setIsRunning(false);
-    }, (MOCK_DATA.length - dispatchCount + 1) * 500);
+    const completionT = window.setTimeout(
+      () => {
+        setIsRunning(false);
+      },
+      (MOCK_DATA.length - dispatchCount + 1) * 500,
+    );
 
     appendTimeoutRef(completionT);
   };
