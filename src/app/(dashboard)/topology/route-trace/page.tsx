@@ -13,7 +13,7 @@ import { Hop } from "@/types/network";
 const COMPLIANCES = ["RFC 792", "RFC 1393", "RFC 2544", "RFC 4443"];
 
 export default function RouteTracePage() {
-  const { hops, isRunning, setHops, appendHops, setIsRunning, reset } =
+  const { hops, isRunning, appendHops, setIsRunning, reset } =
     useRouteTraceStore();
 
   const handleTrace = async (target: string) => {
@@ -53,6 +53,8 @@ export default function RouteTracePage() {
         buffer = parts.pop() ?? ""; // save last chunk if incomplete
 
         for (const part of parts) {
+          // NOTE: the data line is the only line that is sent by /api/topology/trace
+          // but a future update will cleanly separate event types: log and hop_traced
           const dataLine = part.split("\n").find((l) => l.startsWith("data:"));
           if (!dataLine) continue;
 
