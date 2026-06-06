@@ -13,11 +13,16 @@ const targetSchema = z.string().min(1).max(253);
 
 // SSE events stream raw Hop objects for now - client consumes into store directly
 // ScanEvent integration is implemented next update
-async function mockTrace(send: (hop: Hop) => void) {}
+async function mockTrace(send: (hop: Hop) => void) {
+  for (const hop of MOCK_DATA) {
+    await new Promise<void>((resolve) => setTimeout(resolve, 500));
+    send(hop);
+  }
+}
 
 export async function GET(request: NextRequest) {
   const hasTraceRoute = !isRemoteDeployment
-    ? checkBinary("tracert") // Windows
+    ? checkBinary("tracert /?") || checkBinary("traceroute --version")
     : false;
 
   const targetParam = request.nextUrl.searchParams.get("target");
@@ -32,7 +37,6 @@ export async function GET(request: NextRequest) {
   }
 
   const target = parsed.data;
-
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream({
