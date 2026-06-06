@@ -6,7 +6,7 @@ import { useCapabilitiesStore } from "@/store/capabilities";
 import { cn } from "@/lib/utils";
 
 export interface ArpInspectConfig {
-  target: string;
+  cidr: string;
   interface: "ETH0" | "EN0";
   timeout: number;
 }
@@ -22,7 +22,7 @@ export function ArpInspectInputs({
   onRun,
   onReset,
 }: ArpInspectInputsProps) {
-  const [target, setTarget] = useState("");
+  const [cidr, setCidr] = useState("");
   const [_interface, setInterface] =
     useState<ArpInspectConfig["interface"]>("ETH0");
   const [timeout, setTimeout] = useState(5);
@@ -30,8 +30,8 @@ export function ArpInspectInputs({
   const { isRemoteDeployment } = useCapabilitiesStore();
 
   const handleRun = () => {
-    if (!target.trim()) return;
-    onRun({ target: target.trim(), interface: _interface, timeout });
+    if (!cidr.trim()) return;
+    onRun({ cidr: cidr.trim(), interface: _interface, timeout });
   };
 
   return (
@@ -46,8 +46,8 @@ export function ArpInspectInputs({
       <div className="flex flex-col sm:flex-row gap-3">
         <input
           type="text"
-          value={target}
-          onChange={(e) => setTarget(e.target.value)}
+          value={cidr}
+          onChange={(e) => setCidr(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && !isRunning && handleRun()}
           placeholder={
             isRemoteDeployment

@@ -76,7 +76,7 @@ export default function ArpMapPage() {
   };
 
   const handleRun = (config: ArpInspectConfig) => {
-    handleArp(config.target);
+    handleArp(config.cidr);
   };
 
   return (
