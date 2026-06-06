@@ -2,8 +2,6 @@
 
 import type { ArpEntry } from "@/types/network";
 
-export type { ArpEntry };
-
 export interface ArpInspectDetailsProps {
   entries: ArpEntry[];
 }
