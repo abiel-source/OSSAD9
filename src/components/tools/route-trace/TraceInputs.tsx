@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Play, Square, RotateCcw } from "lucide-react";
-import { useRouteTraceStore } from "@/store/routetrace";
+import { Play, RotateCcw, Loader } from "lucide-react";
 import { useCapabilitiesStore } from "@/store/capabilities";
 import { cn } from "@/lib/utils";
 
@@ -17,16 +16,12 @@ export interface TraceConfig {
 interface TraceInputsProps {
   isRunning: boolean;
   onRun: (config: TraceConfig) => void;
-  onStop: () => void;
-  onResume: () => void;
   onReset: () => void;
 }
 
 export default function TraceInputs({
   isRunning,
   onRun,
-  onStop,
-  onResume,
   onReset,
 }: TraceInputsProps) {
   const [target, setTarget] = useState("");
@@ -35,35 +30,21 @@ export default function TraceInputs({
   const [timeout, setTimeout] = useState(5);
   const [probes, setProbes] = useState(3);
 
-  const { isPaused, setIsPaused } = useRouteTraceStore();
-  const { isRemoteDeployment, hasTraceroute, environment } = useCapabilitiesStore();
-
-  const isDisabled = isRemoteDeployment || !hasTraceroute;
-
-  const badge = isRemoteDeployment
-    ? { label: "Simulation Mode", cls: "text-amber-500" }
-    : !hasTraceroute
-    ? { label: "traceroute not found", cls: "text-destructive" }
-    : null;
+  const { isRemoteDeployment, hasTraceroute, environment } =
+    useCapabilitiesStore();
 
   const placeholder = isRemoteDeployment
-    ? "Unavailable in remote mode"
+    ? "Trace route is simulated for remote deployments: Enter a dummy subnet"
     : !hasTraceroute && environment === "electron"
-    ? "traceroute not found — reinstall the application"
-    : !hasTraceroute && environment === "local"
-    ? "traceroute not installed — available by default on most systems"
-    : "Hostname or IP address";
+      ? "traceroute not found: Trace route is simulated"
+      : !hasTraceroute && environment === "local"
+        ? "traceroute not installed: Trace route is simulated"
+        : "Hostname or IP address";
 
   const handleRun = () => {
-    setTarget("SAMPLE.SUBNET.1.0/24");
-    // if (!target.trim()) return;
-    setIsPaused(false);
+    if (!target.trim()) return;
     onRun({ target: target.trim(), protocol, maxHops, timeout, probes });
   };
-
-  const handleResume = () => { setIsPaused(false); onResume(); };
-  const handleStop = () => { setIsPaused(true); onStop(); };
-  const handleReset = () => { setIsPaused(false); onReset(); };
 
   return (
     <div className="flex flex-col gap-3 p-4 mb-5 bg-card border border-border">
@@ -72,11 +53,6 @@ export default function TraceInputs({
         <span className="text-[11px] uppercase text-muted-foreground">
           Trace Configuration
         </span>
-        {badge && (
-          <span className={cn("text-[10px] uppercase px-2.5 py-0.5", badge.cls)}>
-            {badge.label}
-          </span>
-        )}
       </div>
 
       {/* Main row */}
@@ -85,13 +61,11 @@ export default function TraceInputs({
           type="text"
           value={target}
           onChange={(e) => setTarget(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !isRunning && !isDisabled && handleRun()}
+          onKeyDown={(e) => e.key === "Enter" && !isRunning && handleRun()}
           placeholder={placeholder}
-          disabled={isDisabled}
           className={cn(
             "flex-1 px-3 py-2 text-[13px] font-mono outline-none bg-background border border-border text-foreground",
             "placeholder:text-muted-foreground",
-            isDisabled && "opacity-50 cursor-not-allowed text-muted-foreground"
           )}
         />
 
@@ -105,7 +79,7 @@ export default function TraceInputs({
                 "px-3 py-2 text-[12px] transition-colors duration-150 border-t border-b border-l border-border",
                 protocol === p
                   ? "bg-primary text-primary-foreground"
-                  : "bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               )}
             >
               {p}
@@ -113,24 +87,27 @@ export default function TraceInputs({
           ))}
         </div>
 
-        {/* Run / Stop / Resume */}
+        {/* Run / Reset */}
         <button
-          onClick={isRunning && !isPaused ? handleStop : isPaused ? handleResume : handleRun}
+          onClick={handleRun}
+          disabled={isRunning}
           className={cn(
             "flex items-center justify-center gap-2 px-4 py-2 text-[12px] transition-colors duration-150 flex-shrink-0 border",
-            isRunning && !isPaused
-              ? "bg-destructive border-destructive text-destructive-foreground"
-              : "bg-primary border-primary text-primary-foreground"
+            "bg-primary border-primary text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed",
           )}
         >
-          {isRunning && !isPaused ? <Square size={12} /> : <Play size={12} />}
-          {isRunning && !isPaused ? "Stop" : isPaused ? "Resume" : "Play"}
+          {isRunning ? (
+            <Loader size={12} className="animate-spin" />
+          ) : (
+            <Play size={12} />
+          )}
+          {isRunning ? "Running..." : "Play"}
         </button>
 
         {/* Reset */}
         <button
-          onClick={handleReset}
-          disabled={isRunning && !isPaused}
+          onClick={onReset}
+          disabled={isRunning}
           className="flex items-center justify-center gap-2 px-4 py-2 text-[12px] transition-colors duration-150 flex-shrink-0 border border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <RotateCcw size={12} />
@@ -140,9 +117,27 @@ export default function TraceInputs({
 
       {/* Config row */}
       <div className="flex flex-wrap gap-4">
-        <ConfigField label="Max Hops" value={maxHops} min={1} max={64} onChange={setMaxHops} />
-        <ConfigField label="Timeout (s)" value={timeout} min={1} max={30} onChange={setTimeout} />
-        <ConfigField label="Probes / Hop" value={probes} min={1} max={10} onChange={setProbes} />
+        <ConfigField
+          label="Max Hops"
+          value={maxHops}
+          min={1}
+          max={64}
+          onChange={setMaxHops}
+        />
+        <ConfigField
+          label="Timeout (s)"
+          value={timeout}
+          min={1}
+          max={30}
+          onChange={setTimeout}
+        />
+        <ConfigField
+          label="Probes / Hop"
+          value={probes}
+          min={1}
+          max={10}
+          onChange={setProbes}
+        />
       </div>
     </div>
   );
