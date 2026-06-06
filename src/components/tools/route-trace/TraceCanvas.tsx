@@ -3,7 +3,6 @@
 import { Hop } from "@/types/network";
 import { LineGraph, GraphNode, GraphNodeClass } from "@/lib/graph";
 import { class2Colour } from "@/lib/graph";
-import { useRouteTraceStore } from "@/store/routetrace";
 
 interface TraceCanvasProps {
   hops: Hop[];
@@ -11,8 +10,6 @@ interface TraceCanvasProps {
 }
 
 export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
-  const { isPaused } = useRouteTraceStore();
-
   if (!isRunning && hops.length === 0) {
     return (
       <div className="flex flex-col mb-5 pb-[26px] border border-border bg-card">
@@ -47,7 +44,10 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
         </div>
 
         {/* EMPTY CANVAS */}
-        <div className="w-full flex items-center justify-center" style={{ height: "144px" }}>
+        <div
+          className="w-full flex items-center justify-center"
+          style={{ height: "144px" }}
+        >
           <span className="text-[12px] text-muted-foreground/60">
             Run a trace to visualize the path
           </span>
@@ -90,11 +90,15 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
     })),
   ];
 
-  const statusColour = !isRunning
-    ? class2Colour("running")
-    : isPaused
-    ? class2Colour("cautious")
-    : "var(--primary)";
+  // WARNING: initial state could be mistaken for mapping 0 hosts (failed map or no network)
+  // instead of displaying idle state we should display the case of a potential failed mapping
+  const isInitialState = !isRunning && runningHops === 0;
+
+  const statusColour = isInitialState
+    ? class2Colour("cautious") // initial state
+    : !isRunning
+      ? class2Colour("running") // complete
+      : "var(--primary)"; // running
 
   return (
     <div className="flex flex-col mb-5 pb-[26px] border border-border bg-card">
@@ -106,14 +110,14 @@ export default function TraceCanvas({ hops, isRunning }: TraceCanvasProps) {
             className="rounded-full w-2 h-2 shrink-0"
             style={{
               backgroundColor: statusColour,
-              animation: isRunning && !isPaused ? "flash 0.33s ease-in-out infinite" : "",
+              animation: isRunning ? "flash 0.33s ease-in-out infinite" : "",
             }}
           />
           <span
             className="text-[12px]"
             style={{ color: statusColour, opacity: 0.66 }}
           >
-            {!isRunning ? "done" : isPaused ? "paused" : "tracing"}
+            {isInitialState ? "idle" : !isRunning ? "done" : "tracing"}
           </span>
         </div>
 

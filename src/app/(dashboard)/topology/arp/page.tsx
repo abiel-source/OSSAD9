@@ -1,186 +1,83 @@
 "use client";
 
-import { useRef } from "react";
 import ToolHeader from "@/components/ui/ToolHeader";
 import { GitBranch } from "lucide-react";
-import { useCapabilitiesStore } from "@/store/capabilities";
 import {
   ArpInspectInputs,
   ArpInspectConfig,
 } from "@/components/tools/arp-inspect/ArpInspectInputs";
 import { ArpInspectDetails } from "@/components/tools/arp-inspect/ArpInspectDetails";
 import { useArpStore } from "@/store/arp";
-import { ArpEntry } from "@/components/tools/arp-inspect/ArpInspectDetails";
+import type { ArpEntry } from "@/types/network";
 
 const COMPLIANCES = ["RFC 826", "RFC 5227", "RFC 7042", "RFC 1122"];
 
-// const MOCK_DATA: ArpEntry[] = [
-//   {
-//     ip: "192.168.1.1",
-//     mac: "aa:bb:cc:dd:ee:ff",
-//     vendor: "Cisco Systems",
-//     interface: "ETH0",
-//     entryType: "static",
-//     ttl: null,
-//     conflict: null,
-//   },
-//   {
-//     ip: "192.168.1.42",
-//     mac: "11:22:33:44:55:66",
-//     vendor: "Apple Inc.",
-//     interface: "EN0",
-//     entryType: "dynamic",
-//     ttl: 180,
-//     conflict: null,
-//   },
-//   {
-//     ip: "192.168.1.101",
-//     mac: "de:ad:be:ef:00:01",
-//     vendor: null,
-//     interface: "ETH0",
-//     entryType: "dynamic",
-//     ttl: 45,
-//     conflict: "duplicate-ip",
-//   },
-//   {
-//     ip: "192.168.1.200",
-//     mac: "de:ad:be:ef:00:01",
-//     vendor: null,
-//     interface: "ETH0",
-//     entryType: "dynamic",
-//     ttl: 60,
-//     conflict: "duplicate-mac",
-//   },
-//   {
-//     ip: "192.168.1.1",
-//     mac: "11:22:33:44:55:66",
-//     vendor: "Apple Inc.",
-//     interface: "EN0",
-//     entryType: "dynamic",
-//     ttl: 90,
-//     conflict: "static-violation",
-//   },
-// ];
-
-const MOCK_DATA: ArpEntry[] = [
-  {
-    ip: "10.0.1.1",
-    mac: "00:1a:2b:3c:4d:01",
-    vendor: "Cisco Systems",
-    interface: "ETH0",
-    entryType: "static",
-    ttl: null,
-    conflict: null,
-  },
-  {
-    ip: "10.0.1.10",
-    mac: "00:1a:2b:3c:4d:10",
-    vendor: "Dell Inc.",
-    interface: "EN0",
-    entryType: "dynamic",
-    ttl: 180,
-    conflict: null,
-  },
-  {
-    ip: "10.0.1.20",
-    mac: "00:1a:2b:3c:4d:20",
-    vendor: "Apple Inc.",
-    interface: "ETH0",
-    entryType: "dynamic",
-    ttl: 120,
-    conflict: "duplicate-ip",
-  },
-  {
-    ip: "10.0.1.30",
-    mac: "00:1a:2b:3c:4d:20",
-    vendor: null,
-    interface: "ETH0",
-    entryType: "dynamic",
-    ttl: 60,
-    conflict: "duplicate-mac",
-  },
-  {
-    ip: "10.0.1.1",
-    mac: "00:1a:2b:3c:4d:50",
-    vendor: "Samsung Electronics",
-    interface: "EN0",
-    entryType: "dynamic",
-    ttl: 90,
-    conflict: "static-violation",
-  },
-];
-
 export default function ArpMapPage() {
-  const { entries, isRunning, setEntries, appendEntries, setIsRunning, reset } =
+  const { entries, isRunning, appendEntries, setIsRunning, reset } =
     useArpStore();
 
-  ////////////////////////////////////////////////////
-  /////////// HANDLER FOR MOCK DATA TESTING //////////
-  ////////////////////////////////////////////////////
-  const {
-    timeoutRefs,
-    dispatchedCountRef,
-    appendTimeoutRef,
-    emptyTimeoutRefs,
-    incrementDispatchCount,
-  } = useArpStore();
+  const handleArp = async (cidr: string) => {
+    if (isRunning || !cidr.trim()) return;
 
-  const handleRun = (config: ArpInspectConfig) => {
-    timeoutRefs.forEach((t) => window.clearTimeout(t));
     reset();
     setIsRunning(true);
 
-    MOCK_DATA.forEach((entry, i) => {
-      const t = window.setTimeout(() => {
-        appendEntries([entry]);
-        incrementDispatchCount();
-      }, (i + 1) * 500);
+    const url = `/api/topology/inspect?cidr=${encodeURIComponent(cidr.trim())}`;
 
-      appendTimeoutRef(t);
-    });
+    try {
+      const res = await fetch(url);
+      if (!res.ok || !res.body) {
+        const msg = await res.text();
+        console.log(msg);
+        return;
+      }
 
-    const completionT = window.setTimeout(() => {
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        // decoded string looks like: data: {"ip":"192.168.1.5","mac":"aa:bb:cc:dd:ee:ff",...}\n\ndata: {"ip":"192.168.1.6","mac":"11:22:33:44:55:66",...}\n\n
+        buffer += decoder.decode(value, { stream: true });
+
+        // split buffer on double newline looks like:
+        // [
+        //   'data: {"ip":"192.168.1.5","mac":"aa:bb:cc:dd:ee:ff",...}',
+        //   'data: {"ip":"192.168.1.6","mac":"11:22:33:44:55:66",...}',
+        //   ''
+        // ]
+        const parts = buffer.split("\n\n");
+        buffer = parts.pop() ?? ""; // save last chunk if incomplete
+
+        for (const part of parts) {
+          // NOTE: the data line is the only line that is sent by /api/topology/inspect
+          // but a future update will cleanly separate event types: log, arp_entry, and arp_cache
+          const dataLine = part.split("\n").find((l) => l.startsWith("data:"));
+          if (!dataLine) continue;
+
+          try {
+            const entry: ArpEntry = JSON.parse(dataLine.slice(5).trim());
+            appendEntries([entry]);
+          } catch {
+            // Skip malformed chunk in case of incompleteness
+          }
+        }
+      }
+    } catch (err: any) {
+      if (err?.name !== "AbortError") {
+        console.log("Error: " + (err?.message ?? "Unknown error"));
+      }
+    } finally {
       setIsRunning(false);
-    }, (MOCK_DATA.length + 1) * 500);
-
-    appendTimeoutRef(completionT);
-  };
-
-  const handleResume = () => {
-    const dispatchCount = dispatchedCountRef;
-
-    if (dispatchCount === MOCK_DATA.length) {
-      const completionT = window.setTimeout(() => {
-        setIsRunning(false);
-      }, 500);
-
-      appendTimeoutRef(completionT);
-      return;
     }
-
-    MOCK_DATA.slice(dispatchCount).forEach((entry, i) => {
-      const t = window.setTimeout(() => {
-        appendEntries([entry]);
-        incrementDispatchCount();
-      }, (i + 1) * 500);
-
-      appendTimeoutRef(t);
-    });
-
-    const completionT = window.setTimeout(() => {
-      setIsRunning(false);
-    }, (MOCK_DATA.length - dispatchCount + 1) * 500);
-
-    appendTimeoutRef(completionT);
   };
 
-  const handleStop = () => {
-    timeoutRefs.forEach((t) => window.clearTimeout(t));
-    emptyTimeoutRefs();
+  const handleRun = (config: ArpInspectConfig) => {
+    handleArp(config.cidr);
   };
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
 
   return (
     <div>
@@ -198,14 +95,12 @@ export default function ArpMapPage() {
       <ArpInspectInputs
         isRunning={isRunning}
         onRun={handleRun}
-        onStop={handleStop}
-        onResume={handleResume}
         onReset={reset}
       />
 
       <ArpInspectDetails entries={entries} />
 
-      {/* add topology graph visualizing arp  */}
+      {/* TODO: add topology graph visualizing arp  */}
     </div>
   );
 }

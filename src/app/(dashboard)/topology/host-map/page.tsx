@@ -49,6 +49,8 @@ export default function TopologyPage() {
         buffer = parts.pop() ?? "";
 
         for (const part of parts) {
+          // NOTE: the data line is the only line that is sent by /api/topology/discover
+          // but a future update will cleanly separate event types: log and host_discovered
           const dataLine = part.split("\n").find((l) => l.startsWith("data:"));
           if (!dataLine) continue;
 

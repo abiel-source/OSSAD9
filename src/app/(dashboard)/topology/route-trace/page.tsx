@@ -1,108 +1,84 @@
 "use client";
 
-import { useRef } from "react";
 import ToolHeader from "@/components/ui/ToolHeader";
 import { Milestone } from "lucide-react";
-import { useCapabilitiesStore } from "@/store/capabilities";
 import TraceInputs, {
   TraceConfig,
 } from "@/components/tools/route-trace/TraceInputs";
 import TraceCanvas from "@/components/tools/route-trace/TraceCanvas";
 import TraceDetails from "@/components/tools/route-trace/TraceDetails";
 import { useRouteTraceStore } from "@/store/routetrace";
-import { MOCK_DATA } from "@/data/mock/route-trace";
-
-import { CompletionIndicator } from "@/lib/graph";
+import { Hop } from "@/types/network";
 
 const COMPLIANCES = ["RFC 792", "RFC 1393", "RFC 2544", "RFC 4443"];
 
 export default function RouteTracePage() {
-  const { hops, isRunning, setHops, appendHops, setIsRunning, reset } =
+  const { hops, isRunning, appendHops, setIsRunning, reset } =
     useRouteTraceStore();
 
-  ////////////////////////////////////////////////////
-  /////////// HANDLER FOR MOCK DATA TESTING //////////
-  ////////////////////////////////////////////////////
-  // const timeoutRefs = useRef<number[]>([]);
-  // const dispatchedCountRef = useRef<number>(0);
-  const {
-    timeoutRefs,
-    dispatchedCountRef,
-    appendTimeoutRef,
-    emptyTimeoutRefs,
-    incrementDispatchCount,
-  } = useRouteTraceStore();
+  const handleTrace = async (target: string) => {
+    if (isRunning || !target.trim()) return;
 
-  const handleRun = (config: TraceConfig) => {
-    timeoutRefs.forEach((t) => window.clearTimeout(t));
     reset();
     setIsRunning(true);
 
-    MOCK_DATA.forEach((hop, i) => {
-      const t = window.setTimeout(
-        () => {
-          appendHops([hop]);
-          incrementDispatchCount();
-        },
-        (i + 1) * 500,
-      );
+    const url = `/api/topology/trace?target=${encodeURIComponent(target.trim())}`;
 
-      appendTimeoutRef(t);
-    });
+    try {
+      const res = await fetch(url);
+      if (!res.ok || !res.body) {
+        const msg = await res.text();
+        console.log(msg);
+        return;
+      }
 
-    const completionT = window.setTimeout(
-      () => {
-        setIsRunning(false);
-      },
-      (MOCK_DATA.length + 1) * 500,
-    );
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
 
-    appendTimeoutRef(completionT);
-  };
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-  const handleResume = () => {
-    const dispatchCount = dispatchedCountRef;
+        // decoded string looks like: data: {"ttl":1,"ip":"192.168.1.1",...}\n\ndata: {"ttl":2,"ip":"10.0.0.1",...}\n\n
+        buffer += decoder.decode(value, { stream: true });
 
-    // edge case: complete all mock data before completion window
-    if (dispatchCount === MOCK_DATA.length) {
-      const completionT = window.setTimeout(() => {
-        setIsRunning(false);
-      }, 500);
+        // split buffer on double newline looks like:
+        // [
+        //   'data: {"ttl":1,"ip":"192.168.1.1",...}',
+        //   'data: {"ttl":2,"ip":"10.0.0.1",...}',
+        //   ''
+        // ]
+        const parts = buffer.split("\n\n");
+        buffer = parts.pop() ?? ""; // save last chunk if incomplete
 
-      appendTimeoutRef(completionT);
-      return;
+        for (const part of parts) {
+          // NOTE: the data line is the only line that is sent by /api/topology/trace
+          // but a future update will cleanly separate event types: log and hop_traced
+          const dataLine = part.split("\n").find((l) => l.startsWith("data:"));
+          if (!dataLine) continue;
+
+          try {
+            const hop: Hop = JSON.parse(dataLine.slice(5).trim());
+            appendHops([hop]);
+          } catch {
+            // Skip malformed chunk in case of incompleteness
+          }
+        }
+      }
+    } catch (err: any) {
+      if (err?.name !== "AbortError") {
+        console.log("Error: " + (err?.message ?? "Unknown error"));
+      }
+    } finally {
+      setIsRunning(false);
     }
-
-    // general: queue remaining data + completion timeout
-    MOCK_DATA.slice(dispatchCount).forEach((hop, i) => {
-      const t = window.setTimeout(
-        () => {
-          appendHops([hop]);
-          incrementDispatchCount();
-        },
-        (i + 1) * 500,
-      );
-
-      appendTimeoutRef(t);
-    });
-
-    const completionT = window.setTimeout(
-      () => {
-        setIsRunning(false);
-      },
-      (MOCK_DATA.length - dispatchCount + 1) * 500,
-    );
-
-    appendTimeoutRef(completionT);
   };
 
-  const handleStop = () => {
-    timeoutRefs.forEach((t) => window.clearTimeout(t));
-    emptyTimeoutRefs();
+  const handleRun = (config: TraceConfig) => {
+    // TODO: lift other config options to the api as specified
+    handleTrace(config.target);
   };
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
 
   return (
     <div>
@@ -116,13 +92,7 @@ export default function RouteTracePage() {
         onLoadFromProject={() => console.log("load")}
         onSaveToProject={() => console.log("save")}
       />
-      <TraceInputs
-        isRunning={isRunning}
-        onRun={handleRun}
-        onStop={handleStop}
-        onResume={handleResume}
-        onReset={reset}
-      />
+      <TraceInputs isRunning={isRunning} onRun={handleRun} onReset={reset} />
       <TraceCanvas hops={hops} isRunning={isRunning} />
       <TraceDetails hops={hops} />
     </div>
