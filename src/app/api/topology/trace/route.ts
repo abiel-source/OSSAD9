@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { ScanEvent, Hop } from "@/types/network";
 import { checkBinary } from "@/lib/capabilities";
 import { MOCK_DATA } from "@/data/mock/route-trace";
+import * as readline from "node:readline";
 
 // Deployment type
 const isRemoteDeployment = process.env.VERCEL === "1";
@@ -20,10 +21,109 @@ async function mockTrace(send: (hop: Hop) => void) {
   }
 }
 
+// Linux/Mac: traceroute <target>
+async function localTraceroute(target: string, send: (hop: Hop) => void) {
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const proc = spawn("traceroute", [target], {
+        // ignore stdio, pipe stdout and stderr
+        stdio: ["ignore", "pipe", "pipe"],
+      });
+
+      const rl: readline.Interface = readline.createInterface({
+        input: proc.stdout,
+      });
+
+      // traceroute to dns.google (8.8.8.8), 30 hops max, 60 byte packets
+      //  1  gateway.local (192.168.1.1)  1.234 ms  1.456 ms  1.678 ms
+      //  2  10.10.0.1 (10.10.0.1)  11.234 ms  12.456 ms  10.678 ms
+      //  3  * * *
+      //  4  72.14.209.1 (72.14.209.1)  18.234 ms  20.456 ms  19.678 ms
+      //  5  dns.google (8.8.8.8)  22.123 ms  21.456 ms  23.789 ms
+      rl.on("line", (line: string) => {
+        // TODO: send to scan log
+        console.log(`${line}`);
+
+        let ttl: number = 0;
+        let ip: string | null = null;
+        let hostname: string | null = null;
+        let asn: string | null = null;
+        let rtts: (number | null)[] = [null];
+
+        //  1  gateway.local (192.168.1.1)  1.234 ms  1.456 ms  1.678 ms
+        //  2  * * *
+        const regAddr =
+          /^\s*(\d+)\s+(\S+)\s+\((\d+\.\d+\.\d+\.\d+)\)\s+((?:\d+(?:\.\d+)?\s*ms)|(?:\*))\s+((?:\d+(?:\.\d+)?\s*ms)|(?:\*))\s+((?:\d+(?:\.\d+)?\s*ms)|(?:\*))\s*$/;
+        const regNoAddr =
+          /^\s*(\d+)\s+((?:\d+(?:\.\d+)?\s*ms)|(?:\*))\s+((?:\d+(?:\.\d+)?\s*ms)|(?:\*))\s+((?:\d+(?:\.\d+)?\s*ms)|(?:\*))\s*$/;
+
+        let match: RegExpMatchArray | null = null;
+
+        if ((match = line.match(regAddr))) {
+          ttl = Number(match[1]);
+          ip = match[3];
+          if (match[3] !== match[2]) hostname = match[2];
+          rtts = [match[4], match[5], match[6]].map((rtt) => {
+            if (rtt === "*") return null;
+            return Number(rtt.slice(0, rtt.length - 2));
+          });
+        } else if ((match = line.match(regNoAddr))) {
+          ttl = Number(match[1]);
+          rtts = [match[2], match[3], match[4]].map((rtt) => {
+            if (rtt === "*") return null;
+            return Number(rtt.slice(0, rtt.length - 2));
+          });
+        } else {
+          // skip malformed line
+          return;
+        }
+
+        send({
+          ttl,
+          ip,
+          hostname,
+          asn,
+          rtts,
+        });
+      });
+
+      proc.stderr.on("data", (chunk: Buffer) => {
+        const msg = chunk.toString().trim();
+        // TODO: send to scan log
+        if (msg) console.log(msg);
+      });
+
+      proc.on("error", (err: NodeJS.ErrnoException) => {
+        reject(
+          err.code === "ENOENT"
+            ? new Error(
+                "traceroute failed to start: if traceroute is installed please ensure it is in PATH",
+              )
+            : err,
+        );
+      });
+
+      proc.on("close", () => {
+        // TODO: send to scan log
+        console.log("traceroute completed.");
+        resolve();
+      });
+    });
+  } catch (err) {
+    // TODO: send to scan log
+    console.log(String(err));
+  }
+}
+
+// Windows: tracert <target>
+async function localTracert(target: string, send: (hop: Hop) => void) {}
+
 export async function GET(request: NextRequest) {
-  const hasTraceRoute = !isRemoteDeployment
-    ? checkBinary("tracert /?") || checkBinary("traceroute --version")
+  const hasTraceroute = !isRemoteDeployment
+    ? checkBinary("traceroute --version")
     : false;
+
+  const hasTracert = !isRemoteDeployment ? checkBinary("tracert /?") : false;
 
   const targetParam = request.nextUrl.searchParams.get("target");
   const parsed = targetSchema.safeParse(targetParam);
@@ -51,12 +151,14 @@ export async function GET(request: NextRequest) {
         }
       };
 
-      if (!hasTraceRoute) {
+      if (hasTraceroute) {
+        await localTraceroute(target, send);
+      } else if (hasTracert) {
+        // await localTracert(target, send);
+        await mockTrace(send);
+      } else {
         await mockTrace(send);
       }
-      //   else {
-      //     await localTrace(target, send);
-      //   }
 
       controller.close();
     },

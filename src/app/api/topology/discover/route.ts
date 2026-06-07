@@ -30,6 +30,21 @@ function classifyDevice(vendor: string | null, ip: string): DeviceType {
 function parseNmapOutput(raw: string): DiscoveredHost[] {
   const hosts: DiscoveredHost[] = [];
 
+  // Starting Nmap 7.94 ( https://nmap.org ) at 2026-06-07 14:32 EST
+  // Nmap scan report for gateway.local (192.168.1.1)
+  // Host is up (0.0012s latency).
+  // MAC Address: 00:1A:2B:3C:4D:01 (Cisco Systems)
+
+  // Nmap scan report for 192.168.1.10
+  // Host is up (0.0034s latency).
+  // MAC Address: 00:1A:2B:3C:4D:10 (Dell Inc.)
+
+  // Nmap scan report for printer.local (192.168.1.20)
+  // Host is up (0.045s latency).
+  // MAC Address: 00:1A:2B:3C:4D:20 (HP Inc.)
+
+  // Nmap done: 256 IP addresses (3 hosts up) scanned in 12.34 seconds
+
   // Split on host boundaries — each block starts with "Nmap scan report for"
   const blocks = raw.split(/\n(?=Nmap scan report for)/);
 
