@@ -58,7 +58,7 @@ export interface InventoryItem {
   latencyMs: number | null; // host map only
   asn: string | null; // route trace only
   rtts: (number | null)[] | null; // route trace only
-  entryType: "static" | "dynamic" | null; // arp only
+  entryType: "static" | "dynamic" | "ifscope" | "permanent" | null; // arp only
   conflict: ArpEntry["conflict"]; // arp only
   sources: ("hostmap" | "routetrace" | "arp")[];
 }

@@ -69,7 +69,7 @@ function Entry2Item(entry: ArpEntry): InventoryItem {
 }
 
 // EDGE CASE: theoretically possible that items 1 and 2 may have field collisions. They may refer to the same network device but have a field with conflicting (non-null) values.
-// TEMPORARY SOLUTION: i1 is "privileged" - has its fields considered first and i2 is the fallback
+// SOLUTION: i1 is "privileged" - has its fields considered first and i2 is the fallback
 function merge(i1: InventoryItem, i2: InventoryItem): InventoryItem {
   if (i1.ip !== i2.ip) throw new Error("merge: IP mismatch");
 
@@ -128,7 +128,7 @@ export default function DeviceInventoryPage() {
       if (duplicates !== undefined) {
         mergedItems.set(
           host.ip,
-          duplicates.map((dup) => merge(dup, host)) // arp entry is privileged
+          duplicates.map((dup) => merge(dup, host)), // arp entry is privileged
         );
       } else {
         mergedItems.set(host.ip, [host]);
@@ -142,7 +142,7 @@ export default function DeviceInventoryPage() {
       if (duplicates !== undefined) {
         mergedItems.set(
           hop.ip,
-          duplicates.map((dup) => merge(dup, hop)) // arp entry has privilege over hop
+          duplicates.map((dup) => merge(dup, hop)), // arp entry has privilege over hop
         );
       } else {
         mergedItems.set(hop.ip, [hop]);
