@@ -21,8 +21,120 @@ async function mockInspect(send: (entry: ArpEntry) => void) {
   }
 }
 
-// TODO: arp-scan: Linux binary
-async function localArpScan(cidr: string, send: (entry: ArpEntry) => void) {}
+// arp-scan <cidr>: Linux/Mac binary
+async function localArpScan(cidr: string, send: (entry: ArpEntry) => void) {
+  try {
+    // arp-scan precedes arp entries with a meta header
+    let interfaceIp: string | null = null;
+    let _interface: string | null = null;
+    await new Promise<void>((resolve, reject) => {
+      // TODO: use input configuration fields lifted from client uri params
+      const proc = spawn("arp-scan", [cidr], {
+        // ignore stdin, pipe stdout and stderr
+        stdio: ["ignore", "pipe", "pipe"],
+      });
+
+      const rl: readline.Interface = readline.createInterface({
+        input: proc.stdout,
+      });
+
+      rl.on("line", (line: string) => {
+        // TODO: send to scan log
+        console.log(`line: ${line}`);
+
+        let ip: string;
+        let mac: string;
+        let vendor: string;
+        let entryType: "static" | "dynamic" | "ifscope" | "permanent" | null =
+          null;
+        let ttl: number | null = null;
+        let conflict:
+          | "duplicate-ip"
+          | "duplicate-mac"
+          | "static-violation"
+          | null = null;
+
+        // Interface: eth0, type: EN10MB, MAC: 00:11:22:33:44:55, IPv4: 192.168.1.50
+        // Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)
+        // 192.168.1.1	aa:bb:cc:dd:ee:ff	Cisco Systems, Inc
+        // 192.168.1.10	11:22:33:44:55:66	Dell Inc.
+        // 192.168.1.20	77:88:99:aa:bb:cc	Apple, Inc.
+
+        // 8 packets received by filter, 0 packets dropped by kernel
+        // Ending arp-scan 1.10.0: 256 hosts scanned in 2.012 seconds (127.55 hosts/sec). 3 responded
+
+        const regMeta =
+          /^\s*Interface:\s+(\w+),\s+type:\s+(?:\w+),\s+MAC:\s+(?:\S+),\s+IPv4:\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*$/;
+        const regData =
+          /^\s*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\t(\w{2}\:\w{2}\:\w{2}\:\w{2}\:\w{2}\:\w{2})\t(.+)$/;
+
+        let match: RegExpMatchArray | null;
+
+        if ((match = line.match(regMeta))) {
+          _interface = match[1];
+          interfaceIp = match[2];
+          return;
+        } else if ((match = line.match(regData))) {
+          ip = match[1];
+          mac = match[2];
+          vendor = match[3].trim();
+        } else {
+          // skip malformed or irrelevant line
+          return;
+        }
+
+        if (_interface !== null) {
+          send({
+            ip,
+            mac,
+            vendor,
+            interfaceIp,
+            interface: _interface,
+            entryType,
+            ttl,
+            conflict,
+          });
+        } else {
+          // TODO: send to scan log
+          console.log(
+            `scan-arp ${cidr} found an entry with IP ${ip} and MAC ${mac} but header interface was never read - ignoring data`,
+          );
+        }
+      });
+
+      proc.stderr.on("data", (chunk: Buffer) => {
+        const msg = chunk.toString().trim();
+        // TODO: send to scan log
+        if (msg) console.log(msg);
+      });
+
+      proc.on("error", (err: NodeJS.ErrnoException) => {
+        // TODO: send to scan log
+        reject(
+          // CAUTION: no entity error should never happen in practice after the initial binary check
+          err.code === "ENOENT"
+            ? new Error(
+                `arp-scan ${cidr} failed to start: if arp-scan is installed please ensure it is in PATH`,
+              )
+            : err.code === "EACCES"
+              ? new Error(
+                  `arp-scan ${cidr} failed to start: you need to be root to run this program`,
+                )
+              : err,
+        );
+      });
+
+      proc.on("close", () => {
+        // TODO: send to scan log
+        console.log(`arp-scan ${cidr} completed`);
+        resolve();
+      });
+    });
+  } catch (err) {
+    // TODO: send to scan log
+    console.log(String(err));
+  }
+}
 
 // arp -a: Linux/Mac or Windows
 async function localArpCache(send: (entry: ArpEntry) => void) {
@@ -220,8 +332,7 @@ export async function GET(request: NextRequest) {
       };
 
       if (hasArpScan) {
-        // await localArpScan(cidr, send);
-        await mockInspect(send);
+        await localArpScan(cidr, send);
       } else if (hasArp) {
         await localArpCache(send);
       } else {
