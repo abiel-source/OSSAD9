@@ -8,7 +8,13 @@ import { cn } from "@/lib/utils";
 type SourceKey = "hostmap" | "routetrace" | "arp";
 type SortField = "ip" | "hostname" | "vendor" | "latencyMs" | "asn";
 type SortDir = "asc" | "desc";
-type EntryType = "any" | "static" | "dynamic" | "unknown";
+type EntryType =
+  | "any"
+  | "static"
+  | "dynamic"
+  | "ifscope"
+  | "permanent"
+  | "unknown";
 
 interface InventoryInputsProps {
   catalogue: InventoryItem[];
@@ -59,7 +65,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
           (item.hostname?.toLowerCase().includes(q) ?? false) ||
           (item.mac?.toLowerCase().includes(q) ?? false) ||
           (item.vendor?.toLowerCase().includes(q) ?? false) ||
-          (item.asn?.toLowerCase().includes(q) ?? false)
+          (item.asn?.toLowerCase().includes(q) ?? false),
       );
     }
 
@@ -87,7 +93,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
     // latency threshold
     if (minLatency !== null) {
       result = result.filter(
-        (item) => item.latencyMs !== null && item.latencyMs >= minLatency
+        (item) => item.latencyMs !== null && item.latencyMs >= minLatency,
       );
     }
 
@@ -232,9 +238,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
       <div className="flex flex-wrap gap-4 items-center">
         {/* Source toggles */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[12px] mr-1 text-muted-foreground">
-            SOURCE
-          </span>
+          <span className="text-[12px] mr-1 text-muted-foreground">SOURCE</span>
           {(["hostmap", "routetrace", "arp"] as SourceKey[]).map((key) => (
             <button
               key={key}
@@ -243,7 +247,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
                 "px-3 py-1.5 text-[12px] transition-colors duration-150 border",
                 sources[key]
                   ? "bg-primary border-primary text-primary-foreground"
-                  : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               )}
             >
               {key}
@@ -256,9 +260,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* Device type toggles */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[12px] mr-1 text-muted-foreground">
-            TYPE
-          </span>
+          <span className="text-[12px] mr-1 text-muted-foreground">TYPE</span>
           {["router", "device", "unknown"].map((key) => (
             <button
               key={key}
@@ -267,7 +269,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
                 "px-3 py-1.5 text-[12px] transition-colors duration-150 border",
                 deviceTypes[key]
                   ? "bg-primary border-primary text-primary-foreground"
-                  : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               )}
             >
               {key}
@@ -285,7 +287,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
             "px-3 py-1.5 text-[12px] transition-colors duration-150 border",
             conflictsOnly
               ? "bg-destructive border-destructive text-destructive-foreground"
-              : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              : "bg-background border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground",
           )}
         >
           conflicts only
@@ -296,9 +298,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
       <div className="flex flex-wrap gap-4 items-center">
         {/* Entry Type */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] text-muted-foreground">
-            ENTRY TYPE
-          </span>
+          <span className="text-[12px] text-muted-foreground">ENTRY TYPE</span>
           <select
             value={entryType}
             onChange={(e) => setEntryType(e.target.value as EntryType)}
@@ -307,6 +307,8 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
             <option value="any">Any</option>
             <option value="static">Static</option>
             <option value="dynamic">Dynamic</option>
+            <option value="ifscope">Ifscope</option>
+            <option value="permanent">Permanent</option>
             <option value="unknown">Unknown</option>
           </select>
         </div>
@@ -316,16 +318,16 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* Latency threshold */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] text-muted-foreground">
-            MIN LATENCY
-          </span>
+          <span className="text-[12px] text-muted-foreground">MIN LATENCY</span>
           <input
             type="number"
             min={0}
             placeholder="ms"
             value={minLatency ?? ""}
             onChange={(e) =>
-              setMinLatency(e.target.value === "" ? null : Number(e.target.value))
+              setMinLatency(
+                e.target.value === "" ? null : Number(e.target.value),
+              )
             }
             className="w-20 px-3 py-1.5 text-[12px] font-mono text-center outline-none bg-background border border-border text-foreground"
           />
@@ -336,9 +338,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* RTT threshold */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] text-muted-foreground">
-            MIN RTT
-          </span>
+          <span className="text-[12px] text-muted-foreground">MIN RTT</span>
           <input
             type="number"
             min={0}
@@ -356,9 +356,7 @@ export function InventoryInputs({ catalogue, onFilter }: InventoryInputsProps) {
 
         {/* Sort by */}
         <div className="flex items-center gap-3">
-          <span className="text-[12px] text-muted-foreground">
-            SORT BY
-          </span>
+          <span className="text-[12px] text-muted-foreground">SORT BY</span>
           <select
             value={sortField}
             onChange={(e) => setSortField(e.target.value as SortField)}
