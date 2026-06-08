@@ -35,8 +35,9 @@ export interface ArpEntry {
   ip: string;
   mac: string;
   vendor: string | null;
-  interface: "ETH0" | "EN0";
-  entryType: "static" | "dynamic";
+  interfaceIp: string | null; // NIC IP is currently retrievable for only Windows in arp -a
+  interface: string; // network interface varies in format and meaning across all OSs but should always be available. For Windows, a hex code is supported
+  entryType: "static" | "dynamic" | "ifscope" | "permanent" | null; // supports windows and mac explicitly
   ttl: number | null;
   conflict: "duplicate-ip" | "duplicate-mac" | "static-violation" | null;
 }
